@@ -18,7 +18,7 @@ Each time you want to add a new experimentation, you need to do the following st
 - copy the `_template` folder and git it a meaningful name that starts with `LKExp-mbed-`
 - `cd` in the new directory and `mbed deploy --depth 1`
 
-```console
+```bash
 # copy _template
 $ cp -r _template LKExp-mbed-ST_play_video_from_sd
 
