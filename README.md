@@ -22,12 +22,11 @@ $ git checkout -b ladislas-mbed-st_play_video_from_sd
 $ git checkout -b ladislas-st_display_image_from_sram
 ```
 
+⚠️ When you're done (*or even while working*), `git push` your branch to origin and then open a PR for others to review.
+
 ### With mbed
 
 If you are using mbed:
-
-- copy the `_template` folder and git it a meaningful name that starts with `LKExp-mbed-`
-- `cd` in the new directory and `mbed deploy --depth=1`
 
 ```bash
 # copy _template
