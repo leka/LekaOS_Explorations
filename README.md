@@ -10,13 +10,24 @@ No branches, few PRs, each test/example in its own directory.
 
 ## How to use
 
-### With mbed
-
 Each time you want to add a new experimentation, you need to do the following steps:
 
-- (clone this repository if not already)
+- clone this repository if not already
+- create a new branch named with this pattern:
+
+```bash
+# git checkout -b {user}-{mbed or not}-{what is being tested}
+$ git checkout -b ladislas-mbed-st_play_video_from_sd
+# or
+$ git checkout -b ladislas-st_display_image_from_sram
+```
+
+### With mbed
+
+If you are using mbed:
+
 - copy the `_template` folder and git it a meaningful name that starts with `LKExp-mbed-`
-- `cd` in the new directory and `mbed deploy --depth 1`
+- `cd` in the new directory and `mbed deploy --depth=1`
 
 ```bash
 # copy _template
@@ -25,8 +36,8 @@ $ cp -r _template LKExp-mbed-ST_play_video_from_sd
 # cd to the new directory
 $ cd LKExp-ST_play_video_from_sd
 
-# pull mbed os if needed
-$ mbed deploy --depth 1
+# pull mbed os 
+$ git clone --depth=1 https://github.com/ARMmbed/mbed-os ./lib/mbed-os
 
 # then when you need to compile and flash
 $ mbed compile --flash
