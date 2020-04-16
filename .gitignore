@@ -51,6 +51,7 @@ _deps
 # mbed
 
 lib/mbed-os
+*/lib/mbed-os
 
 
 # C
