@@ -1,6 +1,7 @@
 /* Directive -----------------------------------------------------------------*/
 //#define SD_V1
-#define SD_V2
+//#define SD_V2
+//#define SD_V3
 
 /* Includes ------------------------------------------------------------------*/
 #include "mbed.h"
@@ -18,7 +19,15 @@
 #ifdef SD_V2
 /* SD_v2 part */
 #include "SDIOBlockDevice.h"
-#include "FATFileSystem.h"
+//#include "FATFileSystem.h"
+#include "LittleFileSystem.h"
+#endif
+
+#ifdef SD_V3
+/* SD_v3 part */
+//#include "stm32f769i_discovery_sd.h"
+#include "ff_gen_drv.h"
+#include "sd_diskio.h"
 #endif
 
 /* Exported constants --------------------------------------------------------*/
@@ -43,7 +52,13 @@ uint8_t _sd_state;
 #ifdef SD_V2
 /* SD_v2 part */
 SDIOBlockDevice bd;
-FATFileSystem fs("fs", &bd);
+//FATFileSystem fs("fs", &bd);
+LittleFileSystem fs("fs",&bd);
+#endif
+
+#ifdef SD_V3
+FATFS SDFatFs;  /* File system object for SD card logical drive */
+char SDPath[4]; /* SD card logical drive path */
 #endif
 
 /* Private function prototypes -----------------------------------------------*/
@@ -77,6 +92,16 @@ int main(void) {
     //debug_if(DBG, "%s\n", (err ? "Fail :(" : "OK"));
 #endif
 
+#ifdef SD_V3
+    if(FATFS_LinkDriver(&SD_Driver, SDPath)==0)
+    {
+        if(f_mount(&SDFatFs, (TCHAR const*)SDPath, 0)==FR_OK)
+        {
+            debug_if(DBG, "Test SD V3\r\n"); //Display even there is no SD card
+        }
+    }
+#endif
+    
     /* DEBUG part */
     while (true) {
         debug_if(DBG, "test debug\r\n");

@@ -10,13 +10,14 @@ Display a JPEG image on the LCD using Jpeg Codec, DMA2D, LTDC and DSI if necessa
 
 Mount SD (BSP) : [BD\_SD\_DISCO\_F769NI](https://os.mbed.com/users/kenjiArai/code/BD_SD_DISCO_F769NI/)
 
-Mount SD (SDBlockDevice customized) : [sdio-driver](https://github.com/JojoS62/Test-lvgl/tree/master/components/sdio-driver) **[Does not work]**
+Mount SD (SDBlockDevice customized) : [sdio-driver](https://github.com/JojoS62/Test-lvgl/tree/master/components/sdio-driver) **[Does not work (check commit for more information)]**
+
+Mount SD (Import functionnal example) : [LKExp-st_jpeg_animation_example](https://github.com/leka/LekaOS_Explorations/tree/yann-st_jpeg_animation_example/LKExp-st_jpeg_animation_example) **[Does not work (check commit for more information)]**
 
 
 ## Status
 
 In progress...
-Next step : Display an image in easiest way (from flash instead of SD?, a bitmap file instead of jpeg?)
 
 ## Warning
 
