@@ -1,98 +1,12 @@
-/* SD/MMC Block device Library for MBED-OS
- * Copyright 2017 Roy Krikke
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
-#ifndef BD_SD_DISCO_F746NG_H
-#define BD_SD_DISCO_F746NG_H
+#ifndef BD_SD_DISCO_F769NI_H
+#define BD_SD_DISCO_F769NI_H
 
 #include "mbed.h"
 #include "BlockDevice.h"
 #include "platform/PlatformMutex.h"
-#include "stm32746g_discovery_sd.h"
+#include "stm32f769I_discovery_sd.h"
 
-#define BD_SD_DISCO_F746NG_MAJOR_VERSION 1
-#define BD_SD_DISCO_F746NG_MINOR_VERSION 0
-#define BD_SD_DISCO_F746NG_PATCH_VERSION 0
-
-/**
- * BD_SD_DISCO_F746NG class.
- *  Block device class for creating a block device to access a SD/MMC card via SD/MMC interface on DISCO_F746NG
- *
- * Example:
- * @code
- * #include "mbed.h"
- * #include "SDBlockDeviceDISCOF746NG.h"
- *
- * DigitalOut led (LED1);
- *
- * // Instantiate the Block Device for sd card on DISCO-F746NG
- * SDBlockDeviceDISCOF746NG bd;
- * uint8_t block[512] = "Hello World!\n";
- *
- * int
- * main () {
- *   Serial pc(SERIAL_TX, SERIAL_RX);
- *   pc.baud (115200);
- *   printf("Start\n");
- *
- *   // Call the SDBlockDevice-DISCO-F746NG instance initialisation method.
- *   printf("sd card init...\n");
- *   if (0 != bd.init ()) {
- *     printf("Init failed \n");
- *     return -1;
- *   }
- *
- *   printf("sd size: %llu\n", bd.size ());
- *   printf("sd read size: %llu\n", bd.get_read_size ());
- *   printf("sd program size: %llu\n", bd.get_program_size ());
- *   printf("sd erase size: %llu\n\n", bd.get_erase_size ());
- *
- *   printf("sd erase...\n");
- *   if (0 != bd.erase (0, bd.get_erase_size ())) {
- *     printf ("Error Erasing block \n");
- *   }
- *
- *   // Write some the data block to the device
- *   printf("sd write: %s\n", block);
- *   if (0 == bd.program (block, 0, 512)) {
- *     // read the data block from the device
- *     printf ("sd read: ");
- *     if (0 == bd.read (block, 0, 512)) {
- *       // print the contents of the block
- *       printf ("%s", block);
- *     }
- *   }
- *
- *   // Call the BD_SD_DISCO_F746NG instance de-initialisation method.
- *   printf("sd card deinit...\n");
- *   if(0 != bd.deinit ()) {
- *     printf ("Deinit failed \n");
- *     return -1;
- *   }
- *
- *   // Blink led with 2 Hz
- *   while(true) {
- *     led = !led;
- *     wait (0.5);
- *   }
- * }
- * @endcode
- *
- */
-class SDBlockDeviceDISCOF746NG : public BlockDevice
+class SDBlockDeviceDISCOF769NI : public BlockDevice
 {
 public:
 
@@ -101,8 +15,8 @@ public:
      * Only a block size of 512 bytes is supported
      *
      */
-    SDBlockDeviceDISCOF746NG();
-    virtual ~SDBlockDeviceDISCOF746NG();
+    SDBlockDeviceDISCOF769NI();
+    virtual ~SDBlockDeviceDISCOF769NI();
 
     /** Initialize a block device
      *
@@ -169,6 +83,12 @@ public:
      *  @return         Size of the underlying device in bytes
      */
     virtual bd_size_t size() const;
+    
+    /** Get the BlockDevice class type.
+     *
+     *  @return         A string representation of the BlockDevice class type.
+     */
+    virtual const char *get_type() const;
 
 private:
     uint8_t _card_type;
@@ -195,4 +115,4 @@ private:
 
 };
 
-#endif /* BD_SD_DISCO_F746NG_H */
+#endif /* BD_SD_DISCO_F769NI_H */

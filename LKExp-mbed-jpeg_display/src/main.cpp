@@ -2,6 +2,8 @@
 //#define SD_V1
 //#define SD_V2
 //#define SD_V3
+#define SD_V4
+//#define SD_V5
 
 /* Includes ------------------------------------------------------------------*/
 #include "mbed.h"
@@ -28,6 +30,16 @@
 //#include "stm32f769i_discovery_sd.h"
 #include "ff_gen_drv.h"
 #include "sd_diskio.h"
+#endif
+
+#ifdef SD_V4
+#include "FATFileSystem.h"
+#include "SDBlockDeviceDISCOF769NI.h"
+#endif
+
+#ifdef SD_V5
+#include "FATFileSystem.h"
+#include "SDBlockDevice.h"
 #endif
 
 /* Exported constants --------------------------------------------------------*/
@@ -59,6 +71,26 @@ LittleFileSystem fs("fs",&bd);
 #ifdef SD_V3
 FATFS SDFatFs;  /* File system object for SD card logical drive */
 char SDPath[4]; /* SD card logical drive path */
+#endif
+
+#ifdef SD_V4
+SDBlockDeviceDISCOF769NI bd;
+FATFileSystem fs("leka");
+#endif
+
+#ifdef SD_V5
+/*
+    SDMMC2_CLK = PD6 (B11) -> SCK
+    SDMMC2_CMD = PD7 (A11) -> MOSI
+    SDMMC2_D0 = PG9 (D9) -> MISO
+    SDMMC2_D1 = PG10 (C8) -> RSV
+    SDMMC2_D2 = PB3 (A10) -> GND
+    SDMMC2_D3 = PB4 (A9) -> CSn
+ */
+
+SDBlockDevice bd(PD_7, PG_9, PD_6, PB_4);
+#define BUFFER_MAX_LEN 10
+FATFileSystem fs("leka");
 #endif
 
 /* Private function prototypes -----------------------------------------------*/
@@ -102,10 +134,81 @@ int main(void) {
     }
 #endif
     
+#ifdef SD_V4
+//    bd.init();
+//    bd_size_t s = bd.size();
+//    debug_if(DBG, "Size: %llu\r\n", s);
+    
+    int err;
+    fflush(stdout);
+//    err = fs.reformat(&bd, 0);
+//    debug_if(DBG, "Reformat...%s\r\n", (err ? "Fail :(" : "OK"));
+//    fflush(stdout);
+    err = fs.mount(&bd);
+    debug_if(DBG, "Mounting... %s\r\n", (err ? "Fail :(" : "OK"));
+    fflush(stdout);
+    FILE *f = fopen("/leka/image.jpg", "r");
+    debug_if(DBG, "Opening JPG... %s\r\n", (!f ? "Fail :(" : "OK"));
+    fflush(stdout);
+    f = fopen("/leka/numbers.txt", "w+");
+    debug_if(DBG, "Opening Numbers (writing)... %s\r\n", (!f ? "Fail :(" : "OK"));
+    if (err)
+    {
+        return 0;
+    }
+    for (int i =0 ; i<9 ; i++)
+    {
+        fflush(stdout);
+        fprintf(f,"Test %d\r\n", i);
+    }
+    err = fprintf(f,"End Test");
+    debug_if(DBG, "Opening Numbers (wrote)... %s\r\n", (err < 0 ? "Fail :(" : "OK"));
+    fflush(stdout);
+    err = fclose(f);
+    debug_if(DBG, "Closing File (wrote)... %s\r\n", (err < 0 ? "Fail :(" : "OK"));
+    
+    bd_size_t s = bd.size();
+    debug_if(DBG, "Size: %llu\r\n", s);
+    
+    fflush(stdout);
+    DIR* dir = opendir("/leka/");
+    debug_if(DBG, "Opening Directory (writing)... %s\r\n", (!dir ? "Fail :(" : "OK"));
+    debug_if(DBG, "Printing all filenames:\r\n");
+
+    while (true) {
+        struct dirent *e = readdir(dir);
+        if (!e) {
+            break;
+        }
+        printf("    %s\r\n", e->d_name);
+    }
+//    struct dirent* de;
+//     while((de = readdir (dir)) != NULL) {
+//         printf("  %s\r\n", &(de->d_name));
+//     }
+
+    fflush(stdout);
+    closedir(dir);
+    
+    err = fs.unmount();
+    debug_if(DBG, "Unmounting... %s\r\n", (err ? "Fail :(" : "OK"));
+#endif
+
+#ifdef SD_V5
+    int err;
+    fflush(stdout);
+    err = fs.mount(&bd);
+    debug_if(DBG, "Mounting... %s\r\n", (err ? "Fail :(" : "OK"));
+    fflush(stdout);
+    FILE *f = fopen("/leka/image.jpg", "r");
+    debug_if(DBG, "Opening JPG... %s\r\n", (!f ? "Fail :(" : "OK"));
+    fclose(f);
+#endif
+    
     /* DEBUG part */
     while (true) {
-        debug_if(DBG, "test debug\r\n");
-        wait_us(1000000);
+        debug_if(DBG, "End of program\r\n");
+        wait_us(10000000);
     }
 }
 
