@@ -4,7 +4,7 @@
 //#define SD_V3
 //#define SD_V4
 //#define SD_V5
-#define CBitmapImage
+//#define CBitmapImage
 
 /* Includes ------------------------------------------------------------------*/
 #include "mbed.h"
@@ -142,11 +142,13 @@ int main(void) {
 #endif
     
 #ifdef SD_V4
+    int err;
+    //err = BSP_SD_Init();
+    //debug_if(DBG, "Init... %lu\r\n", err);
 //    bd.init();
 //    bd_size_t s = bd.size();
 //    debug_if(DBG, "Size: %llu\r\n", s);
     
-    int err;
     fflush(stdout);
 //    err = fs.reformat(&bd, 0);
 //    debug_if(DBG, "Reformat...%s\r\n", (err ? "Fail :(" : "OK"));
