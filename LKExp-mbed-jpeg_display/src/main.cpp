@@ -2,8 +2,9 @@
 //#define SD_V1
 //#define SD_V2
 //#define SD_V3
-#define SD_V4
+//#define SD_V4
 //#define SD_V5
+#define CBitmapImage
 
 /* Includes ------------------------------------------------------------------*/
 #include "mbed.h"
@@ -42,11 +43,15 @@
 #include "SDBlockDevice.h"
 #endif
 
+#ifdef CBitmapImage
+#include "stlogo.h"
+#endif
+
 /* Exported constants --------------------------------------------------------*/
 /* DEBUG part */
 #define DBG 1
 /* LCD part */
-#define LCD_FRAME_BUFFER         0xC0000000
+//#define LCD_FRAME_BUFFER         0xC0000000
 
 /* Private variables ---------------------------------------------------------*/
 /* DEBUG part */
@@ -102,11 +107,12 @@ int main(void) {
     debug_if(DBG, "\n\nRESET\r\n\n");
 
     /* LCD part */
-    //    BSP_LCD_Init();
-    //    BSP_LCD_LayerDefaultInit(0, LCD_FRAME_BUFFER);
-    //    BSP_LCD_SelectLayer(0);
+    BSP_LCD_Init();
+    //BSP_LCD_LayerDefaultInit(0, LCD_FRAME_BUFFER);
+    BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
+    BSP_LCD_SelectLayer(0);
     //    LCD_X_Size = BSP_LCD_GetXSize();
-    //    BSP_LCD_Clear(LCD_COLOR_WHITE);
+    BSP_LCD_Clear(LCD_COLOR_WHITE);
     //    LCD_BriefDisplay();
     
 #ifdef SD_V1
@@ -203,6 +209,10 @@ int main(void) {
     FILE *f = fopen("/leka/image.jpg", "r");
     debug_if(DBG, "Opening JPG... %s\r\n", (!f ? "Fail :(" : "OK"));
     fclose(f);
+#endif
+    
+#ifdef CBitmapImage
+    BSP_LCD_DrawBitmap(20, 100, (uint8_t *)stlogo);
 #endif
     
     /* DEBUG part */
