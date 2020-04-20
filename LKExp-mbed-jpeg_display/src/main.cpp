@@ -45,6 +45,7 @@
 
 #ifdef CBitmapImage
 #include "stlogo.h"
+#include "parrot.h"
 #endif
 
 /* Exported constants --------------------------------------------------------*/
@@ -212,7 +213,8 @@ int main(void) {
 #endif
     
 #ifdef CBitmapImage
-    BSP_LCD_DrawBitmap(20, 100, (uint8_t *)stlogo);
+    //BSP_LCD_DrawBitmap(20, 100, (uint8_t *)stlogo);
+    BSP_LCD_DrawBitmap(0, 0, (uint8_t *)parrot);
 #endif
     
     /* DEBUG part */
