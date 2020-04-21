@@ -49,7 +49,10 @@ static HTS221Sensor *hum_temp = mems_expansion_board->ht_sensor;
 static LPS22HBSensor *press_temp = mems_expansion_board->pt_sensor;
 static LSM6DSLSensor *acc_gyro = mems_expansion_board->acc_gyro;
 static LSM303AGRAccSensor *accelerometer = mems_expansion_board->accelerometer;
- 
+
+DigitalOut myled(LED1);
+volatile int mems_event = 0;
+
 /* Helper function for printing floats & doubles */
 static char *print_double(char* str, double v, int decimalDigits=2)
 {
@@ -85,6 +88,11 @@ static char *print_double(char* str, double v, int decimalDigits=2)
  
   return str;
 }
+
+/* Interrupt 1 callback. */
+void int2_cb() {
+  mems_event = 1;
+}
  
 /* Simple main function */
 int main() {
@@ -93,6 +101,9 @@ int main() {
   char buffer1[32], buffer2[32];
   int32_t axes[3];
   
+  /* Attach callback to LSM6DSL INT1 */
+  acc_gyro->attach_int2_irq(&int2_cb);
+    
   /* Enable all sensors */
   hum_temp->enable();
   press_temp->enable();
@@ -100,6 +111,8 @@ int main() {
   accelerometer->enable();
   acc_gyro->enable_x();
   acc_gyro->enable_g();
+  /* Enable Wake-Up Detection. */
+  acc_gyro->enable_wake_up_detection();
   
   printf("\r\n--- Starting new run ---\r\n");
  
@@ -116,29 +129,44 @@ int main() {
  
   while(1) {
     printf("\r\n");
- 
+
     hum_temp->get_temperature(&value1);
     hum_temp->get_humidity(&value2);
     printf("HTS221: [temp] %7s C,   [hum] %s%%\r\n", print_double(buffer1, value1), print_double(buffer2, value2));
-    
+
     press_temp->get_temperature(&value1);
     press_temp->get_pressure(&value2);
     printf("LPS22HB: [temp] %7s C, [press] %s mbar\r\n", print_double(buffer1, value1), print_double(buffer2, value2));
- 
+
     printf("---\r\n");
- 
+
     magnetometer->get_m_axes(axes);
     printf("LSM303AGR [mag/mgauss]:  %6ld, %6ld, %6ld\r\n", axes[0], axes[1], axes[2]);
-    
+
     accelerometer->get_x_axes(axes);
     printf("LSM303AGR [acc/mg]:  %6ld, %6ld, %6ld\r\n", axes[0], axes[1], axes[2]);
- 
+
     acc_gyro->get_x_axes(axes);
     printf("LSM6DSL [acc/mg]:      %6ld, %6ld, %6ld\r\n", axes[0], axes[1], axes[2]);
- 
+
     acc_gyro->get_g_axes(axes);
     printf("LSM6DSL [gyro/mdps]:   %6ld, %6ld, %6ld\r\n", axes[0], axes[1], axes[2]);
  
+
+    if (mems_event) {
+    mems_event = 0;
+    LSM6DSL_Event_Status_t status;
+    acc_gyro->get_event_status(&status);
+    if (status.WakeUpStatus) {
+        /* Led blinking. */
+        myled = 1;
+        wait_us(200000);
+        myled = 0;
+  
+        /* Output data. */
+        printf("Wake Up Detected!\r\n");
+    }
+    }
     wait_us(1000000);
     printf("---\r\n");
   }
