@@ -1,4 +1,4 @@
-# define STM32F769DISCO
+//# define STM32F769DISCO
  
 /* Includes */
 #include "mbed.h"
@@ -10,6 +10,7 @@
 /* Instantiate the expansion board */
 static XNucleoIKS01A2 *mems_expansion_board = XNucleoIKS01A2::instance(D14, D15, D4, D5);
  
+
 /* Retrieve the composing elements of the expansion board */
 static LSM303AGRMagSensor *magnetometer = mems_expansion_board->magnetometer;
 static HTS221Sensor *hum_temp = mems_expansion_board->ht_sensor;
@@ -19,6 +20,8 @@ static LSM303AGRAccSensor *accelerometer = mems_expansion_board->accelerometer;
 
 DigitalOut myled(LED1);
 volatile int mems_event = 0;
+EventQueue queue(1 * EVENTS_EVENT_SIZE);
+Mutex stdio_mutex;
 
 /* Helper function for printing floats & doubles */
 static char *print_double(char* str, double v, int decimalDigits=2)
@@ -60,6 +63,20 @@ static char *print_double(char* str, double v, int decimalDigits=2)
 void int2_cb() {
   mems_event = 1;
 }
+
+void shakeDisplay() {
+    stdio_mutex.lock();
+    printf("\r\nWake Up Detected!\r\n");
+    stdio_mutex.unlock();
+
+    wait_us(3000000);
+    myled = 0;
+}
+
+void onDataReceived() {
+    myled = 1;
+    queue.call(&shakeDisplay);
+}
  
 /* Simple main function */
 int main() {
@@ -67,9 +84,12 @@ int main() {
   float value1, value2;
   char buffer1[32], buffer2[32];
   int32_t axes[3];
+
+  Thread eventThread;
+  eventThread.start(callback(&queue, &EventQueue::dispatch_forever));
   
   /* Attach callback to LSM6DSL INT1 */
-  acc_gyro->attach_int2_irq(&int2_cb);
+    acc_gyro->attach_int2_irq(&onDataReceived);
     
   /* Enable all sensors */
   hum_temp->enable();
@@ -93,7 +113,7 @@ int main() {
   printf("LSM303AGR accelerometer           = 0x%X\r\n", id);
   acc_gyro->read_id(&id);
   printf("LSM6DSL accelerometer & gyroscope = 0x%X\r\n", id);
-    
+
 #ifdef STM32F769DISCO
   BSP_LCD_Init();
   BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
@@ -107,6 +127,7 @@ int main() {
 #endif
  
   while(1) {
+      stdio_mutex.lock();
 #ifndef STM32F769DISCO
     printf("\r\n");
 #endif
@@ -184,10 +205,12 @@ int main() {
 #endif
     }
     }
-//    wait_us(100000);
-    ThisThread::sleep_for(100);
 #ifndef STM32F769DISCO
     printf("---\r\n");
 #endif
+    stdio_mutex.unlock();
+
+//    wait_us(100000);
+    ThisThread::sleep_for(100);
   }
 }
