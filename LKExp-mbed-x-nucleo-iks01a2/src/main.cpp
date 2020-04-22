@@ -176,14 +176,16 @@ int main() {
 #else
         BSP_LCD_DisplayStringAt(0, 450, (uint8_t*)"Wake Up Detected!", CENTER_MODE);
 #endif
-        wait_us(3000000);
+//        wait_us(3000000);
+        ThisThread::sleep_for(3000);
         myled = 0;
 #ifdef STM32F769DISCO
         BSP_LCD_DisplayStringAt(0, 450, (uint8_t*)"                         ", CENTER_MODE);
 #endif
     }
     }
-    wait_us(100000);
+//    wait_us(100000);
+    ThisThread::sleep_for(100);
 #ifndef STM32F769DISCO
     printf("---\r\n");
 #endif
