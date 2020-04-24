@@ -7,7 +7,8 @@
 
 namespace show {
     void lcd(LSM303AGRMagSensor*, HTS221Sensor*, LPS22HBSensor*, LSM6DSLSensor*, LSM303AGRAccSensor*);
-    void terminal(LSM303AGRMagSensor*, HTS221Sensor*, LPS22HBSensor*, LSM6DSLSensor*, LSM303AGRAccSensor*, Mutex);
+    void terminal(LSM303AGRMagSensor*, HTS221Sensor*, LPS22HBSensor*, LSM6DSLSensor*, LSM303AGRAccSensor*);
 }
+extern Mutex stdio_mutex;
 
 #endif /* _SHOW_H_ */

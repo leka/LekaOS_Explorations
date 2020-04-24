@@ -1,10 +1,10 @@
-# define LCD_DISPLAY
+# define LCD_DISPLAY 0
  
 /* Includes */
 #include "mbed.h"
 #include "show.h"
 #include "XNucleoIKS01A2.h"
-#ifdef LCD_DISPLAY
+#if LCD_DISPLAY
 #include "stm32f769i_discovery_lcd.h"
 #endif
  
@@ -22,7 +22,7 @@ static LSM303AGRAccSensor *accelerometer = mems_expansion_board->accelerometer;
 DigitalOut myled(LED1);
 Thread eventThread;
 EventQueue queue(1 * EVENTS_EVENT_SIZE);
-Mutex stdio_mutex;
+extern Mutex stdio_mutex;
 
 void shakeDisplay() {
     LSM6DSL_Event_Status_t status;
@@ -32,7 +32,7 @@ void shakeDisplay() {
         myled = 1;
   
         /* Output data. */
-#ifdef LCD_DISPLAY
+#if LCD_DISPLAY
         BSP_LCD_DisplayStringAt(0, 450, (uint8_t*)"Wake Up Detected!", CENTER_MODE);
 #else
         stdio_mutex.lock();
@@ -42,7 +42,7 @@ void shakeDisplay() {
         wait_us(3000000);
 //        ThisThread::sleep_for(3000);
         myled = 0;
-#ifdef LCD_DISPLAY
+#if LCD_DISPLAY
         BSP_LCD_DisplayStringAt(0, 450, (uint8_t*)"                         ", CENTER_MODE);
 #endif
     }
@@ -84,7 +84,7 @@ int main() {
   acc_gyro->read_id(&id);
   printf("LSM6DSL accelerometer & gyroscope = 0x%X\r\n", id);
 
-#ifdef LCD_DISPLAY
+#if LCD_DISPLAY
   BSP_LCD_Init();
   BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
   BSP_LCD_SelectLayer(0);
@@ -95,14 +95,14 @@ int main() {
   BSP_LCD_SetFont(&Font20);
 #endif
 
-#ifdef LCD_DISPLAY
+#if LCD_DISPLAY
     while(1) {
         show::lcd(magnetometer, hum_temp, press_temp, acc_gyro, accelerometer);
         wait_us(100000);
     }
 #else
     while(1) {
-        show::terminal(magnetometer, hum_temp, press_temp, acc_gyro, accelerometer, stdio_mutex);
+        show::terminal(magnetometer, hum_temp, press_temp, acc_gyro, accelerometer);
         ThisThread::sleep_for(100);
     }
 #endif

@@ -1,5 +1,7 @@
 #include "show.h"
 
+Mutex stdio_mutex;
+
 /* Helper function for printing floats & doubles */
 static char *print_double(char* str, double v, int decimalDigits=2)
 {
@@ -70,7 +72,7 @@ namespace show {
         BSP_LCD_DisplayStringAt(0, 350, (uint8_t*)lcd_string, LEFT_MODE);
     }
 
-    void terminal(LSM303AGRMagSensor* magnetometer, HTS221Sensor* hum_temp, LPS22HBSensor* press_temp, LSM6DSLSensor* acc_gyro, LSM303AGRAccSensor* accelerometer, Mutex stdio_mutex) {
+    void terminal(LSM303AGRMagSensor* magnetometer, HTS221Sensor* hum_temp, LPS22HBSensor* press_temp, LSM6DSLSensor* acc_gyro, LSM303AGRAccSensor* accelerometer) {
         float value1, value2;
         char buffer1[32], buffer2[32];
         int32_t axes[3];
