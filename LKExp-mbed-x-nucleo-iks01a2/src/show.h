@@ -3,7 +3,9 @@
 
 #include "mbed.h"
 #include "XNucleoIKS01A2.h"
+#if LCD_DISPLAY
 #include "stm32f769i_discovery_lcd.h"
+#endif
 
 namespace show {
     void lcd(LSM303AGRMagSensor*, HTS221Sensor*, LPS22HBSensor*, LSM6DSLSensor*, LSM303AGRAccSensor*);

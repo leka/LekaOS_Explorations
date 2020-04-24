@@ -39,6 +39,7 @@ static char *print_double(char* str, double v, int decimalDigits=2)
 }
 
 namespace show {
+#if LCD_DISPLAY
     void lcd(LSM303AGRMagSensor* magnetometer, HTS221Sensor* hum_temp, LPS22HBSensor* press_temp, LSM6DSLSensor* acc_gyro, LSM303AGRAccSensor* accelerometer) {
         float value1, value2;
         char buffer1[32], buffer2[32];
@@ -71,7 +72,7 @@ namespace show {
         sprintf((char*)lcd_string,"LSM6DSL [gyro/mdps]: %6ld, %6ld, %6ld               ", axes[0], axes[1], axes[2]);
         BSP_LCD_DisplayStringAt(0, 350, (uint8_t*)lcd_string, LEFT_MODE);
     }
-
+#else
     void terminal(LSM303AGRMagSensor* magnetometer, HTS221Sensor* hum_temp, LPS22HBSensor* press_temp, LSM6DSLSensor* acc_gyro, LSM303AGRAccSensor* accelerometer) {
         float value1, value2;
         char buffer1[32], buffer2[32];
@@ -104,4 +105,5 @@ namespace show {
         printf("---\r\n");
         stdio_mutex.unlock();
     }
+#endif
 }
