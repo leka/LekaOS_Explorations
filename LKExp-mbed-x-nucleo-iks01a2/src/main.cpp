@@ -19,6 +19,7 @@ static LSM6DSLSensor *acc_gyro = mems_expansion_board->acc_gyro;
 static LSM303AGRAccSensor *accelerometer = mems_expansion_board->accelerometer;
 
 DigitalOut myled(LED1);
+Thread eventThread;
 EventQueue queue(1 * EVENTS_EVENT_SIZE);
 Mutex stdio_mutex;
 
@@ -92,7 +93,6 @@ void terminal_show();
 
 /* Simple main function */
 int main() {
-  Thread eventThread;
   eventThread.start(callback(&queue, &EventQueue::dispatch_forever));
   
   /* Attach callback to LSM6DSL INT2 */
