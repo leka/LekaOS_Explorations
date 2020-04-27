@@ -270,3 +270,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Mercurial
+*.hg
