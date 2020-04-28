@@ -54,13 +54,21 @@ XNucleoIKS01A2_Extension::XNucleoIKS01A2_Extension(DevI2C *ext_i2c, PinName int1
     pt_sensor(new LPS22HBSensor(dev_i2c)),
     acc_gyro(new LSM6DSLSensor(dev_i2c, LSM6DSL_ACC_GYRO_I2C_ADDRESS_HIGH, int1, int2)),
     acc_gyro_ext(new LSM6DSOXSensor(dev_i2c, LSM6DSOX_I2C_ADD_L, int1_ext, int2_ext))
-{ 
+{
+  uint8_t error;
   ht_sensor->init(NULL);
   magnetometer->init(NULL);
   accelerometer->init(NULL);
   pt_sensor->init(NULL);
   acc_gyro->init(NULL);
-  acc_gyro_ext->init(NULL);
+  error = acc_gyro_ext->init(NULL);
+  
+  if (error)
+  {
+      uint8_t id;
+      acc_gyro_ext->read_id(&id);
+      printf("\nError in initialization of LSM6DSOX, I2C address read is 0x%X", id);
+  }
 }
 
 /**
