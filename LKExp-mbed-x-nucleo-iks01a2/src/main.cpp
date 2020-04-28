@@ -3,13 +3,13 @@
 /* Includes */
 #include "mbed.h"
 #include "show.h"
-#include "XNucleoIKS01A2.h"
+#include "XNucleoIKS01A2_Extension.h"
 #if LCD_DISPLAY
 #include "stm32f769i_discovery_lcd.h"
 #endif
  
 /* Instantiate the expansion board */
-static XNucleoIKS01A2 *mems_expansion_board = XNucleoIKS01A2::instance(D14, D15, D4, D5);
+static XNucleoIKS01A2_Extension *mems_expansion_board = XNucleoIKS01A2_Extension::instance(D14, D15, D4, D5, A5, A4);
  
 
 /* Retrieve the composing elements of the expansion board */
@@ -18,6 +18,7 @@ static HTS221Sensor *hum_temp = mems_expansion_board->ht_sensor;
 static LPS22HBSensor *press_temp = mems_expansion_board->pt_sensor;
 static LSM6DSLSensor *acc_gyro = mems_expansion_board->acc_gyro;
 static LSM303AGRAccSensor *accelerometer = mems_expansion_board->accelerometer;
+static LSM6DSOXSensor *acc_gyro_ext = mems_expansion_board->acc_gyro_ext;
 
 DigitalOut myled(LED1);
 Thread eventThread;
@@ -67,6 +68,8 @@ int main() {
   accelerometer->enable();
   acc_gyro->enable_x();
   acc_gyro->enable_g();
+  acc_gyro_ext->enable_x();
+  acc_gyro_ext->enable_g();
   /* Enable Wake-Up Detection. */
   acc_gyro->enable_wake_up_detection();
   
@@ -83,6 +86,8 @@ int main() {
   printf("LSM303AGR accelerometer           = 0x%X\r\n", id);
   acc_gyro->read_id(&id);
   printf("LSM6DSL accelerometer & gyroscope = 0x%X\r\n", id);
+  acc_gyro_ext->read_id(&id);
+  printf("LSM6DSOX accelerometer & gyroscope = 0x%X\r\n", id);
 
 #if LCD_DISPLAY
   BSP_LCD_Init();
