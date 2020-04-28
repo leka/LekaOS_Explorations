@@ -38,8 +38,8 @@
   */ 
 
 /* Define to prevent from recursive inclusion --------------------------------*/
-#ifndef _X_NUCLEO_IKS01A2_TARGETS_H_
-#define _X_NUCLEO_IKS01A2_TARGETS_H_
+#ifndef _X_NUCLEO_IKS01A2_TARGETS_EXTENSION_H_
+#define _X_NUCLEO_IKS01A2_TARGETS_EXTENSION_H_
 
 /*** I2C ***/
 /* Use Arduino I2C Connectors */
@@ -51,4 +51,9 @@
 /* LSM6DSL INT2 */
 #define IKS01A2_PIN_LSM6DSL_INT2     (D5)
 
-#endif // _X_NUCLEO_IKS01A2_TARGETS_H_
+/* LSM6DSOX INT1 */
+#define PIN_LSM6DSOX_INT1            (A5)
+/* LSM6DSOX INT2 */
+#define PIN_LSM6DSOX_INT2            (A4)
+
+#endif // _X_NUCLEO_IKS01A2_TARGETS_EXTENSION_H_

@@ -37,17 +37,18 @@
  */
 
 /* Define to prevent from recursive inclusion --------------------------------*/
-#ifndef __X_NUCLEO_IKS01A2_H
-#define __X_NUCLEO_IKS01A2_H
+#ifndef __X_NUCLEO_IKS01A2_EXTENSION_H
+#define __X_NUCLEO_IKS01A2_EXTENSION_H
 
 /* Includes ------------------------------------------------------------------*/
 #include "mbed.h"
-#include "x_nucleo_iks01a2_targets.h"
+#include "x_nucleo_iks01a2_extension_targets.h"
 #include "HTS221Sensor.h"
 #include "LSM303AGRAccSensor.h"
 #include "LSM303AGRMagSensor.h"
 #include "LPS22HBSensor.h"
 #include "LSM6DSLSensor.h"
+#include "LSM6DSOXSensor.h"
 #include "DevI2C.h"
 
 /* Macros -------------------------------------------------------------------*/
@@ -78,19 +79,19 @@
  * static X_NUCLEO_IKS01A2 *<TODO>_expansion_board = X_NUCLEO_IKS01A2::Instance();
  * @endcode
  */
-class XNucleoIKS01A2
+class XNucleoIKS01A2_Extension
 {
  protected:
-    XNucleoIKS01A2(DevI2C *ext_i2c, PinName int1, PinName int2);
+    XNucleoIKS01A2_Extension(DevI2C *ext_i2c, PinName int1, PinName int2, PinName int1_ext, PinName int2_ext);
 
-    ~XNucleoIKS01A2(void) {
+    ~XNucleoIKS01A2_Extension(void) {
         /* should never be called */
         error("Trial to delete XNucleoIKS01A2 singleton!\n");
     }
 
  public:
-    static XNucleoIKS01A2* instance(DevI2C *ext_i2c = NULL, PinName int1 = IKS01A2_PIN_LSM6DSL_INT1, PinName int2 = IKS01A2_PIN_LSM6DSL_INT2);
-    static XNucleoIKS01A2* instance(PinName sda, PinName scl, PinName int1 = IKS01A2_PIN_LSM6DSL_INT1, PinName int2 = IKS01A2_PIN_LSM6DSL_INT2);
+    static XNucleoIKS01A2_Extension* instance(DevI2C *ext_i2c = NULL, PinName int1 = IKS01A2_PIN_LSM6DSL_INT1, PinName int2 = IKS01A2_PIN_LSM6DSL_INT2, PinName int1_ext = PIN_LSM6DSOX_INT1, PinName int2_ext = PIN_LSM6DSOX_INT2);
+    static XNucleoIKS01A2_Extension* instance(PinName sda, PinName scl, PinName int1 = IKS01A2_PIN_LSM6DSL_INT1, PinName int2 = IKS01A2_PIN_LSM6DSL_INT2, PinName int1_ext = PIN_LSM6DSOX_INT1, PinName int2_ext = PIN_LSM6DSOX_INT2);
 
     DevI2C  *dev_i2c;
 
@@ -99,9 +100,10 @@ class XNucleoIKS01A2
     LSM303AGRAccSensor *accelerometer;
     LPS22HBSensor  *pt_sensor;
     LSM6DSLSensor *acc_gyro;
+    LSM6DSOXSensor *acc_gyro_ext;
 
  private:
-    static XNucleoIKS01A2 *_instance;
+    static XNucleoIKS01A2_Extension *_instance;
 };
 
-#endif /* __X_NUCLEO_IKS01A2_H */
+#endif /* __X_NUCLEO_IKS01A2_EXTENSION_H */

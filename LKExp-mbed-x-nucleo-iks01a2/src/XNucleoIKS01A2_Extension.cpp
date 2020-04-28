@@ -37,28 +37,30 @@
     
 /* Includes ------------------------------------------------------------------*/
 #include "mbed.h"
-#include "XNucleoIKS01A2.h"
+#include "XNucleoIKS01A2_Extension.h"
 
 /* Static variables ----------------------------------------------------------*/
-XNucleoIKS01A2 *XNucleoIKS01A2::_instance = NULL;
+XNucleoIKS01A2_Extension *XNucleoIKS01A2_Extension::_instance = NULL;
 
 
 /* Methods -------------------------------------------------------------------*/
 /**
  * @brief  Constructor
  */
-XNucleoIKS01A2::XNucleoIKS01A2(DevI2C *ext_i2c, PinName int1, PinName int2) : dev_i2c(ext_i2c),
+XNucleoIKS01A2_Extension::XNucleoIKS01A2_Extension(DevI2C *ext_i2c, PinName int1, PinName int2, PinName int1_ext, PinName int2_ext) : dev_i2c(ext_i2c),
     ht_sensor(new HTS221Sensor(dev_i2c)),
     magnetometer(new LSM303AGRMagSensor(dev_i2c)),
     accelerometer(new LSM303AGRAccSensor(dev_i2c)),
     pt_sensor(new LPS22HBSensor(dev_i2c)),
-    acc_gyro(new LSM6DSLSensor(dev_i2c, LSM6DSL_ACC_GYRO_I2C_ADDRESS_HIGH, int1, int2))
+    acc_gyro(new LSM6DSLSensor(dev_i2c, LSM6DSL_ACC_GYRO_I2C_ADDRESS_HIGH, int1, int2)),
+    acc_gyro_ext(new LSM6DSOXSensor(dev_i2c, LSM6DSOX_I2C_ADD_L, int1_ext, int2_ext))
 { 
   ht_sensor->init(NULL);
   magnetometer->init(NULL);
   accelerometer->init(NULL);
   pt_sensor->init(NULL);
   acc_gyro->init(NULL);
+  acc_gyro_ext->init(NULL);
 }
 
 /**
@@ -79,13 +81,13 @@ XNucleoIKS01A2::XNucleoIKS01A2(DevI2C *ext_i2c, PinName int1, PinName int2) : de
  *            Taken into account only on the very first call of one of the 'Instance' functions.
  *            It maps the INT2 pin for LSM6DSL. Defaults to IKS01A2_PIN_LSM6DSL_INT2.
  */
-XNucleoIKS01A2 *XNucleoIKS01A2::instance(DevI2C *ext_i2c, PinName int1, PinName int2) {
+XNucleoIKS01A2_Extension *XNucleoIKS01A2_Extension::instance(DevI2C *ext_i2c, PinName int1, PinName int2, PinName int1_ext, PinName int2_ext) {
     if(_instance == NULL) {
         if(ext_i2c == NULL)
             ext_i2c = new DevI2C(IKS01A2_PIN_I2C_SDA, IKS01A2_PIN_I2C_SCL);
 
         if(ext_i2c != NULL)
-            _instance = new XNucleoIKS01A2(ext_i2c, int1, int2);
+            _instance = new XNucleoIKS01A2_Extension(ext_i2c, int1, int2, int1_ext, int2_ext);
     }
 
     return _instance;
@@ -110,12 +112,12 @@ XNucleoIKS01A2 *XNucleoIKS01A2::instance(DevI2C *ext_i2c, PinName int1, PinName 
  *            Taken into account only on the very first call of one of the 'Instance' functions.
  *            It maps the INT2 pin for LSM6DSL. Defaults to IKS01A2_PIN_LSM6DSL_INT2.
  */
-XNucleoIKS01A2 *XNucleoIKS01A2::instance(PinName sda, PinName scl, PinName int1, PinName int2) {
+XNucleoIKS01A2_Extension *XNucleoIKS01A2_Extension::instance(PinName sda, PinName scl, PinName int1, PinName int2, PinName int1_ext, PinName int2_ext) {
     if(_instance == NULL) {
         DevI2C *ext_i2c = new DevI2C(sda, scl);
 
         if(ext_i2c != NULL)
-            _instance = new XNucleoIKS01A2(ext_i2c, int1, int2);
+            _instance = new XNucleoIKS01A2_Extension(ext_i2c, int1, int2, int1_ext, int2_ext);
     }
 
     return _instance;
