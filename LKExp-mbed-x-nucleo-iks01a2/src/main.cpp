@@ -1,5 +1,5 @@
-# define LCD_DISPLAY 0
-# define LSM6DSOX_USE 0
+# define LCD_DISPLAY 1
+# define LSM6DSOX_USE 1
  
 /* Includes */
 #include "mbed.h"
@@ -113,6 +113,15 @@ int main() {
   BSP_LCD_SetFont(&Font24);
   BSP_LCD_DisplayStringAt(0, 0, (uint8_t*)"IMU example", CENTER_MODE);
   BSP_LCD_SetFont(&Font20);
+
+#if LSM6DSOX_USE
+  uint8_t lcd_string[100];
+  sprintf((char*)lcd_string,"LSM6DSOX ID (0x6C expected) : 0x%X               ", id);
+  BSP_LCD_SetTextColor(LCD_COLOR_RED);
+  BSP_LCD_DisplayStringAt(0, 50, (uint8_t*)lcd_string, LEFT_MODE);
+  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+#endif
+
 #endif
 
 #if LCD_DISPLAY
