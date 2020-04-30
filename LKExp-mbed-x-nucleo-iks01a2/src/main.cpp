@@ -16,6 +16,7 @@
 /* Instantiate the expansion board */
 #if LSM6DSOX_USE
 static XNucleoIKS01A2_Extension *mems_expansion_board = XNucleoIKS01A2_Extension::instance(D14, D15, D4, D5, A5, A4);
+DigitalOut INT_1_LSM6DSOX (PF_9, 0); //Set to 1 to disable I2C and to enable only I3C on LSM6DSOX
 #else
 static XNucleoIKS01A2 *mems_expansion_board = XNucleoIKS01A2::instance(D14, D15, D4, D5);
 #endif
