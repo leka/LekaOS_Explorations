@@ -1,15 +1,25 @@
-# define LCD_DISPLAY 0
+# define LCD_DISPLAY 1
+# define LSM6DSOX_USE 1
  
 /* Includes */
 #include "mbed.h"
 #include "show.h"
+#if LSM6DSOX_USE
+#include "XNucleoIKS01A2_Extension.h"
+#else
 #include "XNucleoIKS01A2.h"
+#endif
 #if LCD_DISPLAY
 #include "stm32f769i_discovery_lcd.h"
 #endif
  
 /* Instantiate the expansion board */
+#if LSM6DSOX_USE
+static XNucleoIKS01A2_Extension *mems_expansion_board = XNucleoIKS01A2_Extension::instance(D14, D15, D4, D5, A5, A4);
+DigitalOut INT_1_LSM6DSOX (PF_9, 0); //Set to 1 to disable I2C and to enable only I3C on LSM6DSOX
+#else
 static XNucleoIKS01A2 *mems_expansion_board = XNucleoIKS01A2::instance(D14, D15, D4, D5);
+#endif
  
 
 /* Retrieve the composing elements of the expansion board */
@@ -18,6 +28,9 @@ static HTS221Sensor *hum_temp = mems_expansion_board->ht_sensor;
 static LPS22HBSensor *press_temp = mems_expansion_board->pt_sensor;
 static LSM6DSLSensor *acc_gyro = mems_expansion_board->acc_gyro;
 static LSM303AGRAccSensor *accelerometer = mems_expansion_board->accelerometer;
+#if LSM6DSOX_USE
+static LSM6DSOXSensor *acc_gyro_ext = mems_expansion_board->acc_gyro_ext;
+#endif
 
 DigitalOut myled(LED1);
 Thread eventThread;
@@ -67,6 +80,10 @@ int main() {
   accelerometer->enable();
   acc_gyro->enable_x();
   acc_gyro->enable_g();
+#if LSM6DSOX_USE
+  acc_gyro_ext->enable_x();
+  acc_gyro_ext->enable_g();
+#endif
   /* Enable Wake-Up Detection. */
   acc_gyro->enable_wake_up_detection();
   
@@ -83,6 +100,10 @@ int main() {
   printf("LSM303AGR accelerometer           = 0x%X\r\n", id);
   acc_gyro->read_id(&id);
   printf("LSM6DSL accelerometer & gyroscope = 0x%X\r\n", id);
+#if LSM6DSOX_USE
+  acc_gyro_ext->read_id(&id);
+  printf("LSM6DSOX accelerometer & gyroscope = 0x%X\r\n", id);
+#endif
 
 #if LCD_DISPLAY
   BSP_LCD_Init();
@@ -93,6 +114,15 @@ int main() {
   BSP_LCD_SetFont(&Font24);
   BSP_LCD_DisplayStringAt(0, 0, (uint8_t*)"IMU example", CENTER_MODE);
   BSP_LCD_SetFont(&Font20);
+
+#if LSM6DSOX_USE
+  uint8_t lcd_string[100];
+  sprintf((char*)lcd_string,"LSM6DSOX ID (0x6C expected) : 0x%X               ", id);
+  BSP_LCD_SetTextColor(LCD_COLOR_RED);
+  BSP_LCD_DisplayStringAt(0, 50, (uint8_t*)lcd_string, LEFT_MODE);
+  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
+#endif
+
 #endif
 
 #if LCD_DISPLAY

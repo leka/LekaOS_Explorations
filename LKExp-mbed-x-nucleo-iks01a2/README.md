@@ -11,6 +11,8 @@ Run mbed examples with X\_NUCLEO\_IKS01A2 board, especially motion MEMS.
 
 To display in other IRQ : [Simplify your code with mbed events](https://os.mbed.com/blog/entry/Simplify-your-code-with-mbed-events/)
 
+Autre source de drivers, hors mbed (fournie par Ladislas) : <https://github.com/STMicroelectronics/STMems_Standard_C_drivers>
+
 ### LSM6DSOX
 To use LSM6DSOX on the STEVAL-MKI197V1 with X-NUCLEO-IKS01A2:
 
