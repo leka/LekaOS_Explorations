@@ -34,12 +34,7 @@ HTS221
 * `DevI2C.h` come from [X\_NUCLEO\_COMMON](https://os.mbed.com/teams/ST/code/X_NUCLEO_COMMON/), it adapts i2c of mbed to i2c to manage i2c devices proposed by ST.
 * `Component.h`, `GyroSensor.h`, `HumiditySensor.h`, `MagneticSensor.h`, `MotionSensor.h` and `TempSensor.h` come from [ST\_INTERFACES](https://os.mbed.com/teams/ST/code/ST_INTERFACES/) are abstract classes to build specific drivers.
 
+## Execution
 
-
-
-
-
-
-
-
-
+* Plug X\_NUCLEO\_IKS01A2 and STEVAL\_MKI197V1 on Arduino conenctors
+* If an error occurs, LED1 turns on (after flash)
