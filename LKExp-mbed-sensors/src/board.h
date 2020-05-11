@@ -16,12 +16,11 @@ static DigitalOut _errorLED(LED1);
 class Board {
 public:
     Board(PinName sda=PIN_I2C_SDA, PinName scl=PIN_I2C_SCL);
-    ~Board(void);
     
     void check_id();
 
-    DevI2C  *dev_i2c;
-    HTS221Sensor  *ht_sensor;
-    LSM303AGRMagSensor *magneto;
-    LSM6DSOXSensor *acc_gyro;
+    DevI2C dev_i2c;
+    HTS221Sensor ht_sensor;
+    LSM303AGRMagSensor magneto;
+    LSM6DSOXSensor acc_gyro;
 };

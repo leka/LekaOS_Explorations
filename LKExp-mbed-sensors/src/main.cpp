@@ -1,9 +1,9 @@
 #include "mbed.h"
 #include "board.h"
 
-Board *board = new Board();
+Board board;
 
 int main(void) {
     printf("--- Starting new run ---\r\n");
-    board->check_id();
+    board.check_id();
 }
