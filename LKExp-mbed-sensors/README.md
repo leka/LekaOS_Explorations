@@ -12,19 +12,19 @@ Requested in [issue #4](https://github.com/leka/LekaOS_Explorations/issues/4)
 
 LSM6DSOX:
 
-* mbed by ST : [Link](https://os.mbed.com/teams/ST/code/LSM6DSOX/)
+* mbed by ST : [Link](https://os.mbed.com/teams/ST/code/LSM6DSOX/) (commit [`f27ce43dee4f`](https://os.mbed.com/teams/ST/code/LSM6DSOX/#f27ce43dee4f))
 * github by ST : [Link](https://github.com/STMicroelectronics/STMems_Standard_C_drivers/tree/master/lsm6dsox_STdC)
 * github by stm32duino : [Link](https://github.com/stm32duino/LSM6DSOX)
 
 LSM303AGR (only magnetic sensor)
 
-* mbed by ST : [Link](https://os.mbed.com/teams/ST/code/LSM303AGR/)
+* mbed by ST : [Link](https://os.mbed.com/teams/ST/code/LSM303AGR/) (commit [`6c7e83ae885e`](https://os.mbed.com/teams/ST/code/LSM303AGR/#6c7e83ae885e))
 * github by ST : [Link](https://github.com/STMicroelectronics/STMems_Standard_C_drivers/tree/master/lsm303agr_STdC)
 * github by stm32duino : [Link](https://github.com/stm32duino/LSM303AGR)
 
 HTS221
 
-* mbed by ST : [Link](https://os.mbed.com/teams/ST/code/HTS221/)
+* mbed by ST : [Link](https://os.mbed.com/teams/ST/code/HTS221/) (commit [`ccf7f36492ae`](https://os.mbed.com/teams/ST/code/HTS221/#ccf7f36492ae))
 * github by ST : [Link](https://github.com/STMicroelectronics/STMems_Standard_C_drivers/tree/master/hts221_STdC)
 * github by stm32duino : [Link](https://github.com/stm32duino/HTS221)
 
