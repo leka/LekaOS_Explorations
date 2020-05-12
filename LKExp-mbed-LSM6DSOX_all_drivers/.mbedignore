@@ -22,3 +22,17 @@ lib/mbed-os/features/unsupported/**
 # lib/mbed-os/features/device_key/**
 # lib/mbed-os/features/frameworks/**
 # lib/mbed-os/features/mbedtls/**
+
+
+### mbed-ST_LSM6DSOX
+
+lib/Drivers/mbed-ST_LSM6DSOX/**
+
+### github-STMicroelectronics_STMems_Standard_C_drivers
+
+lib/Drivers/github-STMicroelectronics_STMems_Standard_C_drivers/lsm6dsox_STdC/example/**
+lib/Drivers/github-STMicroelectronics_STMems_Standard_C_drivers/**
+
+### github-stm32duino_LSM6DSOX
+
+lib/Drivers/github-stm32duino_LSM6DSOX/**
