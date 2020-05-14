@@ -38,7 +38,7 @@ Drivers’ names were replaced by numbers in order to simplify:
 (Diff in color available with Sublime Text software.)
 
 ### mbed-ST\_LSM6DSOX and github-STMicroelectronics\_STMems\_Standard\_C\_drivers  
-####Ressources
+#### Ressources  
 mbed-ST\_LSM6DSOX commit is similar to commit [`88cfaac89e885c2ccbbbf924912230b13be77e4f`](https://github.com/STMicroelectronics/STMems_Standard_C_drivers/commit/88cfaac89e885c2ccbbbf924912230b13be77e4f) of github-STMicroelectronics\_STMems\_Standard\_C\_drivers , the only difference between both is different I3C value in register but don’t have impact on normal running.
 
 Other differences between last version of both drivers can be seen in [history](https://github.com/STMicroelectronics/STMems_Standard_C_drivers/commits/master/lsm6dsox_STdC/driver) (11 commits ago at this time).
@@ -59,7 +59,7 @@ Other differences between last version of both drivers can be seen in [history](
 - (later) add `bytecopy()`
 
 ### mbed-ST\_LSM6DSOX and github-stm32duino\_LSM6DSOX
-####Ressources
+#### Ressources
 
 - 1-3\_old (lsm6dsox\_reg\_c).diff 
 - 1-3\_old (lsm6dsox\_reg\_h).diff
@@ -96,21 +96,6 @@ Other differences between last version of both drivers can be seen in [history](
 
 ## Suggestion
 
-Drop github-stm32duino\_LSM6DSOX, a lot of 
-
-
-trop de modif dont interrupts, retirer/modifier i2c et spi
-garder seuls point positif : i3c disabled et fonctions de statut MLC (si non inclus dans github st?)
-
-
-retirer dépendances à motion, gyrosensor + devi2C + component
-
-
-
-refaire lsm6dsox indépendant mais sur les mêmes principes... quel utiltié face au registre?
-
-
-
-ou baser la nouvelle classe aussi sur le nouveau groupe "Basic Configuration"
+*Coming soon*
 
 
