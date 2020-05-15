@@ -1,0 +1,8 @@
+{
+	"target_overrides": {
+		"*": {
+			"target.features": [],
+			"target.components": ["SD_769-Disco","SD"]
+		}
+	}
+}
