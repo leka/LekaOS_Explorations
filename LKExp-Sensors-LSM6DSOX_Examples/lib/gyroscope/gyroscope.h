@@ -58,7 +58,7 @@ class Gyroscope
 		LSM6DSOXGyroStatusTypeDef read_id(uint8_t *id);
 		LSM6DSOXGyroStatusTypeDef get_status(PowerModeGyro *powerMode, float *dataRate, uint16_t *fullScale);
 		LSM6DSOXGyroStatusTypeDef get_int_status(uint8_t *dataReady);
-
+		LSM6DSOXGyroStatusTypeDef get_data(float *dps_X, float *dps_Y, float *dps_Z);
 
 	/**
 	 * @brief Utility function to read data.
@@ -119,6 +119,7 @@ class Gyroscope
 
 		lsm6dsox_md_t _status;
 		lsm6dsox_all_sources_t _int_status;
+		lsm6dsox_data_t _data;
 
 };
 

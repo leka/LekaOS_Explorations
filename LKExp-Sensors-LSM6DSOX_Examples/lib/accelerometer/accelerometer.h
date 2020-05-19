@@ -58,6 +58,7 @@ class Accelerometer
 		LSM6DSOXAccStatusTypeDef read_id(uint8_t *id);
 		LSM6DSOXAccStatusTypeDef get_status(PowerModeAcc *powerMode, float *dataRate, uint16_t *fullScale);
 		LSM6DSOXAccStatusTypeDef get_int_status(uint8_t *dataReady);
+		LSM6DSOXAccStatusTypeDef get_data(float *mg_X, float *mg_Y, float *mg_Z);
 	
 	/**
 	 * @brief Utility function to read data.
@@ -118,6 +119,7 @@ class Accelerometer
 
 		lsm6dsox_md_t _status;
 		lsm6dsox_all_sources_t _int_status;
+		lsm6dsox_data_t _data;
 
 };
 

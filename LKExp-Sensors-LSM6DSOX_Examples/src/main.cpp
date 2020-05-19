@@ -146,6 +146,42 @@ void testAllStatus(Gyroscope *gyroscope)
     return;
 }
 
+void testData(Accelerometer *accelerometer)
+{
+    float mg_X;
+    float mg_Y;
+    float mg_Z;
+    LSM6DSOXAccStatusTypeDef success;
+
+    success = accelerometer->get_data(&mg_X,&mg_Y,&mg_Z);
+
+    if (success == LSM6DSOX_Acc_OK) {
+        printf("Test Data (accelerometer)... OK!\r\n");
+        printf("Values are X:%dmg, Y:%dmg, Z:%dmg\r\n\n", (int)mg_X, (int)mg_Y, (int)mg_Z);
+    } else {
+        printf("Test Data (accelerometer)... Failed.\r\n\n");
+    }
+    return;
+}
+
+void testData(Gyroscope *gyroscope)
+{
+    float dps_X;
+    float dps_Y;
+    float dps_Z;
+    LSM6DSOXGyroStatusTypeDef success;
+
+    success = gyroscope->get_data(&dps_X,&dps_Y,&dps_Z);
+
+    if (success == LSM6DSOX_Acc_OK) {
+        printf("Test Data (gyroscope)... OK!\r\n");
+        printf("Values are X:%dmdps, Y:%dmdps, Z:%dmdps\r\n\n", (int)dps_X, (int)dps_Y, (int)dps_Z);
+    } else {
+        printf("Test Data (gyroscope)... Failed.\r\n\n");
+    }
+    return;
+}
+
 int main(void) {
     printf("\nStarting a new run!\r\n\n");
 
@@ -172,6 +208,9 @@ int main(void) {
 
     testAllStatus(&accelerometer);
     testAllStatus(&gyroscope);
+
+    testData(&accelerometer);
+    testData(&gyroscope);
 
     /* Tests features */
 

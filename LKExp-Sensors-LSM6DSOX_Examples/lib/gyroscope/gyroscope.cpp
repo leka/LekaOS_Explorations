@@ -38,7 +38,13 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::init(void *init)
 		return LSM6DSOX_Gyro_ERROR;
 	}
 
-	/* Output data rate selection and full scale selection. */
+	//Get current status
+	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != LSM6DSOX_Gyro_OK)
+	{
+		return LSM6DSOX_Gyro_ERROR;
+	}
+
+	/* Replace output data rate selection and full scale selection. */
 	_status.ui.gy.odr = _status.ui.gy.LSM6DSOX_GY_UI_52Hz_LP;
 	_status.ui.gy.fs  = _status.ui.gy.LSM6DSOX_GY_UI_500dps;
 	if (lsm6dsox_mode_set(&_reg_ctx, NULL, &_status) != LSM6DSOX_Gyro_OK)
@@ -164,13 +170,67 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::get_status(PowerModeGyro *powerMode, float 
  */
 LSM6DSOXGyroStatusTypeDef Gyroscope::get_int_status(uint8_t *dataReady)
 {
-	LSM6DSOXGyroStatusTypeDef success = LSM6DSOX_Gyro_OK;
 	if (lsm6dsox_all_sources_get(&_reg_ctx, &_int_status) != LSM6DSOX_Gyro_OK)
 	{
 		return LSM6DSOX_Gyro_ERROR;
 	}
-
 	*dataReady = _int_status.drdy_g;
+
+	return LSM6DSOX_Gyro_OK;
+}
+
+/**
+ * @brief  Read component data
+ * @param  dps_X data value of angular acceleration on X axis in dps
+ * @param  dps_Y data value of angular acceleration on Y axis in dps
+ * @param  dps_Z data value of angular acceleration on Z axis in dps
+ * @retval 0 in case of success, an error code otherwise
+ */
+LSM6DSOXGyroStatusTypeDef Gyroscope::get_data(float *dps_X, float *dps_Y, float *dps_Z)
+{
+	//if (lsm6dsox_data_get(&_reg_ctx, NULL, &_status, &_data) != LSM6DSOX_Gyro_OK) //Lot of mistakes in the driver's function
+	//{
+	//	return LSM6DSOX_Gyro_ERROR;
+	//}
+	//*mg_X = _data.ui.gy.dps[0];
+	//*mg_Y = _data.ui.gy.dps[1];
+	//*mg_Z = _data.ui.gy.dps[2];
+
+	LSM6DSOXGyroStatusTypeDef success = LSM6DSOX_Gyro_OK;
+	uint8_t data_raw[6];
+
+	/* Read raw data values. */
+	if (lsm6dsox_angular_rate_raw_get(&_reg_ctx, data_raw) != LSM6DSOX_Gyro_OK)
+	{
+		return LSM6DSOX_Gyro_ERROR;
+	}
+
+	float_t (* pConversionFunction) (int16_t raw_value);
+	switch(_status.ui.gy.fs)
+	{
+		case 0:
+			pConversionFunction = &lsm6dsox_from_fs250_to_mdps;
+			break;
+		case 1:
+			pConversionFunction = &lsm6dsox_from_fs125_to_mdps;
+			break;
+		case 2:
+			pConversionFunction = &lsm6dsox_from_fs500_to_mdps;
+			break;
+		case 4:
+			pConversionFunction = &lsm6dsox_from_fs1000_to_mdps;
+			break;
+		case 6:
+			pConversionFunction = &lsm6dsox_from_fs2000_to_mdps;
+			break;
+		default:
+			success = LSM6DSOX_Gyro_ERROR;
+			break;
+	}
+
+	*dps_X = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[1] << 8) | data_raw[0]);
+	*dps_Y = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[3] << 8) | data_raw[2]);
+	*dps_Z = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[5] << 8) | data_raw[4]);
 
 	return success;
 }

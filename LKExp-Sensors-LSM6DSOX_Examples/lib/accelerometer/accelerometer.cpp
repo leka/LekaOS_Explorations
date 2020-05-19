@@ -38,7 +38,13 @@ LSM6DSOXAccStatusTypeDef Accelerometer::init(void *init)
 		return LSM6DSOX_Acc_ERROR;
 	}
 
-	/* Output data rate selection and full scale selection. */
+	//Get current status
+	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != LSM6DSOX_Acc_OK)
+	{
+		return LSM6DSOX_Acc_ERROR;
+	}
+
+	/* Replace output data rate selection and full scale selection. */
 	_status.ui.xl.odr = _status.ui.xl.LSM6DSOX_XL_UI_52Hz_LP;
 	_status.ui.xl.fs  = _status.ui.xl.LSM6DSOX_XL_UI_4g;
 	if (lsm6dsox_mode_set(&_reg_ctx, NULL, &_status) != LSM6DSOX_Acc_OK)
@@ -163,13 +169,64 @@ LSM6DSOXAccStatusTypeDef Accelerometer::get_status(PowerModeAcc *powerMode, floa
  */
 LSM6DSOXAccStatusTypeDef Accelerometer::get_int_status(uint8_t *dataReady)
 {
-	LSM6DSOXAccStatusTypeDef success = LSM6DSOX_Acc_OK;
 	if (lsm6dsox_all_sources_get(&_reg_ctx, &_int_status) != LSM6DSOX_Acc_OK)
 	{
 		return LSM6DSOX_Acc_ERROR;
 	}
-
 	*dataReady = _int_status.drdy_xl;
+
+	return LSM6DSOX_Acc_OK;
+}
+
+/**
+ * @brief  Read component data
+ * @param  mg_X data value of acceleration on X axis in mg
+ * @param  mg_Y data value of acceleration on Y axis in mg
+ * @param  mg_Z data value of acceleration on Z axis in mg
+ * @retval 0 in case of success, an error code otherwise
+ */
+LSM6DSOXAccStatusTypeDef Accelerometer::get_data(float *mg_X, float *mg_Y, float *mg_Z)
+{
+	//if (lsm6dsox_data_get(&_reg_ctx, NULL, &_status, &_data) != LSM6DSOX_Acc_OK) //Lot of mistakes in the driver's function
+	//{
+	//	return LSM6DSOX_Acc_ERROR;
+	//}
+	//*mg_X = _data.ui.xl.mg[0];
+	//*mg_Y = _data.ui.xl.mg[1];
+	//*mg_Z = _data.ui.xl.mg[2];
+
+	LSM6DSOXAccStatusTypeDef success = LSM6DSOX_Acc_OK;
+	uint8_t data_raw[6];
+
+	/* Read raw data values. */
+	if (lsm6dsox_acceleration_raw_get(&_reg_ctx, data_raw) != LSM6DSOX_Acc_OK)
+	{
+		return LSM6DSOX_Acc_ERROR;
+	}
+
+	float_t (* pConversionFunction) (int16_t raw_value);
+	switch(_status.ui.xl.fs)
+	{
+		case 0:
+			pConversionFunction = &lsm6dsox_from_fs2_to_mg;
+			break;
+		case 1:
+			pConversionFunction = &lsm6dsox_from_fs16_to_mg;
+			break;
+		case 2:
+			pConversionFunction = &lsm6dsox_from_fs4_to_mg;
+			break;
+		case 3:
+			pConversionFunction = &lsm6dsox_from_fs8_to_mg;
+			break;
+		default:
+			success = LSM6DSOX_Acc_ERROR;
+			break;
+	}
+
+	*mg_X = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[1] << 8) | data_raw[0]);
+	*mg_Y = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[3] << 8) | data_raw[2]);
+	*mg_Z = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[5] << 8) | data_raw[4]);
 
 	return success;
 }
