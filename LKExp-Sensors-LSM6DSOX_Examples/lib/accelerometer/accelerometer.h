@@ -29,6 +29,15 @@ typedef enum
 
 typedef enum
 {
+	High_Performance_Acc = 0,
+	Normal_Power_Acc = 1,
+	Low_Power_Acc = 2,
+	Ultra_Low_Power_Acc = 3,
+    Power_Off_Acc = 4
+}PowerModeAcc;
+
+typedef enum
+{
 	Transmission_Acc_OK = 0,
 	Transmission_Acc_ERROR = -1,
 	Transmission_Acc_OVERFLOW = -2
@@ -47,6 +56,8 @@ class Accelerometer
 		Accelerometer(I2C *i2c, uint8_t address=LSM6DSOX_I2C_ADD_L);
 		LSM6DSOXAccStatusTypeDef init(void *init);
 		LSM6DSOXAccStatusTypeDef read_id(uint8_t *id);
+		LSM6DSOXAccStatusTypeDef get_status(PowerModeAcc *powerMode, float *dataRate, uint16_t *fullScale);
+		LSM6DSOXAccStatusTypeDef get_int_status(uint8_t *dataReady);
 	
 	/**
 	 * @brief Utility function to read data.
@@ -104,6 +115,9 @@ class Accelerometer
 
 		stmdev_ctx_t _reg_ctx;
 		static const unsigned int TEMP_BUF_SIZE = 32;
+
+		lsm6dsox_md_t _status;
+		lsm6dsox_all_sources_t _int_status;
 
 };
 

@@ -29,6 +29,15 @@ typedef enum
 
 typedef enum
 {
+	High_Performance_Gyro = 0,
+	Normal_Power_Gyro = 1,
+	Low_Power_Gyro = 2,
+//	Ultra_Low_Power_Gyro = 3,
+    Power_Off_Gyro = 4
+}PowerModeGyro;
+
+typedef enum
+{
 	Transmission_Gyro_OK = 0,
 	Transmission_Gyro_ERROR = -1,
 	Transmission_Gyro_OVERFLOW = -2
@@ -47,6 +56,9 @@ class Gyroscope
 		Gyroscope(I2C *i2c, uint8_t address=LSM6DSOX_I2C_ADD_L);
 		LSM6DSOXGyroStatusTypeDef init(void *init);
 		LSM6DSOXGyroStatusTypeDef read_id(uint8_t *id);
+		LSM6DSOXGyroStatusTypeDef get_status(PowerModeGyro *powerMode, float *dataRate, uint16_t *fullScale);
+		LSM6DSOXGyroStatusTypeDef get_int_status(uint8_t *dataReady);
+
 
 	/**
 	 * @brief Utility function to read data.
@@ -104,6 +116,9 @@ class Gyroscope
 
 		stmdev_ctx_t _reg_ctx;
 		static const unsigned int TEMP_BUF_SIZE = 32;
+
+		lsm6dsox_md_t _status;
+		lsm6dsox_all_sources_t _int_status;
 
 };
 
