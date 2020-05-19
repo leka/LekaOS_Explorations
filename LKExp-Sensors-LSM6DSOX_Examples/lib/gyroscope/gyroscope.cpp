@@ -30,29 +30,29 @@ Gyroscope::Gyroscope(I2C *i2c, uint8_t address) : _i2c(i2c), _address(address)
  * @param  init pointer to device specific initalization structure
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXGyroStatusTypeDef Gyroscope::init(void *init)
+GyroStatus Gyroscope::init(void *init)
 {
 	/* Initialize the device for driver usage */
-	if (lsm6dsox_init_set(&_reg_ctx, LSM6DSOX_DRV_RDY) != LSM6DSOX_Gyro_OK)
+	if (lsm6dsox_init_set(&_reg_ctx, LSM6DSOX_DRV_RDY) != (int32_t)GyroStatus::OK)
 	{
-		return LSM6DSOX_Gyro_ERROR;
+		return GyroStatus::ERROR;
 	}
 
 	//Get current status
-	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != LSM6DSOX_Gyro_OK)
+	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != (int32_t)GyroStatus::OK)
 	{
-		return LSM6DSOX_Gyro_ERROR;
+		return GyroStatus::ERROR;
 	}
 
 	/* Replace output data rate selection and full scale selection. */
 	_status.ui.gy.odr = _status.ui.gy.LSM6DSOX_GY_UI_52Hz_LP;
 	_status.ui.gy.fs  = _status.ui.gy.LSM6DSOX_GY_UI_500dps;
-	if (lsm6dsox_mode_set(&_reg_ctx, NULL, &_status) != LSM6DSOX_Gyro_OK)
+	if (lsm6dsox_mode_set(&_reg_ctx, NULL, &_status) != (int32_t)GyroStatus::OK)
 	{
-		return LSM6DSOX_Gyro_ERROR;
+		return GyroStatus::ERROR;
 	}
 	
-	return LSM6DSOX_Gyro_OK;
+	return GyroStatus::OK;
 }
 
 /**
@@ -60,14 +60,14 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::init(void *init)
  * @param  id the WHO_AM_I value
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXGyroStatusTypeDef Gyroscope::read_id(uint8_t *id)
+GyroStatus Gyroscope::read_id(uint8_t *id)
 {
-	if (lsm6dsox_device_id_get(&_reg_ctx, id) != LSM6DSOX_Gyro_OK)
+	if (lsm6dsox_device_id_get(&_reg_ctx, id) != (int32_t)GyroStatus::OK)
 	{
-		return LSM6DSOX_Gyro_ERROR;
+		return GyroStatus::ERROR;
 	}
 
-	return LSM6DSOX_Gyro_OK;
+	return GyroStatus::OK;
 }
 
 /**
@@ -77,15 +77,15 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::read_id(uint8_t *id)
  * @param  fullScale is full scal in hexadecimal value
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXGyroStatusTypeDef Gyroscope::get_status(PowerModeGyro *powerMode, float *dataRate, uint16_t *fullScale)
+GyroStatus Gyroscope::get_status(GyroPowerMode *powerMode, float *dataRate, uint16_t *fullScale)
 {
-	LSM6DSOXGyroStatusTypeDef success = LSM6DSOX_Gyro_OK;
-	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != LSM6DSOX_Gyro_OK)
+	GyroStatus ret = GyroStatus::OK;
+	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != (int32_t)GyroStatus::OK)
 	{
-		return LSM6DSOX_Gyro_ERROR;
+		return GyroStatus::ERROR;
 	}
 
-	switch((_status.ui.gy.odr & 0x0F))
+	switch((_status.ui.gy.odr & 0x0F))  //Value of odr is 0xYZ with Y the power mode and Z an enum frequence
 	{
 		case 0:
 			*dataRate = 0;
@@ -124,19 +124,28 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::get_status(PowerModeGyro *powerMode, float 
 //			*dataRate = 1.6f;
 //			break;
 		default:
-			success = LSM6DSOX_Gyro_ERROR;
+			ret = GyroStatus::ERROR;
 			break;
 	}
-	if (success == LSM6DSOX_Gyro_ERROR)
+	if (ret == GyroStatus::ERROR)
 	{
-		return success;
+		return ret;
 	}
 
-
-	*powerMode 	= (*dataRate == 0)						?	Power_Off_Gyro
-				: (not(_status.ui.gy.odr & 0x10) >> 4) 	? 	High_Performance_Gyro 
-				: (*dataRate > 100.0f) 					? 	Normal_Power_Gyro 
-				: 											Low_Power_Gyro;
+	//Value of odr is 0xYZ with Y the power mode and Z an enum frequence
+	if (*dataRate == 0) {
+		*powerMode = GyroPowerMode::OFF;
+	} else {
+		if ((_status.ui.gy.odr & 0x10) >> 4) {
+			if(*dataRate < 100.0f){
+				*powerMode = GyroPowerMode::LOW;
+			} else {
+				*powerMode = GyroPowerMode::NORMAL;
+			}
+		} else {
+			*powerMode = GyroPowerMode::HIGH_PERFORMANCE;
+		}
+	}
 
 	switch((_status.ui.gy.fs))
 	{
@@ -156,11 +165,11 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::get_status(PowerModeGyro *powerMode, float 
 			*fullScale = 2000;
 			break;
 		default:
-			success = LSM6DSOX_Gyro_ERROR;
+			ret = GyroStatus::ERROR;
 			break;
 	}
 
-	return success;
+	return ret;
 }
 
 /**
@@ -168,15 +177,15 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::get_status(PowerModeGyro *powerMode, float 
  * @param  dataReady flag
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXGyroStatusTypeDef Gyroscope::get_int_status(uint8_t *dataReady)
+GyroStatus Gyroscope::get_int_status(uint8_t *dataReady)
 {
-	if (lsm6dsox_all_sources_get(&_reg_ctx, &_int_status) != LSM6DSOX_Gyro_OK)
+	if (lsm6dsox_all_sources_get(&_reg_ctx, &_int_status) != (int32_t)GyroStatus::OK)
 	{
-		return LSM6DSOX_Gyro_ERROR;
+		return GyroStatus::ERROR;
 	}
 	*dataReady = _int_status.drdy_g;
 
-	return LSM6DSOX_Gyro_OK;
+	return GyroStatus::OK;
 }
 
 /**
@@ -186,23 +195,23 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::get_int_status(uint8_t *dataReady)
  * @param  dps_Z data value of angular acceleration on Z axis in dps
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXGyroStatusTypeDef Gyroscope::get_data(float *dps_X, float *dps_Y, float *dps_Z)
+GyroStatus Gyroscope::get_data(float *dps_X, float *dps_Y, float *dps_Z)
 {
-	//if (lsm6dsox_data_get(&_reg_ctx, NULL, &_status, &_data) != LSM6DSOX_Gyro_OK) //Lot of mistakes in the driver's function
+	//if (lsm6dsox_data_get(&_reg_ctx, NULL, &_status, &_data) != GyroStatus::OK) //Lot of mistakes in the driver's function
 	//{
-	//	return LSM6DSOX_Gyro_ERROR;
+	//	return GyroStatus::ERROR;
 	//}
 	//*mg_X = _data.ui.gy.dps[0];
 	//*mg_Y = _data.ui.gy.dps[1];
 	//*mg_Z = _data.ui.gy.dps[2];
 
-	LSM6DSOXGyroStatusTypeDef success = LSM6DSOX_Gyro_OK;
+	GyroStatus ret = GyroStatus::OK;
 	uint8_t data_raw[6];
 
 	/* Read raw data values. */
-	if (lsm6dsox_angular_rate_raw_get(&_reg_ctx, data_raw) != LSM6DSOX_Gyro_OK)
+	if (lsm6dsox_angular_rate_raw_get(&_reg_ctx, data_raw) != (int32_t)GyroStatus::OK)
 	{
-		return LSM6DSOX_Gyro_ERROR;
+		return GyroStatus::ERROR;
 	}
 
 	float_t (* pConversionFunction) (int16_t raw_value);
@@ -224,7 +233,7 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::get_data(float *dps_X, float *dps_Y, float 
 			pConversionFunction = &lsm6dsox_from_fs2000_to_mdps;
 			break;
 		default:
-			success = LSM6DSOX_Gyro_ERROR;
+			ret = GyroStatus::ERROR;
 			break;
 	}
 
@@ -232,7 +241,7 @@ LSM6DSOXGyroStatusTypeDef Gyroscope::get_data(float *dps_X, float *dps_Y, float 
 	*dps_Y = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[3] << 8) | data_raw[2]);
 	*dps_Z = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[5] << 8) | data_raw[4]);
 
-	return success;
+	return ret;
 }
 
 int32_t LSM6DSOX_gyro_io_write(void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite)

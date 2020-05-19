@@ -30,29 +30,29 @@ Accelerometer::Accelerometer(I2C *i2c, uint8_t address) : _i2c(i2c), _address(ad
  * @param  init pointer to device specific initalization structure
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXAccStatusTypeDef Accelerometer::init(void *init)
+AccStatus Accelerometer::init(void *init)
 {
 	/* Initialize the device for driver usage */
-	if (lsm6dsox_init_set(&_reg_ctx, LSM6DSOX_DRV_RDY) != LSM6DSOX_Acc_OK)
+	if (lsm6dsox_init_set(&_reg_ctx, LSM6DSOX_DRV_RDY) != (int32_t)AccStatus::OK)
 	{
-		return LSM6DSOX_Acc_ERROR;
+		return AccStatus::ERROR;
 	}
 
 	//Get current status
-	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != LSM6DSOX_Acc_OK)
+	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != (int32_t)AccStatus::OK)
 	{
-		return LSM6DSOX_Acc_ERROR;
+		return AccStatus::ERROR;
 	}
 
 	/* Replace output data rate selection and full scale selection. */
 	_status.ui.xl.odr = _status.ui.xl.LSM6DSOX_XL_UI_52Hz_LP;
 	_status.ui.xl.fs  = _status.ui.xl.LSM6DSOX_XL_UI_4g;
-	if (lsm6dsox_mode_set(&_reg_ctx, NULL, &_status) != LSM6DSOX_Acc_OK)
+	if (lsm6dsox_mode_set(&_reg_ctx, NULL, &_status) != (int32_t)AccStatus::OK)
 	{
-		return LSM6DSOX_Acc_ERROR;
+		return AccStatus::ERROR;
 	}
 	
-	return LSM6DSOX_Acc_OK;
+	return AccStatus::OK;
 }
 
 /**
@@ -60,14 +60,14 @@ LSM6DSOXAccStatusTypeDef Accelerometer::init(void *init)
  * @param  id the WHO_AM_I value
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXAccStatusTypeDef Accelerometer::read_id(uint8_t *id)
+AccStatus Accelerometer::read_id(uint8_t *id)
 {
-	if (lsm6dsox_device_id_get(&_reg_ctx, id) != LSM6DSOX_Acc_OK)
+	if (lsm6dsox_device_id_get(&_reg_ctx, id) != (int32_t)AccStatus::OK)
 	{
-		return LSM6DSOX_Acc_ERROR;
+		return AccStatus::ERROR;
 	}
 
-	return LSM6DSOX_Acc_OK;
+	return AccStatus::OK;
 }
 
 /**
@@ -77,15 +77,15 @@ LSM6DSOXAccStatusTypeDef Accelerometer::read_id(uint8_t *id)
  * @param  fullScale is full scal in hexadecimal value
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXAccStatusTypeDef Accelerometer::get_status(PowerModeAcc *powerMode, float *dataRate, uint16_t *fullScale)
+AccStatus Accelerometer::get_status(AccPowerMode *powerMode, float *dataRate, uint16_t *fullScale)
 {
-	LSM6DSOXAccStatusTypeDef success = LSM6DSOX_Acc_OK;
-	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != LSM6DSOX_Acc_OK)
+	AccStatus ret = AccStatus::OK;
+	if (lsm6dsox_mode_get(&_reg_ctx, NULL, &_status) != (int32_t)AccStatus::OK)
 	{
-		return LSM6DSOX_Acc_ERROR;
+		return AccStatus::ERROR;
 	}
 
-	switch((_status.ui.xl.odr & 0x0F))
+	switch((_status.ui.xl.odr & 0x0F)) //Value of odr is 0xYZ with Y the power mode and Z an enum frequence
 	{
 		case 0:
 			*dataRate = 0;
@@ -124,21 +124,30 @@ LSM6DSOXAccStatusTypeDef Accelerometer::get_status(PowerModeAcc *powerMode, floa
 			*dataRate = 1.6f;
 			break;
 		default:
-			success = LSM6DSOX_Acc_ERROR;
+			ret = AccStatus::ERROR;
 			break;
 	}
-	if (success == LSM6DSOX_Acc_ERROR)
+	if (ret == AccStatus::ERROR)
 	{
-		return success;
+		return ret;
 	}
 
-
-	*powerMode 	= (*dataRate == 0)						?	Power_Off_Acc
-				: ((_status.ui.xl.odr & 0x20) >> 5) 	? 	Ultra_Low_Power_Acc
-				: (not(_status.ui.xl.odr & 0x10) >> 4) 	? 	High_Performance_Acc
-				: (*dataRate > 100.0f) 					? 	Normal_Power_Acc
-				: 											Low_Power_Acc;
-
+	//Value of odr is 0xYZ with Y the power mode and Z an enum frequence
+	if (*dataRate == 0) {
+		*powerMode = AccPowerMode::OFF;
+	} else {
+		if ((_status.ui.xl.odr & 0x20) >> 5) {
+			*powerMode = AccPowerMode::ULTRA_LOW;
+		} else if ((_status.ui.gy.odr & 0x10) >> 4) {
+			if(*dataRate < 100.0f){
+				*powerMode = AccPowerMode::LOW;
+			} else {
+				*powerMode = AccPowerMode::NORMAL;
+			}
+		} else {
+			*powerMode = AccPowerMode::HIGH_PERFORMANCE;
+		}
+	}
 
 	switch((_status.ui.xl.fs))
 	{
@@ -155,11 +164,11 @@ LSM6DSOXAccStatusTypeDef Accelerometer::get_status(PowerModeAcc *powerMode, floa
 			*fullScale = 8;
 			break;
 		default:
-			success = LSM6DSOX_Acc_ERROR;
+			ret = AccStatus::ERROR;
 			break;
 	}
 
-	return success;
+	return ret;
 }
 
 /**
@@ -167,15 +176,15 @@ LSM6DSOXAccStatusTypeDef Accelerometer::get_status(PowerModeAcc *powerMode, floa
  * @param  dataReady flag
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXAccStatusTypeDef Accelerometer::get_int_status(uint8_t *dataReady)
+AccStatus Accelerometer::get_int_status(uint8_t *dataReady)
 {
-	if (lsm6dsox_all_sources_get(&_reg_ctx, &_int_status) != LSM6DSOX_Acc_OK)
+	if (lsm6dsox_all_sources_get(&_reg_ctx, &_int_status) != (int32_t)AccStatus::OK)
 	{
-		return LSM6DSOX_Acc_ERROR;
+		return AccStatus::ERROR;
 	}
 	*dataReady = _int_status.drdy_xl;
 
-	return LSM6DSOX_Acc_OK;
+	return AccStatus::OK;
 }
 
 /**
@@ -185,23 +194,23 @@ LSM6DSOXAccStatusTypeDef Accelerometer::get_int_status(uint8_t *dataReady)
  * @param  mg_Z data value of acceleration on Z axis in mg
  * @retval 0 in case of success, an error code otherwise
  */
-LSM6DSOXAccStatusTypeDef Accelerometer::get_data(float *mg_X, float *mg_Y, float *mg_Z)
+AccStatus Accelerometer::get_data(float *mg_X, float *mg_Y, float *mg_Z)
 {
-	//if (lsm6dsox_data_get(&_reg_ctx, NULL, &_status, &_data) != LSM6DSOX_Acc_OK) //Lot of mistakes in the driver's function
+	//if (lsm6dsox_data_get(&_reg_ctx, NULL, &_status, &_data) != AccStatus::OK) //Lot of mistakes in the driver's function
 	//{
-	//	return LSM6DSOX_Acc_ERROR;
+	//	return AccStatus::ERROR;
 	//}
 	//*mg_X = _data.ui.xl.mg[0];
 	//*mg_Y = _data.ui.xl.mg[1];
 	//*mg_Z = _data.ui.xl.mg[2];
 
-	LSM6DSOXAccStatusTypeDef success = LSM6DSOX_Acc_OK;
+	AccStatus ret = AccStatus::OK;
 	uint8_t data_raw[6];
 
 	/* Read raw data values. */
-	if (lsm6dsox_acceleration_raw_get(&_reg_ctx, data_raw) != LSM6DSOX_Acc_OK)
+	if (lsm6dsox_acceleration_raw_get(&_reg_ctx, data_raw) != (int32_t)AccStatus::OK)
 	{
-		return LSM6DSOX_Acc_ERROR;
+		return AccStatus::ERROR;
 	}
 
 	float_t (* pConversionFunction) (int16_t raw_value);
@@ -220,7 +229,7 @@ LSM6DSOXAccStatusTypeDef Accelerometer::get_data(float *mg_X, float *mg_Y, float
 			pConversionFunction = &lsm6dsox_from_fs8_to_mg;
 			break;
 		default:
-			success = LSM6DSOX_Acc_ERROR;
+			ret = AccStatus::ERROR;
 			break;
 	}
 
@@ -228,7 +237,7 @@ LSM6DSOXAccStatusTypeDef Accelerometer::get_data(float *mg_X, float *mg_Y, float
 	*mg_Y = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[3] << 8) | data_raw[2]);
 	*mg_Z = (float)(* pConversionFunction)((uint16_t)((uint16_t)data_raw[5] << 8) | data_raw[4]);
 
-	return success;
+	return ret;
 }
 
 int32_t LSM6DSOX_acc_io_write(void *handle, uint8_t WriteAddr, uint8_t *pBuffer, uint16_t nBytesToWrite)

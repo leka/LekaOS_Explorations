@@ -9,11 +9,10 @@
 void testID(Accelerometer *accelerometer)
 {
     uint8_t id;
-    LSM6DSOXAccStatusTypeDef success;
 
-    success = accelerometer->read_id(&id);
+    auto outputStatus = accelerometer->read_id(&id);
 
-    if (success == LSM6DSOX_Acc_OK && id == LSM6DSOX_ID) {
+    if (outputStatus == AccStatus::OK && id == LSM6DSOX_ID) {
         printf("Test ID (accelerometer)... OK!\r\n");
         printf("ID is %X\r\n\n", id);
     } else {
@@ -25,11 +24,10 @@ void testID(Accelerometer *accelerometer)
 void testID(Gyroscope *gyroscope)
 {
     uint8_t id;
-    LSM6DSOXGyroStatusTypeDef success;
 
-    success = gyroscope->read_id(&id);
+    auto outputStatus = gyroscope->read_id(&id);
 
-    if (success == LSM6DSOX_Gyro_OK && id == LSM6DSOX_ID) {
+    if (outputStatus == GyroStatus::OK && id == LSM6DSOX_ID) {
         printf("Test ID (gyroscope)... OK!\r\n");
         printf("ID is %X\r\n\n", id);
     } else {
@@ -40,30 +38,29 @@ void testID(Gyroscope *gyroscope)
 
 void testAllStatus(Accelerometer *accelerometer)
 {
-    PowerModeAcc powerMode;
+    AccPowerMode powerMode;
     float dataRate;
     uint16_t fullScale;
-    LSM6DSOXAccStatusTypeDef success;
 
-    success = accelerometer->get_status(&powerMode, &dataRate, &fullScale);
+    auto outputStatus = accelerometer->get_status(&powerMode, &dataRate, &fullScale);
 
-    if (success == LSM6DSOX_Acc_OK) {
+    if (outputStatus == AccStatus::OK) {
         printf("Test Power mode, Output Data Rate and Full Scale (accelerometer)... OK!\r\n");
         switch(powerMode)
         {
-            case High_Performance_Acc:
+            case AccPowerMode::HIGH_PERFORMANCE:
                 printf("Power mode is \"High performance mode\"\r\n");
                 break;
-            case Normal_Power_Acc:
+            case AccPowerMode::NORMAL:
                 printf("Power mode is \"Normal mode\"\r\n");
                 break;
-            case Low_Power_Acc:
+            case AccPowerMode::LOW:
                 printf("Power mode is \"Low power mode\"\r\n");
                 break;
-            case Ultra_Low_Power_Acc:
+            case AccPowerMode::ULTRA_LOW:
                 printf("Power mode is \"Ultra low power mode\"\r\n");
                 break;
-            case Power_Off_Acc:
+            case AccPowerMode::OFF:
                 printf("Accelerometer is turned off\r\n");
                 break;
         }
@@ -76,8 +73,8 @@ void testAllStatus(Accelerometer *accelerometer)
 
     uint8_t dataReady;
 
-    success = accelerometer->get_int_status(&dataReady);
-    if (success == LSM6DSOX_Acc_OK) {
+    outputStatus = accelerometer->get_int_status(&dataReady);
+    if (outputStatus == AccStatus::OK) {
         printf("Interrupt Data Ready (accelerometer)... OK!\r\n");
         if (dataReady)
         {
@@ -94,30 +91,29 @@ void testAllStatus(Accelerometer *accelerometer)
 
 void testAllStatus(Gyroscope *gyroscope)
 {
-    PowerModeGyro powerMode;
+    GyroPowerMode powerMode;
     float dataRate;
     uint16_t fullScale;
-    LSM6DSOXGyroStatusTypeDef success;
 
-    success = gyroscope->get_status(&powerMode, &dataRate, &fullScale);
+    auto outputStatus = gyroscope->get_status(&powerMode, &dataRate, &fullScale);
 
-    if (success == LSM6DSOX_Gyro_OK) {
+    if (outputStatus == GyroStatus::OK) {
         printf("Test Power mode, Output Data Rate and Full Scale (gyroscope)... OK!\r\n");
         switch(powerMode)
         {
-            case High_Performance_Gyro:
+            case GyroPowerMode::HIGH_PERFORMANCE:
                 printf("Power mode is \"High performance mode\"\r\n");
                 break;
-            case Normal_Power_Gyro:
+            case GyroPowerMode::NORMAL:
                 printf("Power mode is \"Normal mode\"\r\n");
                 break;
-            case Low_Power_Gyro:
+            case GyroPowerMode::LOW:
                 printf("Power mode is \"Low power mode\"\r\n");
                 break;
-//            case Ultra_Low_Power_Gyro:
+//            case GyroPowerMode::ULTRA_LOW:
 //                printf("Power mode is \"Ultra low power mode\"\r\n");
 //                break;
-            case Power_Off_Gyro:
+            case GyroPowerMode::OFF:
                 printf("Gyroscope is turned off\r\n");
                 break;
         }
@@ -130,8 +126,8 @@ void testAllStatus(Gyroscope *gyroscope)
 
     uint8_t dataReady;
 
-    success = gyroscope->get_int_status(&dataReady);
-    if (success == LSM6DSOX_Gyro_OK) {
+    outputStatus = gyroscope->get_int_status(&dataReady);
+    if (outputStatus == GyroStatus::OK) {
         printf("Interrupt Data Ready (gyroscope)... OK!\r\n");
         if (dataReady)
         {
@@ -151,11 +147,10 @@ void testData(Accelerometer *accelerometer)
     float mg_X;
     float mg_Y;
     float mg_Z;
-    LSM6DSOXAccStatusTypeDef success;
 
-    success = accelerometer->get_data(&mg_X,&mg_Y,&mg_Z);
+    auto outputStatus = accelerometer->get_data(&mg_X,&mg_Y,&mg_Z);
 
-    if (success == LSM6DSOX_Acc_OK) {
+    if (outputStatus == AccStatus::OK) {
         printf("Test Data (accelerometer)... OK!\r\n");
         printf("Values are X:%dmg, Y:%dmg, Z:%dmg\r\n\n", (int)mg_X, (int)mg_Y, (int)mg_Z);
     } else {
@@ -169,11 +164,10 @@ void testData(Gyroscope *gyroscope)
     float dps_X;
     float dps_Y;
     float dps_Z;
-    LSM6DSOXGyroStatusTypeDef success;
 
-    success = gyroscope->get_data(&dps_X,&dps_Y,&dps_Z);
+    auto outputStatus = gyroscope->get_data(&dps_X,&dps_Y,&dps_Z);
 
-    if (success == LSM6DSOX_Acc_OK) {
+    if (outputStatus == GyroStatus::OK) {
         printf("Test Data (gyroscope)... OK!\r\n");
         printf("Values are X:%dmdps, Y:%dmdps, Z:%dmdps\r\n\n", (int)dps_X, (int)dps_Y, (int)dps_Z);
     } else {
@@ -195,10 +189,10 @@ int main(void) {
     DigitalOut INT_1_LSM6DSOX (PF_9, 0); //INT1 of LSM6DSOX cannot be used. This line fix the use of LSM6DSOX on X-NUCLEO_IKS01A2
 #endif
 
-    if(accelerometer.init(NULL)==LSM6DSOX_Acc_ERROR) {
+    if(accelerometer.init(NULL)==AccStatus::ERROR) {
         printf("LSM6DSOX (accelerometer) init... Failed.\r\n\n");
     }
-    if(gyroscope.init(NULL)==LSM6DSOX_Gyro_ERROR) {
+    if(gyroscope.init(NULL)==GyroStatus::ERROR) {
         printf("LSM6DSOX (gyroscope) init... Failed.\r\n\n");
     }
 

@@ -11,7 +11,9 @@ Construction relies on examples provided by ST.
 * [Driver](https://github.com/STMicroelectronics/STMems_Standard_C_drivers/tree/master/lsm6dsox_STdC/driver) -> commit `3fca83f875bbcbb6a428a7deb0ff01c0e5a2b033` (30 April 2020)
 * [Examples](https://github.com/STMicroelectronics/STMems_Standard_C_drivers/tree/master/lsm6dsox_STdC/example)
 
-## Abreviation
+[LSM6DSOX datasheet](https://www.st.com/resource/en/datasheet/lsm6dsox.pdf)
+
+## Abbreviation
 
 * FS : Full Scale
 * FSM : Finite State Machine

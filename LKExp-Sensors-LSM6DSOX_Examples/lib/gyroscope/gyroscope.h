@@ -21,27 +21,24 @@
 
 /* Typedefs ------------------------------------------------------------------*/
 
-typedef enum
-{
-	LSM6DSOX_Gyro_OK = 0,
-	LSM6DSOX_Gyro_ERROR = -1
-} LSM6DSOXGyroStatusTypeDef;
+enum class GyroStatus : int32_t {
+	OK = 0,
+	ERROR = -1,
+};
 
-typedef enum
-{
-	High_Performance_Gyro = 0,
-	Normal_Power_Gyro = 1,
-	Low_Power_Gyro = 2,
-//	Ultra_Low_Power_Gyro = 3,
-    Power_Off_Gyro = 4
-}PowerModeGyro;
+enum class GyroPowerMode {
+	HIGH_PERFORMANCE,
+	NORMAL,
+	LOW,
+	//ULTRA_LOW,
+    OFF,
+};
 
-typedef enum
-{
-	Transmission_Gyro_OK = 0,
-	Transmission_Gyro_ERROR = -1,
-	Transmission_Gyro_OVERFLOW = -2
-} TransmissionGyroStatusTypeDef;
+enum class GyroTransmissionStatus : uint8_t {
+	OK = 0,
+	ERROR = 1,
+	overflow = 2,
+};
 
 /* Class Declaration ---------------------------------------------------------*/
 
@@ -54,11 +51,11 @@ class Gyroscope
 {
 	public:
 		Gyroscope(I2C *i2c, uint8_t address=LSM6DSOX_I2C_ADD_L);
-		LSM6DSOXGyroStatusTypeDef init(void *init);
-		LSM6DSOXGyroStatusTypeDef read_id(uint8_t *id);
-		LSM6DSOXGyroStatusTypeDef get_status(PowerModeGyro *powerMode, float *dataRate, uint16_t *fullScale);
-		LSM6DSOXGyroStatusTypeDef get_int_status(uint8_t *dataReady);
-		LSM6DSOXGyroStatusTypeDef get_data(float *dps_X, float *dps_Y, float *dps_Z);
+		GyroStatus init(void *init);
+		GyroStatus read_id(uint8_t *id);
+		GyroStatus get_status(GyroPowerMode *powerMode, float *dataRate, uint16_t *fullScale);
+		GyroStatus get_int_status(uint8_t *dataReady);
+		GyroStatus get_data(float *dps_X, float *dps_Y, float *dps_Z);
 
 	/**
 	 * @brief Utility function to read data.
@@ -80,8 +77,8 @@ class Gyroscope
 			ret = _i2c->read(_address, (char*)pBuffer, NumByteToRead, false);
 		}
 		
-		if(ret) return Transmission_Gyro_ERROR;
-		return Transmission_Gyro_OK;
+		if(ret) return (uint8_t)GyroTransmissionStatus::ERROR;
+		return (uint8_t)GyroTransmissionStatus::OK;
 	}
 
 	/**
@@ -98,7 +95,7 @@ class Gyroscope
 		int ret;
 		uint8_t tmp[TEMP_BUF_SIZE];
 
-		if(NumByteToWrite >= TEMP_BUF_SIZE) return Transmission_Gyro_OVERFLOW;
+		if(NumByteToWrite >= TEMP_BUF_SIZE) return (uint8_t)GyroTransmissionStatus::overflow;
 
 		/* First, send device address. Then, send data and STOP condition */
 		tmp[0] = RegisterAddr;
@@ -106,8 +103,8 @@ class Gyroscope
 
 		ret = _i2c->write(_address, (const char*)tmp, NumByteToWrite+1, false);
 
-		if(ret) return Transmission_Gyro_ERROR;
-		return Transmission_Gyro_OK;
+		if(ret) return (uint8_t)GyroTransmissionStatus::ERROR;
+		return (uint8_t)GyroTransmissionStatus::OK;
 	}
 
 	private:

@@ -21,27 +21,24 @@
 
 /* Typedefs ------------------------------------------------------------------*/
 
-typedef enum
-{
-	LSM6DSOX_Acc_OK = 0,
-	LSM6DSOX_Acc_ERROR = -1
-} LSM6DSOXAccStatusTypeDef;
+enum class AccStatus : int32_t {
+	OK = 0,
+	ERROR = -1,
+};
 
-typedef enum
-{
-	High_Performance_Acc = 0,
-	Normal_Power_Acc = 1,
-	Low_Power_Acc = 2,
-	Ultra_Low_Power_Acc = 3,
-    Power_Off_Acc = 4
-}PowerModeAcc;
+enum class AccPowerMode {
+	HIGH_PERFORMANCE,
+	NORMAL,
+	LOW,
+	ULTRA_LOW,
+	OFF,
+};
 
-typedef enum
-{
-	Transmission_Acc_OK = 0,
-	Transmission_Acc_ERROR = -1,
-	Transmission_Acc_OVERFLOW = -2
-} TransmissionAccStatusTypeDef;
+enum class AccTransmissionStatus : uint8_t {
+	OK = 0,
+	ERROR = 1,
+	overflow = 2,
+};
 
 /* Class Declaration ---------------------------------------------------------*/
 
@@ -54,11 +51,11 @@ class Accelerometer
 {
 	public:
 		Accelerometer(I2C *i2c, uint8_t address=LSM6DSOX_I2C_ADD_L);
-		LSM6DSOXAccStatusTypeDef init(void *init);
-		LSM6DSOXAccStatusTypeDef read_id(uint8_t *id);
-		LSM6DSOXAccStatusTypeDef get_status(PowerModeAcc *powerMode, float *dataRate, uint16_t *fullScale);
-		LSM6DSOXAccStatusTypeDef get_int_status(uint8_t *dataReady);
-		LSM6DSOXAccStatusTypeDef get_data(float *mg_X, float *mg_Y, float *mg_Z);
+		AccStatus init(void *init);
+		AccStatus read_id(uint8_t *id);
+		AccStatus get_status(AccPowerMode *powerMode, float *dataRate, uint16_t *fullScale);
+		AccStatus get_int_status(uint8_t *dataReady);
+		AccStatus get_data(float *mg_X, float *mg_Y, float *mg_Z);
 	
 	/**
 	 * @brief Utility function to read data.
@@ -69,8 +66,6 @@ class Accelerometer
 	 */
 	uint8_t io_read(uint8_t* pBuffer, uint8_t RegisterAddr, uint16_t NumByteToRead)
 	{
-		//if (!_i2c) return Transmission_ERROR;
-
 		int ret;
 
 		/* Send device address, with no STOP condition */
@@ -80,8 +75,8 @@ class Accelerometer
 			ret = _i2c->read(_address, (char*)pBuffer, NumByteToRead, false);
 		}
 		
-		if(ret) return Transmission_Acc_ERROR;
-		return Transmission_Acc_OK;
+		if(ret) return (uint8_t)AccTransmissionStatus::ERROR;
+		return (uint8_t)AccTransmissionStatus::OK;
 	}
 
 	/**
@@ -98,7 +93,7 @@ class Accelerometer
 		int ret;
 		uint8_t tmp[TEMP_BUF_SIZE];
 
-		if(NumByteToWrite >= TEMP_BUF_SIZE) return Transmission_Acc_OVERFLOW;
+		if(NumByteToWrite >= TEMP_BUF_SIZE) return (uint8_t)AccTransmissionStatus::overflow;
 
 		/* First, send device address. Then, send data and STOP condition */
 		tmp[0] = RegisterAddr;
@@ -106,8 +101,8 @@ class Accelerometer
 
 		ret = _i2c->write(_address, (const char*)tmp, NumByteToWrite+1, false);
 
-		if(ret) return Transmission_Acc_ERROR;
-		return Transmission_Acc_OK;
+		if(ret) return (uint8_t)AccTransmissionStatus::ERROR;
+		return (uint8_t)AccTransmissionStatus::OK;
 	}
 
 	private:
