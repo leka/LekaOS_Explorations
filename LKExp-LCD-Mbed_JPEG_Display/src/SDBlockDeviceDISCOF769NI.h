@@ -4,7 +4,7 @@
 #include "mbed.h"
 #include "BlockDevice.h"
 #include "platform/PlatformMutex.h"
-#include "stm32f769I_discovery_sd.h"
+#include "../lib/BSP_DISCO_F769NI/Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_sd.h"
 
 class SDBlockDeviceDISCOF769NI : public BlockDevice
 {
