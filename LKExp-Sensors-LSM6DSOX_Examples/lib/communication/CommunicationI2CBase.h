@@ -28,9 +28,9 @@ namespace Communication {
 	  public:
 		virtual ~I2CBase() {}
 		virtual Status read(uint8_t register_address, uint16_t number_bytes_to_read,
-							uint8_t *p_buffer);
+							uint8_t *p_buffer)	= 0;
 		virtual Status write(uint8_t register_address, uint16_t number_bytes_to_write,
-							 uint8_t *p_buffer);
+							 uint8_t *p_buffer) = 0;
 
 		virtual void setAddress(uint8_t address) = 0;
 		virtual uint8_t getAddress()			 = 0;
