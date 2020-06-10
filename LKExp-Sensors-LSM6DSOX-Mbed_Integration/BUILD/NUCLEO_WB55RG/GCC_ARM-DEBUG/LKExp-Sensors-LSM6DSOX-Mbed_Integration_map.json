@@ -1,0 +1,109 @@
+[
+    {
+        "module": "[fill]", 
+        "size": {
+            ".data-delta": 4, 
+            ".text-delta": 74, 
+            ".bss": 31, 
+            ".data": 4, 
+            ".bss-delta": 31, 
+            ".text": 74
+        }
+    }, 
+    {
+        "module": "[lib]/c.a", 
+        "size": {
+            ".data-delta": 2108, 
+            ".text-delta": 7332, 
+            ".bss": 89, 
+            ".data": 2108, 
+            ".bss-delta": 89, 
+            ".text": 7332
+        }
+    }, 
+    {
+        "module": "[lib]/gcc.a", 
+        "size": {
+            ".data-delta": 0, 
+            ".text-delta": 760, 
+            ".bss": 0, 
+            ".data": 0, 
+            ".bss-delta": 0, 
+            ".text": 760
+        }
+    }, 
+    {
+        "module": "[lib]/misc", 
+        "size": {
+            ".data-delta": 4, 
+            ".text-delta": 188, 
+            ".bss": 28, 
+            ".data": 4, 
+            ".bss-delta": 28, 
+            ".text": 188
+        }
+    }, 
+    {
+        "module": "lib/communication", 
+        "size": {
+            ".data-delta": 0, 
+            ".text-delta": 192, 
+            ".bss": 0, 
+            ".data": 0, 
+            ".bss-delta": 0, 
+            ".text": 192
+        }
+    }, 
+    {
+        "module": "lib/component", 
+        "size": {
+            ".data-delta": 0, 
+            ".text-delta": 3102, 
+            ".bss": 0, 
+            ".data": 0, 
+            ".bss-delta": 0, 
+            ".text": 3102
+        }
+    }, 
+    {
+        "module": "lib/driver", 
+        "size": {
+            ".data-delta": 0, 
+            ".text-delta": 6314, 
+            ".bss": 0, 
+            ".data": 0, 
+            ".bss-delta": 0, 
+            ".text": 6314
+        }
+    }, 
+    {
+        "module": "lib/mbed-os", 
+        "size": {
+            ".data-delta": 444, 
+            ".text-delta": 38824, 
+            ".bss": 8004, 
+            ".data": 444, 
+            ".bss-delta": 8004, 
+            ".text": 38824
+        }
+    }, 
+    {
+        "module": "src/main.o", 
+        "size": {
+            ".data-delta": 0, 
+            ".text-delta": 398, 
+            ".bss": 456, 
+            ".data": 0, 
+            ".bss-delta": 456, 
+            ".text": 398
+        }
+    }, 
+    {
+        "summary": {
+            "static_ram": 11168, 
+            "total_flash_delta": 59744, 
+            "static_ram_delta": 11168, 
+            "total_flash": 59744
+        }
+    }
+]
