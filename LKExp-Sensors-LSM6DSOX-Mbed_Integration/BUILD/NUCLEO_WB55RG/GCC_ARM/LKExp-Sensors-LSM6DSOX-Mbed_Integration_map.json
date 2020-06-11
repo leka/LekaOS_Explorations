@@ -3,7 +3,7 @@
         "module": "[fill]", 
         "size": {
             ".data-delta": 0, 
-            ".text-delta": 30, 
+            ".text-delta": 0, 
             ".bss": 37, 
             ".data": 4, 
             ".bss-delta": 0, 
@@ -69,7 +69,7 @@
         "module": "lib/mbed-os", 
         "size": {
             ".data-delta": 0, 
-            ".text-delta": -78, 
+            ".text-delta": 0, 
             ".bss": 7340, 
             ".data": 444, 
             ".bss-delta": 0, 
@@ -80,10 +80,10 @@
         "module": "src/lsm6dsox_mlc.o", 
         "size": {
             ".data-delta": 0, 
-            ".text-delta": 48, 
+            ".text-delta": 0, 
             ".bss": 250, 
             ".data": 0, 
-            ".bss-delta": -1000, 
+            ".bss-delta": 0, 
             ".text": 472
         }
     }, 
@@ -102,7 +102,7 @@
         "summary": {
             "static_ram": 10552, 
             "total_flash_delta": 0, 
-            "static_ram_delta": -1000, 
+            "static_ram_delta": 0, 
             "total_flash": 48352
         }
     }

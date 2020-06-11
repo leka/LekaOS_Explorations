@@ -12,6 +12,7 @@
 #include "lsm6dsox_six_d_position.h"
 
 #include "LSM6DSOX_CommunicationI2C.h"
+#include "LSM6DSOX_MachineLearningCore.h"
 #include "mbed.h"
 
 
