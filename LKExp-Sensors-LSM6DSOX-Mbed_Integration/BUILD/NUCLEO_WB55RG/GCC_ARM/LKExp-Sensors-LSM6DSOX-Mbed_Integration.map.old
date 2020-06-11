@@ -12949,6 +12949,10 @@ Discarded input sections
  .text          0x0000000000000000        0x0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
  .data          0x0000000000000000        0x0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
  .bss           0x0000000000000000        0x0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
+ .text.__wrap_printf
+                0x0000000000000000       0x2c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
+ .text.__wrap_sprintf
+                0x0000000000000000       0x22 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
  .text.__wrap_snprintf
                 0x0000000000000000       0x1e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
  .text.__wrap_vprintf
@@ -19986,7 +19990,7 @@ END GROUP
 LOAD /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtend.o
 LOAD /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtn.o
 
-.text           0x0000000008000000     0xc754
+.text           0x0000000008000000     0xc8b0
  *(.isr_vector)
  .isr_vector    0x0000000008000000      0x13c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xx/TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.o
                 0x0000000008000000                g_pfnVectors
@@ -20548,932 +20552,926 @@ LOAD /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../
  .text.mbed_minimal_formatted_string
                 0x000000000800323c      0x298 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_implementation.o
                 0x000000000800323c                mbed_minimal_formatted_string
- .text.__wrap_printf
-                0x00000000080034d4       0x2c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
-                0x00000000080034d4                __wrap_printf
- .text.__wrap_sprintf
-                0x0000000008003500       0x22 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
-                0x0000000008003500                __wrap_sprintf
  .text.__wrap_vsnprintf
-                0x0000000008003522        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
-                0x0000000008003522                __wrap_vsnprintf
+                0x00000000080034d4        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
+                0x00000000080034d4                __wrap_vsnprintf
  .text.__wrap_vfprintf
-                0x0000000008003530       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
-                0x0000000008003530                __wrap_vfprintf
+                0x00000000080034e2       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/minimal-printf/mbed_printf_wrapper.o
+                0x00000000080034e2                __wrap_vfprintf
+ *fill*         0x00000000080034fa        0x2 
  .text._ZN4rtos5Mutex11constructorEPKc
-                0x0000000008003548       0x48 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/Mutex.o
-                0x0000000008003548                rtos::Mutex::constructor(char const*)
+                0x00000000080034fc       0x48 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/Mutex.o
+                0x00000000080034fc                rtos::Mutex::constructor(char const*)
  .text._ZN4rtos5MutexC2Ev
-                0x0000000008003590        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/Mutex.o
-                0x0000000008003590                rtos::Mutex::Mutex()
-                0x0000000008003590                rtos::Mutex::Mutex()
- *fill*         0x000000000800359e        0x2 
+                0x0000000008003544        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/Mutex.o
+                0x0000000008003544                rtos::Mutex::Mutex()
+                0x0000000008003544                rtos::Mutex::Mutex()
+ *fill*         0x0000000008003552        0x2 
  .text._ZN4rtos5Mutex4lockEv
-                0x00000000080035a0       0x3c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/Mutex.o
-                0x00000000080035a0                rtos::Mutex::lock()
+                0x0000000008003554       0x3c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/Mutex.o
+                0x0000000008003554                rtos::Mutex::lock()
  .text._ZN4rtos5Mutex6unlockEv
-                0x00000000080035dc       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/Mutex.o
-                0x00000000080035dc                rtos::Mutex::unlock()
+                0x0000000008003590       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/Mutex.o
+                0x0000000008003590                rtos::Mutex::unlock()
  .text.software_init_hook
-                0x0000000008003610       0x48 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
-                0x0000000008003610                software_init_hook
+                0x00000000080035c4       0x48 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
+                0x00000000080035c4                software_init_hook
  .text.mbed_toolchain_init
-                0x0000000008003658       0x5c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
-                0x0000000008003658                mbed_toolchain_init
+                0x000000000800360c       0x5c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
+                0x000000000800360c                mbed_toolchain_init
  .text.__wrap_main
-                0x00000000080036b4        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
-                0x00000000080036b4                __wrap_main
+                0x0000000008003668        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
+                0x0000000008003668                __wrap_main
  .text.__rtos_malloc_lock
-                0x00000000080036b8       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
-                0x00000000080036b8                __rtos_malloc_lock
+                0x000000000800366c       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
+                0x000000000800366c                __rtos_malloc_lock
  .text.__rtos_malloc_unlock
-                0x00000000080036c8        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
-                0x00000000080036c8                __rtos_malloc_unlock
+                0x000000000800367c        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/TOOLCHAIN_GCC_ARM/mbed_boot_gcc_arm.o
+                0x000000000800367c                __rtos_malloc_unlock
  .text.mbed_init
-                0x00000000080036d4       0x40 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_boot.o
-                0x00000000080036d4                mbed_init
+                0x0000000008003688       0x40 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_boot.o
+                0x0000000008003688                mbed_init
  .text.mbed_tfm_init
-                0x0000000008003714        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_boot.o
-                0x0000000008003714                mbed_tfm_init
+                0x00000000080036c8        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_boot.o
+                0x00000000080036c8                mbed_tfm_init
  .text.mbed_main
-                0x0000000008003716        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_boot.o
-                0x0000000008003716                mbed_main
+                0x00000000080036ca        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_boot.o
+                0x00000000080036ca                mbed_main
  .text.mbed_start
-                0x0000000008003718       0x1e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_boot.o
-                0x0000000008003718                mbed_start
+                0x00000000080036cc       0x1e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_boot.o
+                0x00000000080036cc                mbed_start
  .text.mbed_rtos_init
-                0x0000000008003736        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtos_rtx.o
-                0x0000000008003736                mbed_rtos_init
- *fill*         0x000000000800373a        0x2 
+                0x00000000080036ea        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtos_rtx.o
+                0x00000000080036ea                mbed_rtos_init
+ *fill*         0x00000000080036ee        0x2 
  .text.mbed_rtos_start
-                0x000000000800373c       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtos_rtx.o
-                0x000000000800373c                mbed_rtos_start
+                0x00000000080036f0       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtos_rtx.o
+                0x00000000080036f0                mbed_rtos_start
  .text.mbed_rtos_init_singleton_mutex
-                0x00000000080037a4       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtos_rtx.o
-                0x00000000080037a4                mbed_rtos_init_singleton_mutex
+                0x0000000008003758       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtos_rtx.o
+                0x0000000008003758                mbed_rtos_init_singleton_mutex
  .text.trap_rtx_error
-                0x00000000080037c8       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
+                0x000000000800377c       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
  .text.osRtxIdleThread
-                0x00000000080037fc        0x6 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
-                0x00000000080037fc                osRtxIdleThread
- *fill*         0x0000000008003802        0x2 
+                0x00000000080037b0        0x6 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
+                0x00000000080037b0                osRtxIdleThread
+ *fill*         0x00000000080037b6        0x2 
  .text.osRtxErrorNotify
-                0x0000000008003804       0x7c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
-                0x0000000008003804                osRtxErrorNotify
+                0x00000000080037b8       0x7c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
+                0x00000000080037b8                osRtxErrorNotify
  .text.EvrRtxKernelError
-                0x0000000008003880        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
-                0x0000000008003880                EvrRtxKernelError
+                0x0000000008003834        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
+                0x0000000008003834                EvrRtxKernelError
  .text.EvrRtxThreadError
-                0x000000000800388c        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
-                0x000000000800388c                EvrRtxThreadError
+                0x0000000008003840        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
+                0x0000000008003840                EvrRtxThreadError
  .text.EvrRtxMutexError
-                0x0000000008003898        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
-                0x0000000008003898                EvrRtxMutexError
+                0x000000000800384c        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
+                0x000000000800384c                EvrRtxMutexError
  .text.EvrRtxMessageQueueError
-                0x00000000080038a4        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
-                0x00000000080038a4                EvrRtxMessageQueueError
+                0x0000000008003858        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
+                0x0000000008003858                EvrRtxMessageQueueError
  .text.EvrRtxThreadExit
-                0x00000000080038b0       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
-                0x00000000080038b0                EvrRtxThreadExit
+                0x0000000008003864       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_handlers.o
+                0x0000000008003864                EvrRtxThreadExit
  .text.rtos_event_pending
-                0x00000000080038c8       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
+                0x000000000800387c       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
  .text.default_idle_hook
-                0x00000000080038d8       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
+                0x000000000800388c       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
  .text.OS_Tick_Setup
-                0x0000000008003908       0x84 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
-                0x0000000008003908                OS_Tick_Setup
+                0x00000000080038bc       0x84 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
+                0x00000000080038bc                OS_Tick_Setup
  .text.OS_Tick_Enable
-                0x000000000800398c        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
-                0x000000000800398c                OS_Tick_Enable
- *fill*         0x000000000800399a        0x2 
+                0x0000000008003940        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
+                0x0000000008003940                OS_Tick_Enable
+ *fill*         0x000000000800394e        0x2 
  .text.OS_Tick_Disable
-                0x000000000800399c        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
-                0x000000000800399c                OS_Tick_Disable
+                0x0000000008003950        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
+                0x0000000008003950                OS_Tick_Disable
  .text.OS_Tick_AcknowledgeIRQ
-                0x00000000080039a8        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
-                0x00000000080039a8                OS_Tick_AcknowledgeIRQ
+                0x000000000800395c        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
+                0x000000000800395c                OS_Tick_AcknowledgeIRQ
  .text.OS_Tick_GetIRQn
-                0x00000000080039b4        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
-                0x00000000080039b4                OS_Tick_GetIRQn
+                0x0000000008003968        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
+                0x0000000008003968                OS_Tick_GetIRQn
  .text.rtos_idle_loop
-                0x00000000080039bc       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
-                0x00000000080039bc                rtos_idle_loop
- .text          0x00000000080039cc       0xc4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/TOOLCHAIN_GCC/TARGET_RTOS_M4_M7/irq_cm4f.o
-                0x00000000080039cc                SVC_Handler
-                0x0000000008003a64                PendSV_Handler
-                0x0000000008003a74                SysTick_Handler
+                0x0000000008003970       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtx_idle.o
+                0x0000000008003970                rtos_idle_loop
+ .text          0x0000000008003980       0xc4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/TOOLCHAIN_GCC/TARGET_RTOS_M4_M7/irq_cm4f.o
+                0x0000000008003980                SVC_Handler
+                0x0000000008003a18                PendSV_Handler
+                0x0000000008003a28                SysTick_Handler
  .text.svcRtxDelay
-                0x0000000008003a90       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_delay.o
- .text.osDelay  0x0000000008003aa0       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_delay.o
-                0x0000000008003aa0                osDelay
+                0x0000000008003a44       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_delay.o
+ .text.osDelay  0x0000000008003a54       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_delay.o
+                0x0000000008003a54                osDelay
  .text.EvrRtxDelayError
-                0x0000000008003ad0        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_evr.o
-                0x0000000008003ad0                EvrRtxDelayError
+                0x0000000008003a84        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_evr.o
+                0x0000000008003a84                EvrRtxDelayError
  .text.IsIrqMasked
-                0x0000000008003ad2       0x16 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003a86       0x16 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
  .text.svcRtxKernelInitialize
-                0x0000000008003ae8      0x12c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003a9c      0x12c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
  .text.svcRtxKernelStart
-                0x0000000008003c14       0xb0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003bc8       0xb0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
  .text.svcRtxKernelSuspend
-                0x0000000008003cc4       0x58 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003c78       0x58 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
  .text.svcRtxKernelResume
-                0x0000000008003d1c       0x90 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003cd0       0x90 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
  .text.osRtxKernelPreInit
-                0x0000000008003dac        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
-                0x0000000008003dac                osRtxKernelPreInit
- *fill*         0x0000000008003dae        0x2 
+                0x0000000008003d60        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003d60                osRtxKernelPreInit
+ *fill*         0x0000000008003d62        0x2 
  .text.osKernelInitialize
-                0x0000000008003db0       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
-                0x0000000008003db0                osKernelInitialize
+                0x0000000008003d64       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003d64                osKernelInitialize
  .text.osKernelStart
-                0x0000000008003de0       0x2c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
-                0x0000000008003de0                osKernelStart
+                0x0000000008003d94       0x2c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003d94                osKernelStart
  .text.osKernelSuspend
-                0x0000000008003e0c       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
-                0x0000000008003e0c                osKernelSuspend
+                0x0000000008003dc0       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003dc0                osKernelSuspend
  .text.osKernelResume
-                0x0000000008003e34       0x2c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
-                0x0000000008003e34                osKernelResume
+                0x0000000008003de8       0x2c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_kernel.o
+                0x0000000008003de8                osKernelResume
  .text.osRtxMemoryInit
-                0x0000000008003e60       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_memory.o
-                0x0000000008003e60                osRtxMemoryInit
+                0x0000000008003e14       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_memory.o
+                0x0000000008003e14                osRtxMemoryInit
  .text.osRtxMemoryAlloc
-                0x0000000008003e90       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_memory.o
-                0x0000000008003e90                osRtxMemoryAlloc
+                0x0000000008003e44       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_memory.o
+                0x0000000008003e44                osRtxMemoryAlloc
  .text.osRtxMemoryFree
-                0x0000000008003ef8       0x46 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_memory.o
-                0x0000000008003ef8                osRtxMemoryFree
+                0x0000000008003eac       0x46 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_memory.o
+                0x0000000008003eac                osRtxMemoryFree
  .text.osRtxMemoryPoolInit
-                0x0000000008003f3e       0x42 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mempool.o
-                0x0000000008003f3e                osRtxMemoryPoolInit
+                0x0000000008003ef2       0x42 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mempool.o
+                0x0000000008003ef2                osRtxMemoryPoolInit
  .text.osRtxMemoryPoolAlloc
-                0x0000000008003f80       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mempool.o
-                0x0000000008003f80                osRtxMemoryPoolAlloc
+                0x0000000008003f34       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mempool.o
+                0x0000000008003f34                osRtxMemoryPoolAlloc
  .text.osRtxMemoryPoolFree
-                0x0000000008003fb4       0x48 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mempool.o
-                0x0000000008003fb4                osRtxMemoryPoolFree
+                0x0000000008003f68       0x48 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mempool.o
+                0x0000000008003f68                osRtxMemoryPoolFree
  .text.IsIrqMasked
-                0x0000000008003ffc       0x16 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+                0x0000000008003fb0       0x16 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
  .text.MessageQueuePut
-                0x0000000008004012       0x4a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+                0x0000000008003fc6       0x4a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
  .text.MessageQueueRemove
-                0x000000000800405c       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+                0x0000000008004010       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
  .text.osRtxMessageQueuePostProcess
-                0x0000000008004074       0xba BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
- *fill*         0x000000000800412e        0x2 
+                0x0000000008004028       0xba BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+ *fill*         0x00000000080040e2        0x2 
  .text.svcRtxMessageQueueNew
-                0x0000000008004130      0x120 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+                0x00000000080040e4      0x120 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
  .text.svcRtxMessageQueuePut
-                0x0000000008004250       0xbc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+                0x0000000008004204       0xbc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
  .text.MessageQueueGet
-                0x000000000800430c       0x42 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
- *fill*         0x000000000800434e        0x2 
+                0x00000000080042c0       0x42 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+ *fill*         0x0000000008004302        0x2 
  .text.svcRtxMessageQueueGet
-                0x0000000008004350       0xdc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+                0x0000000008004304       0xdc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
  .text.osMessageQueueNew
-                0x000000000800442c       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
-                0x000000000800442c                osMessageQueueNew
+                0x00000000080043e0       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+                0x00000000080043e0                osMessageQueueNew
  .text.osMessageQueuePut
-                0x000000000800445c       0x80 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
-                0x000000000800445c                osMessageQueuePut
+                0x0000000008004410       0x80 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+                0x0000000008004410                osMessageQueuePut
  .text.osMessageQueueGet
-                0x00000000080044dc       0x78 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
-                0x00000000080044dc                osMessageQueueGet
+                0x0000000008004490       0x78 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_msgqueue.o
+                0x0000000008004490                osMessageQueueGet
  .text.IsIrqMasked
-                0x0000000008004554       0x16 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
- *fill*         0x000000000800456a        0x2 
+                0x0000000008004508       0x16 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
+ *fill*         0x000000000800451e        0x2 
  .text.svcRtxMutexNew
-                0x000000000800456c       0x7c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
+                0x0000000008004520       0x7c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
  .text.svcRtxMutexAcquire
-                0x00000000080045e8       0xa8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
+                0x000000000800459c       0xa8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
  .text.svcRtxMutexRelease
-                0x0000000008004690       0xc4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
+                0x0000000008004644       0xc4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
  .text.osRtxMutexOwnerRelease
-                0x0000000008004754       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
-                0x0000000008004754                osRtxMutexOwnerRelease
+                0x0000000008004708       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
+                0x0000000008004708                osRtxMutexOwnerRelease
  .text.osRtxMutexOwnerRestore
-                0x0000000008004798       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
-                0x0000000008004798                osRtxMutexOwnerRestore
+                0x000000000800474c       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
+                0x000000000800474c                osRtxMutexOwnerRestore
  .text.osMutexNew
-                0x00000000080047dc       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
-                0x00000000080047dc                osMutexNew
+                0x0000000008004790       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
+                0x0000000008004790                osMutexNew
  .text.osMutexAcquire
-                0x000000000800480c       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
-                0x000000000800480c                osMutexAcquire
+                0x00000000080047c0       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
+                0x00000000080047c0                osMutexAcquire
  .text.osMutexRelease
-                0x000000000800483c       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
-                0x000000000800483c                osMutexRelease
+                0x00000000080047f0       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_mutex.o
+                0x00000000080047f0                osMutexRelease
  .text.atomic_inc16_lim
-                0x000000000800486c       0x1a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_system.o
- *fill*         0x0000000008004886        0x2 
+                0x0000000008004820       0x1a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_system.o
+ *fill*         0x000000000800483a        0x2 
  .text.osRtxTick_Handler
-                0x0000000008004888       0x70 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_system.o
-                0x0000000008004888                osRtxTick_Handler
+                0x000000000800483c       0x70 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_system.o
+                0x000000000800483c                osRtxTick_Handler
  .text.osRtxPendSV_Handler
-                0x00000000080048f8       0x90 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_system.o
-                0x00000000080048f8                osRtxPendSV_Handler
+                0x00000000080048ac       0x90 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_system.o
+                0x00000000080048ac                osRtxPendSV_Handler
  .text.osRtxPostProcess
-                0x0000000008004988       0x64 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_system.o
-                0x0000000008004988                osRtxPostProcess
+                0x000000000800493c       0x64 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_system.o
+                0x000000000800493c                osRtxPostProcess
  .text.IsIrqMasked
-                0x00000000080049ec       0x16 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x00000000080049a0       0x16 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
  .text.osRtxThreadListRoot
-                0x0000000008004a02        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
- *fill*         0x0000000008004a0e        0x2 
+                0x00000000080049b6        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+ *fill*         0x00000000080049c2        0x2 
  .text.osRtxThreadBlock
-                0x0000000008004a10       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x00000000080049c4       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
  .text.svcRtxThreadGetId
-                0x0000000008004a40        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x00000000080049f4        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
  .text.osThreadExit
-                0x0000000008004a4c       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004a4c                osThreadExit
+                0x0000000008004a00       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004a00                osThreadExit
  .text.ThreadFlagsCheck
-                0x0000000008004a68       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004a1c       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
  .text.osRtxThreadDelayInsert.part.0
-                0x0000000008004ad0       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004a84       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
  .text.osRtxThreadDelayRemove
-                0x0000000008004af8       0x3c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004aac       0x3c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
  .text.osRtxThreadFree
-                0x0000000008004b34       0x54 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004ae8       0x54 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
  .text.osRtxThreadListPut
-                0x0000000008004b88       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004b88                osRtxThreadListPut
+                0x0000000008004b3c       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004b3c                osRtxThreadListPut
  .text.osRtxThreadListGet
-                0x0000000008004bac       0x12 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004bac                osRtxThreadListGet
+                0x0000000008004b60       0x12 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004b60                osRtxThreadListGet
  .text.osRtxThreadListRemove
-                0x0000000008004bbe       0x12 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004bbe                osRtxThreadListRemove
+                0x0000000008004b72       0x12 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004b72                osRtxThreadListRemove
  .text.osRtxThreadListSort
-                0x0000000008004bd0       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004bd0                osRtxThreadListSort
+                0x0000000008004b84       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004b84                osRtxThreadListSort
  .text.osRtxThreadReadyPut
-                0x0000000008004bf4       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004bf4                osRtxThreadReadyPut
+                0x0000000008004ba8       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004ba8                osRtxThreadReadyPut
  .text.osRtxThreadDelayTick
-                0x0000000008004c04       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004c04                osRtxThreadDelayTick
+                0x0000000008004bb8       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004bb8                osRtxThreadDelayTick
  .text.osRtxThreadRegPtr
-                0x0000000008004c64       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004c64                osRtxThreadRegPtr
+                0x0000000008004c18       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004c18                osRtxThreadRegPtr
  .text.osRtxThreadStackCheck
-                0x0000000008004c78       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004c78                osRtxThreadStackCheck
+                0x0000000008004c2c       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004c2c                osRtxThreadStackCheck
  .text.osRtxThreadSwitch
-                0x0000000008004ca0       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004ca0                osRtxThreadSwitch
+                0x0000000008004c54       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004c54                osRtxThreadSwitch
  .text.osRtxThreadDispatch
-                0x0000000008004cb4       0x58 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004cb4                osRtxThreadDispatch
+                0x0000000008004c68       0x58 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004c68                osRtxThreadDispatch
  .text.osRtxThreadWaitExit
-                0x0000000008004d0c       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004d0c                osRtxThreadWaitExit
+                0x0000000008004cc0       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004cc0                osRtxThreadWaitExit
  .text.osRtxThreadPostProcess
-                0x0000000008004d30       0x26 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
- *fill*         0x0000000008004d56        0x2 
+                0x0000000008004ce4       0x26 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+ *fill*         0x0000000008004d0a        0x2 
  .text.svcRtxThreadNew
-                0x0000000008004d58      0x1d8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004d0c      0x1d8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
  .text.osRtxThreadWaitEnter
-                0x0000000008004f30       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004f30                osRtxThreadWaitEnter
+                0x0000000008004ee4       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004ee4                osRtxThreadWaitEnter
  .text.svcRtxThreadExit
-                0x0000000008004f98       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004f4c       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
  .text.osRtxThreadStartup
-                0x0000000008004ff8       0x40 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008004ff8                osRtxThreadStartup
+                0x0000000008004fac       0x40 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004fac                osRtxThreadStartup
  .text.osThreadNew
-                0x0000000008005038       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008005038                osThreadNew
+                0x0000000008004fec       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x0000000008004fec                osThreadNew
  .text.osThreadGetId
-                0x0000000008005068       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
-                0x0000000008005068                osThreadGetId
+                0x000000000800501c       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_thread.o
+                0x000000000800501c                osThreadGetId
  .text.TimerInsert
-                0x0000000008005090       0x38 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_timer.o
+                0x0000000008005044       0x38 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_timer.o
  .text.osRtxTimerTick
-                0x00000000080050c8       0x54 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_timer.o
+                0x000000000800507c       0x54 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_timer.o
  .text.osRtxTimerThread
-                0x000000000800511c       0x3c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_timer.o
-                0x000000000800511c                osRtxTimerThread
+                0x00000000080050d0       0x3c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/rtx_timer.o
+                0x00000000080050d0                osRtxTimerThread
  .text._ZN4rtos10ThisThread9sleep_forENSt6chrono8durationImSt5ratioILx1ELx1000EEEE
-                0x0000000008005158       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/ThisThread.o
-                0x0000000008005158                rtos::ThisThread::sleep_for(std::chrono::duration<unsigned long, std::ratio<1ll, 1000ll> >)
+                0x000000000800510c       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/ThisThread.o
+                0x000000000800510c                rtos::ThisThread::sleep_for(std::chrono::duration<unsigned long, std::ratio<1ll, 1000ll> >)
  .text._ZN4rtos10ThisThread9sleep_forEm
-                0x0000000008005174        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/ThisThread.o
-                0x0000000008005174                rtos::ThisThread::sleep_for(unsigned long)
+                0x0000000008005128        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/ThisThread.o
+                0x0000000008005128                rtos::ThisThread::sleep_for(unsigned long)
  .text.HAL_MspInit
-                0x0000000008005178        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal.o
-                0x0000000008005178                HAL_MspInit
+                0x000000000800512c        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal.o
+                0x000000000800512c                HAL_MspInit
  .text.HAL_Init
-                0x000000000800517a       0x1e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal.o
-                0x000000000800517a                HAL_Init
+                0x000000000800512e       0x1e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal.o
+                0x000000000800512e                HAL_Init
  .text.HAL_GetTickPrio
-                0x0000000008005198        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal.o
-                0x0000000008005198                HAL_GetTickPrio
+                0x000000000800514c        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal.o
+                0x000000000800514c                HAL_GetTickPrio
  .text.HAL_NVIC_SetPriorityGrouping
-                0x00000000080051a4       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_cortex.o
-                0x00000000080051a4                HAL_NVIC_SetPriorityGrouping
+                0x0000000008005158       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_cortex.o
+                0x0000000008005158                HAL_NVIC_SetPriorityGrouping
  .text.HAL_NVIC_DisableIRQ
-                0x00000000080051c8       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_cortex.o
-                0x00000000080051c8                HAL_NVIC_DisableIRQ
+                0x000000000800517c       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_cortex.o
+                0x000000000800517c                HAL_NVIC_DisableIRQ
  .text.HAL_DMA_Abort_IT
-                0x00000000080051f0       0x6e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_dma.o
-                0x00000000080051f0                HAL_DMA_Abort_IT
+                0x00000000080051a4       0x6e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_dma.o
+                0x00000000080051a4                HAL_DMA_Abort_IT
  .text.I2C_Flush_TXDR
-                0x000000000800525e       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
- *fill*         0x000000000800527a        0x2 
+                0x0000000008005212       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+ *fill*         0x000000000800522e        0x2 
  .text.I2C_TransferConfig
-                0x000000000800527c       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005230       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_Enable_IRQ
-                0x00000000080052a4       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005258       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_Disable_IRQ
-                0x0000000008005304       0x42 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x00000000080052b8       0x42 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_ConvertOtherXferOptions
-                0x0000000008005346       0x1a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x00000000080052fa       0x1a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.HAL_I2C_MspInit
-                0x0000000008005360        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
-                0x0000000008005360                HAL_I2C_MspInit
+                0x0000000008005314        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005314                HAL_I2C_MspInit
  .text.HAL_I2C_Init
-                0x0000000008005362       0xa2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
-                0x0000000008005362                HAL_I2C_Init
+                0x0000000008005316       0xa2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005316                HAL_I2C_Init
  .text.HAL_I2C_Master_Seq_Transmit_IT
-                0x0000000008005404       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
-                0x0000000008005404                HAL_I2C_Master_Seq_Transmit_IT
+                0x00000000080053b8       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x00000000080053b8                HAL_I2C_Master_Seq_Transmit_IT
  .text.HAL_I2C_Master_Seq_Receive_IT
-                0x00000000080054a8       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
-                0x00000000080054a8                HAL_I2C_Master_Seq_Receive_IT
+                0x000000000800545c       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x000000000800545c                HAL_I2C_Master_Seq_Receive_IT
  .text.HAL_I2C_EnableListen_IT
-                0x000000000800554c       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
-                0x000000000800554c                HAL_I2C_EnableListen_IT
+                0x0000000008005500       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005500                HAL_I2C_EnableListen_IT
  .text.HAL_I2C_EV_IRQHandler
-                0x0000000008005574        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
-                0x0000000008005574                HAL_I2C_EV_IRQHandler
+                0x0000000008005528        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005528                HAL_I2C_EV_IRQHandler
  .text.I2C_ITMasterSeqCplt
-                0x0000000008005582       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005536       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_ITSlaveSeqCplt
-                0x00000000080055c6       0x4c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x000000000800557a       0x4c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_ITAddrCplt.isra.0.part.0
-                0x0000000008005612       0x70 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
- *fill*         0x0000000008005682        0x2 
+                0x00000000080055c6       0x70 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+ *fill*         0x0000000008005636        0x2 
  .text.I2C_ITListenCplt
-                0x0000000008005684       0x5c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005638       0x5c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.HAL_I2C_MemTxCpltCallback
-                0x00000000080056e0        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
-                0x00000000080056e0                HAL_I2C_MemTxCpltCallback
+                0x0000000008005694        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005694                HAL_I2C_MemTxCpltCallback
  .text.HAL_I2C_MemRxCpltCallback
-                0x00000000080056e2        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
-                0x00000000080056e2                HAL_I2C_MemRxCpltCallback
+                0x0000000008005696        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005696                HAL_I2C_MemRxCpltCallback
  .text.I2C_ITError
-                0x00000000080056e4       0xd4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005698       0xd4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_ITSlaveCplt
-                0x00000000080057b8       0xf8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x000000000800576c       0xf8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_Slave_ISR_IT
-                0x00000000080058b0      0x128 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005864      0x128 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_ITMasterCplt
-                0x00000000080059d8       0xac BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x000000000800598c       0xac BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_Master_ISR_IT
-                0x0000000008005a84      0x122 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005a38      0x122 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_Slave_ISR_DMA
-                0x0000000008005ba6       0xec BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005b5a       0xec BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.I2C_Master_ISR_DMA
-                0x0000000008005c92      0x104 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005c46      0x104 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.HAL_I2C_ER_IRQHandler
-                0x0000000008005d96       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
-                0x0000000008005d96                HAL_I2C_ER_IRQHandler
+                0x0000000008005d4a       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005d4a                HAL_I2C_ER_IRQHandler
  .text.I2C_DMAAbort
-                0x0000000008005df6       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
+                0x0000000008005daa       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c.o
  .text.HAL_I2CEx_ConfigAnalogFilter
-                0x0000000008005e1e       0x4c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c_ex.o
-                0x0000000008005e1e                HAL_I2CEx_ConfigAnalogFilter
- *fill*         0x0000000008005e6a        0x2 
+                0x0000000008005dd2       0x4c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c_ex.o
+                0x0000000008005dd2                HAL_I2CEx_ConfigAnalogFilter
+ *fill*         0x0000000008005e1e        0x2 
  .text.HAL_I2CEx_EnableFastModePlus
-                0x0000000008005e6c       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c_ex.o
-                0x0000000008005e6c                HAL_I2CEx_EnableFastModePlus
+                0x0000000008005e20       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_i2c_ex.o
+                0x0000000008005e20                HAL_I2CEx_EnableFastModePlus
  .text.LPTIM_WaitForFlag
-                0x0000000008005e7c       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_lptim.o
+                0x0000000008005e30       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_lptim.o
  .text.HAL_LPTIM_MspInit
-                0x0000000008005eac        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_lptim.o
-                0x0000000008005eac                HAL_LPTIM_MspInit
- *fill*         0x0000000008005eae        0x2 
+                0x0000000008005e60        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_lptim.o
+                0x0000000008005e60                HAL_LPTIM_MspInit
+ *fill*         0x0000000008005e62        0x2 
  .text.HAL_LPTIM_Init
-                0x0000000008005eb0       0xac BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_lptim.o
-                0x0000000008005eb0                HAL_LPTIM_Init
+                0x0000000008005e64       0xac BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_lptim.o
+                0x0000000008005e64                HAL_LPTIM_Init
  .text.HAL_LPTIM_Counter_Start
-                0x0000000008005f5c       0x50 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_lptim.o
-                0x0000000008005f5c                HAL_LPTIM_Counter_Start
+                0x0000000008005f10       0x50 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_lptim.o
+                0x0000000008005f10                HAL_LPTIM_Counter_Start
  .text.HAL_PWR_EnableBkUpAccess
-                0x0000000008005fac       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr.o
-                0x0000000008005fac                HAL_PWR_EnableBkUpAccess
+                0x0000000008005f60       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr.o
+                0x0000000008005f60                HAL_PWR_EnableBkUpAccess
  .text.HAL_PWR_EnterSLEEPMode
-                0x0000000008005fbc       0x40 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr.o
-                0x0000000008005fbc                HAL_PWR_EnterSLEEPMode
+                0x0000000008005f70       0x40 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr.o
+                0x0000000008005f70                HAL_PWR_EnterSLEEPMode
  .text.HAL_PWREx_GetVoltageRange
-                0x0000000008005ffc       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr_ex.o
-                0x0000000008005ffc                HAL_PWREx_GetVoltageRange
+                0x0000000008005fb0       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr_ex.o
+                0x0000000008005fb0                HAL_PWREx_GetVoltageRange
  .text.HAL_PWREx_EnableLowPowerRunMode
-                0x000000000800600c       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr_ex.o
-                0x000000000800600c                HAL_PWREx_EnableLowPowerRunMode
+                0x0000000008005fc0       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr_ex.o
+                0x0000000008005fc0                HAL_PWREx_EnableLowPowerRunMode
  .text.HAL_PWREx_DisableLowPowerRunMode
-                0x000000000800601c       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr_ex.o
-                0x000000000800601c                HAL_PWREx_DisableLowPowerRunMode
+                0x0000000008005fd0       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_pwr_ex.o
+                0x0000000008005fd0                HAL_PWREx_DisableLowPowerRunMode
  .text.LL_RCC_HSE_IsReady
-                0x0000000008006060        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x0000000008006014        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
  .text.LL_RCC_HSI_IsReady
-                0x000000000800606c        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x0000000008006020        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
  .text.LL_RCC_LSI1_IsReady
-                0x0000000008006078        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x000000000800602c        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
  .text.LL_RCC_MSI_IsReady
-                0x0000000008006086        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x000000000800603a        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
  .text.LL_RCC_MSI_SetRange
-                0x0000000008006092       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x0000000008006046       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
  .text.LL_RCC_MSI_SetCalibTrimming
-                0x00000000080060a2       0x12 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x0000000008006056       0x12 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
  .text.LL_RCC_PLL_IsReady
-                0x00000000080060b4        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x0000000008006068        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
  .text.RCC_SetFlashLatencyFromMSIRange
-                0x00000000080060c0       0xe8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x0000000008006074       0xe8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
  .text.HAL_RCC_OscConfig
-                0x00000000080061a8      0x588 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
-                0x00000000080061a8                HAL_RCC_OscConfig
+                0x000000000800615c      0x588 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x000000000800615c                HAL_RCC_OscConfig
  .text.HAL_RCC_ClockConfig
-                0x0000000008006730      0x1e4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
-                0x0000000008006730                HAL_RCC_ClockConfig
+                0x00000000080066e4      0x1e4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x00000000080066e4                HAL_RCC_ClockConfig
  .text.HAL_RCC_GetSysClockFreq
-                0x0000000008006914       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
-                0x0000000008006914                HAL_RCC_GetSysClockFreq
+                0x00000000080068c8       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x00000000080068c8                HAL_RCC_GetSysClockFreq
  .text.HAL_RCC_GetHCLKFreq
-                0x00000000080069b8       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
-                0x00000000080069b8                HAL_RCC_GetHCLKFreq
+                0x000000000800696c       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x000000000800696c                HAL_RCC_GetHCLKFreq
  .text.HAL_RCC_GetPCLK1Freq
-                0x00000000080069d8       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
-                0x00000000080069d8                HAL_RCC_GetPCLK1Freq
+                0x000000000800698c       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x000000000800698c                HAL_RCC_GetPCLK1Freq
  .text.HAL_RCC_GetPCLK2Freq
-                0x00000000080069fc       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
-                0x00000000080069fc                HAL_RCC_GetPCLK2Freq
+                0x00000000080069b0       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc.o
+                0x00000000080069b0                HAL_RCC_GetPCLK2Freq
  .text.LL_RCC_LSE_IsReady
-                0x0000000008006a20        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
+                0x00000000080069d4        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
  .text.LL_RCC_SetI2CClockSource
-                0x0000000008006a2e       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
+                0x00000000080069e2       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
  .text.LL_RCC_PLLSAI1_Enable
-                0x0000000008006a4e        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
+                0x0000000008006a02        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
  .text.LL_RCC_PLLSAI1_Disable
-                0x0000000008006a5c        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
+                0x0000000008006a10        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
  .text.LL_RCC_PLLSAI1_IsReady
-                0x0000000008006a6a        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
+                0x0000000008006a1e        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
  .text.HAL_RCCEx_PeriphCLKConfig
-                0x0000000008006a76      0x38a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
-                0x0000000008006a76                HAL_RCCEx_PeriphCLKConfig
+                0x0000000008006a2a      0x38a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_rcc_ex.o
+                0x0000000008006a2a                HAL_RCCEx_PeriphCLKConfig
  .text.HAL_TIM_Base_MspInit
-                0x0000000008006e00        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
-                0x0000000008006e00                HAL_TIM_Base_MspInit
- *fill*         0x0000000008006e02        0x2 
+                0x0000000008006db4        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
+                0x0000000008006db4                HAL_TIM_Base_MspInit
+ *fill*         0x0000000008006db6        0x2 
  .text.HAL_TIM_Base_Start
-                0x0000000008006e04       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
-                0x0000000008006e04                HAL_TIM_Base_Start
+                0x0000000008006db8       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
+                0x0000000008006db8                HAL_TIM_Base_Start
  .text.TIM_Base_SetConfig
-                0x0000000008006e34       0x74 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
-                0x0000000008006e34                TIM_Base_SetConfig
+                0x0000000008006de8       0x74 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
+                0x0000000008006de8                TIM_Base_SetConfig
  .text.HAL_TIM_Base_Init
-                0x0000000008006ea8       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
-                0x0000000008006ea8                HAL_TIM_Base_Init
+                0x0000000008006e5c       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
+                0x0000000008006e5c                HAL_TIM_Base_Init
  .text.TIM_CCxChannelCmd
-                0x0000000008006edc       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
-                0x0000000008006edc                TIM_CCxChannelCmd
+                0x0000000008006e90       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
+                0x0000000008006e90                TIM_CCxChannelCmd
  .text.HAL_TIM_OC_Start
-                0x0000000008006ef8       0x50 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
-                0x0000000008006ef8                HAL_TIM_OC_Start
+                0x0000000008006eac       0x50 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_tim.o
+                0x0000000008006eac                HAL_TIM_OC_Start
  .text.HAL_UART_MspInit
-                0x0000000008006f48        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
-                0x0000000008006f48                HAL_UART_MspInit
- *fill*         0x0000000008006f4a        0x2 
+                0x0000000008006efc        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
+                0x0000000008006efc                HAL_UART_MspInit
+ *fill*         0x0000000008006efe        0x2 
  .text.UART_SetConfig
-                0x0000000008006f4c      0x82c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
-                0x0000000008006f4c                UART_SetConfig
+                0x0000000008006f00      0x82c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
+                0x0000000008006f00                UART_SetConfig
  .text.UART_AdvFeatureConfig
-                0x0000000008007778       0xa8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
-                0x0000000008007778                UART_AdvFeatureConfig
+                0x000000000800772c       0xa8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
+                0x000000000800772c                UART_AdvFeatureConfig
  .text.UART_WaitOnFlagUntilTimeout
-                0x0000000008007820       0x94 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
-                0x0000000008007820                UART_WaitOnFlagUntilTimeout
+                0x00000000080077d4       0x94 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
+                0x00000000080077d4                UART_WaitOnFlagUntilTimeout
  .text.UART_CheckIdleState
-                0x00000000080078b4       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
-                0x00000000080078b4                UART_CheckIdleState
+                0x0000000008007868       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
+                0x0000000008007868                UART_CheckIdleState
  .text.HAL_UART_Init
-                0x000000000800791c       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
-                0x000000000800791c                HAL_UART_Init
+                0x00000000080078d0       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart.o
+                0x00000000080078d0                HAL_UART_Init
  .text.HAL_UARTEx_EnableStopMode
-                0x000000000800797c       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart_ex.o
-                0x000000000800797c                HAL_UARTEx_EnableStopMode
+                0x0000000008007930       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart_ex.o
+                0x0000000008007930                HAL_UARTEx_EnableStopMode
  .text.HAL_UARTEx_DisableStopMode
-                0x000000000800799c       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart_ex.o
-                0x000000000800799c                HAL_UARTEx_DisableStopMode
+                0x0000000008007950       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32WBxx_HAL_Driver/stm32wbxx_hal_uart_ex.o
+                0x0000000008007950                HAL_UARTEx_DisableStopMode
  .text.OTP_Read
-                0x00000000080079bc       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32_WPAN/otp.o
-                0x00000000080079bc                OTP_Read
+                0x0000000008007970       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/STM32_WPAN/otp.o
+                0x0000000008007970                OTP_Read
  .text.Switch_On_HSI
-                0x00000000080079dc       0x36 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/stm32_lpm_if.o
- *fill*         0x0000000008007a12        0x2 
+                0x0000000008007990       0x36 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/stm32_lpm_if.o
+ *fill*         0x00000000080079c6        0x2 
  .text.PWR_EnterStopMode
-                0x0000000008007a14       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/stm32_lpm_if.o
-                0x0000000008007a14                PWR_EnterStopMode
+                0x00000000080079c8       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/stm32_lpm_if.o
+                0x00000000080079c8                PWR_EnterStopMode
  .text.PWR_ExitStopMode
-                0x0000000008007a74       0x58 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/stm32_lpm_if.o
-                0x0000000008007a74                PWR_ExitStopMode
+                0x0000000008007a28       0x58 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/stm32_lpm_if.o
+                0x0000000008007a28                PWR_ExitStopMode
  .text.SystemInit
-                0x0000000008007acc       0x6c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/system_stm32wbxx.o
-                0x0000000008007acc                SystemInit
+                0x0000000008007a80       0x6c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/system_stm32wbxx.o
+                0x0000000008007a80                SystemInit
  .text.SystemCoreClockUpdate
-                0x0000000008007b38       0xa0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/system_stm32wbxx.o
-                0x0000000008007b38                SystemCoreClockUpdate
+                0x0000000008007aec       0xa0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/STM32Cube_FW/system_stm32wbxx.o
+                0x0000000008007aec                SystemCoreClockUpdate
  .text.SetSysClock
-                0x0000000008007bd8      0x16c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xx/TARGET_NUCLEO_WB55RG/system_clock.o
-                0x0000000008007bd8                SetSysClock
+                0x0000000008007b8c      0x16c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xx/TARGET_NUCLEO_WB55RG/system_clock.o
+                0x0000000008007b8c                SetSysClock
  .text.data_initializers
-                0x0000000008007d44       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xx/TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.o
+                0x0000000008007cf8       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xx/TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.o
  .text.Reset_Handler
-                0x0000000008007d5c       0x50 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xx/TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.o
-                0x0000000008007d5c                Reset_Handler
+                0x0000000008007d10       0x50 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xx/TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.o
+                0x0000000008007d10                Reset_Handler
  .text.Default_Handler
-                0x0000000008007dac        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xx/TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.o
-                0x0000000008007dac                DMA1_Channel4_IRQHandler
-                0x0000000008007dac                EXTI1_IRQHandler
-                0x0000000008007dac                C2SEV_PWR_C2H_IRQHandler
-                0x0000000008007dac                CRS_IRQHandler
-                0x0000000008007dac                PWR_SOTF_BLEACT_802ACT_RFPHASE_IRQHandler
-                0x0000000008007dac                ADC1_IRQHandler
-                0x0000000008007dac                USB_LP_IRQHandler
-                0x0000000008007dac                SPI2_IRQHandler
-                0x0000000008007dac                EXTI9_5_IRQHandler
-                0x0000000008007dac                AES1_IRQHandler
-                0x0000000008007dac                SPI1_IRQHandler
-                0x0000000008007dac                PVD_PVM_IRQHandler
-                0x0000000008007dac                IPCC_C1_TX_IRQHandler
-                0x0000000008007dac                PKA_IRQHandler
-                0x0000000008007dac                WWDG_IRQHandler
-                0x0000000008007dac                DMA1_Channel5_IRQHandler
-                0x0000000008007dac                AES2_IRQHandler
-                0x0000000008007dac                DMA2_Channel5_IRQHandler
-                0x0000000008007dac                I2C3_EV_IRQHandler
-                0x0000000008007dac                RCC_IRQHandler
-                0x0000000008007dac                I2C1_ER_IRQHandler
-                0x0000000008007dac                DMA1_Channel6_IRQHandler
-                0x0000000008007dac                HSEM_IRQHandler
-                0x0000000008007dac                DMA1_Channel2_IRQHandler
-                0x0000000008007dac                SAI1_IRQHandler
-                0x0000000008007dac                LPUART1_IRQHandler
-                0x0000000008007dac                DMA1_Channel7_IRQHandler
-                0x0000000008007dac                FLASH_IRQHandler
-                0x0000000008007dac                QUADSPI_IRQHandler
-                0x0000000008007dac                LCD_IRQHandler
-                0x0000000008007dac                USB_HP_IRQHandler
-                0x0000000008007dac                EXTI15_10_IRQHandler
-                0x0000000008007dac                TIM1_BRK_IRQHandler
-                0x0000000008007dac                USART1_IRQHandler
-                0x0000000008007dac                RTC_WKUP_IRQHandler
-                0x0000000008007dac                TIM2_IRQHandler
-                0x0000000008007dac                LPTIM2_IRQHandler
-                0x0000000008007dac                DebugMon_Handler
-                0x0000000008007dac                DMA2_Channel3_IRQHandler
-                0x0000000008007dac                DMA2_Channel7_IRQHandler
-                0x0000000008007dac                TSC_IRQHandler
-                0x0000000008007dac                DMA2_Channel6_IRQHandler
-                0x0000000008007dac                Default_Handler
-                0x0000000008007dac                DMAMUX1_OVR_IRQHandler
-                0x0000000008007dac                RNG_IRQHandler
-                0x0000000008007dac                EXTI2_IRQHandler
-                0x0000000008007dac                DMA1_Channel3_IRQHandler
-                0x0000000008007dac                TIM1_TRG_COM_TIM17_IRQHandler
-                0x0000000008007dac                I2C3_ER_IRQHandler
-                0x0000000008007dac                NMI_Handler
-                0x0000000008007dac                TAMP_STAMP_LSECSS_IRQHandler
-                0x0000000008007dac                EXTI3_IRQHandler
-                0x0000000008007dac                TIM1_UP_TIM16_IRQHandler
-                0x0000000008007dac                FPU_IRQHandler
-                0x0000000008007dac                IPCC_C1_RX_IRQHandler
-                0x0000000008007dac                I2C1_EV_IRQHandler
-                0x0000000008007dac                TIM1_CC_IRQHandler
-                0x0000000008007dac                LPTIM1_IRQHandler
-                0x0000000008007dac                DMA1_Channel1_IRQHandler
-                0x0000000008007dac                DMA2_Channel4_IRQHandler
-                0x0000000008007dac                EXTI0_IRQHandler
-                0x0000000008007dac                DMA2_Channel2_IRQHandler
-                0x0000000008007dac                DMA2_Channel1_IRQHandler
-                0x0000000008007dac                RTC_Alarm_IRQHandler
-                0x0000000008007dac                EXTI4_IRQHandler
-                0x0000000008007dac                COMP_IRQHandler
- *fill*         0x0000000008007dae        0x2 
+                0x0000000008007d60        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/TARGET_STM32WB55xx/TOOLCHAIN_GCC_ARM/startup_stm32wb55xx.o
+                0x0000000008007d60                DMA1_Channel4_IRQHandler
+                0x0000000008007d60                EXTI1_IRQHandler
+                0x0000000008007d60                C2SEV_PWR_C2H_IRQHandler
+                0x0000000008007d60                CRS_IRQHandler
+                0x0000000008007d60                PWR_SOTF_BLEACT_802ACT_RFPHASE_IRQHandler
+                0x0000000008007d60                ADC1_IRQHandler
+                0x0000000008007d60                USB_LP_IRQHandler
+                0x0000000008007d60                SPI2_IRQHandler
+                0x0000000008007d60                EXTI9_5_IRQHandler
+                0x0000000008007d60                AES1_IRQHandler
+                0x0000000008007d60                SPI1_IRQHandler
+                0x0000000008007d60                PVD_PVM_IRQHandler
+                0x0000000008007d60                IPCC_C1_TX_IRQHandler
+                0x0000000008007d60                PKA_IRQHandler
+                0x0000000008007d60                WWDG_IRQHandler
+                0x0000000008007d60                DMA1_Channel5_IRQHandler
+                0x0000000008007d60                AES2_IRQHandler
+                0x0000000008007d60                DMA2_Channel5_IRQHandler
+                0x0000000008007d60                I2C3_EV_IRQHandler
+                0x0000000008007d60                RCC_IRQHandler
+                0x0000000008007d60                I2C1_ER_IRQHandler
+                0x0000000008007d60                DMA1_Channel6_IRQHandler
+                0x0000000008007d60                HSEM_IRQHandler
+                0x0000000008007d60                DMA1_Channel2_IRQHandler
+                0x0000000008007d60                SAI1_IRQHandler
+                0x0000000008007d60                LPUART1_IRQHandler
+                0x0000000008007d60                DMA1_Channel7_IRQHandler
+                0x0000000008007d60                FLASH_IRQHandler
+                0x0000000008007d60                QUADSPI_IRQHandler
+                0x0000000008007d60                LCD_IRQHandler
+                0x0000000008007d60                USB_HP_IRQHandler
+                0x0000000008007d60                EXTI15_10_IRQHandler
+                0x0000000008007d60                TIM1_BRK_IRQHandler
+                0x0000000008007d60                USART1_IRQHandler
+                0x0000000008007d60                RTC_WKUP_IRQHandler
+                0x0000000008007d60                TIM2_IRQHandler
+                0x0000000008007d60                LPTIM2_IRQHandler
+                0x0000000008007d60                DebugMon_Handler
+                0x0000000008007d60                DMA2_Channel3_IRQHandler
+                0x0000000008007d60                DMA2_Channel7_IRQHandler
+                0x0000000008007d60                TSC_IRQHandler
+                0x0000000008007d60                DMA2_Channel6_IRQHandler
+                0x0000000008007d60                Default_Handler
+                0x0000000008007d60                DMAMUX1_OVR_IRQHandler
+                0x0000000008007d60                RNG_IRQHandler
+                0x0000000008007d60                EXTI2_IRQHandler
+                0x0000000008007d60                DMA1_Channel3_IRQHandler
+                0x0000000008007d60                TIM1_TRG_COM_TIM17_IRQHandler
+                0x0000000008007d60                I2C3_ER_IRQHandler
+                0x0000000008007d60                NMI_Handler
+                0x0000000008007d60                TAMP_STAMP_LSECSS_IRQHandler
+                0x0000000008007d60                EXTI3_IRQHandler
+                0x0000000008007d60                TIM1_UP_TIM16_IRQHandler
+                0x0000000008007d60                FPU_IRQHandler
+                0x0000000008007d60                IPCC_C1_RX_IRQHandler
+                0x0000000008007d60                I2C1_EV_IRQHandler
+                0x0000000008007d60                TIM1_CC_IRQHandler
+                0x0000000008007d60                LPTIM1_IRQHandler
+                0x0000000008007d60                DMA1_Channel1_IRQHandler
+                0x0000000008007d60                DMA2_Channel4_IRQHandler
+                0x0000000008007d60                EXTI0_IRQHandler
+                0x0000000008007d60                DMA2_Channel2_IRQHandler
+                0x0000000008007d60                DMA2_Channel1_IRQHandler
+                0x0000000008007d60                RTC_Alarm_IRQHandler
+                0x0000000008007d60                EXTI4_IRQHandler
+                0x0000000008007d60                COMP_IRQHandler
+ *fill*         0x0000000008007d62        0x2 
  .text.serial_getc
-                0x0000000008007db0       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/serial_device.o
-                0x0000000008007db0                serial_getc
+                0x0000000008007d64       0x68 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/serial_device.o
+                0x0000000008007d64                serial_getc
  .text.serial_putc
-                0x0000000008007e18       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/serial_device.o
-                0x0000000008007e18                serial_putc
+                0x0000000008007dcc       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/serial_device.o
+                0x0000000008007dcc                serial_putc
  .text.hal_deepsleep
-                0x0000000008007e40       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/wb_sleep.o
-                0x0000000008007e40                hal_deepsleep
+                0x0000000008007df4       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/wb_sleep.o
+                0x0000000008007df4                hal_deepsleep
  .text.LL_AHB2_GRP1_EnableClock
-                0x0000000008007e74       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
+                0x0000000008007e28       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
  .text.LL_GPIO_SetPinMode
-                0x0000000008007e8c       0x2a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
- *fill*         0x0000000008007eb6        0x2 
+                0x0000000008007e40       0x2a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
+ *fill*         0x0000000008007e6a        0x2 
  .text.Set_GPIO_Clock
-                0x0000000008007eb8       0x70 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
-                0x0000000008007eb8                Set_GPIO_Clock
+                0x0000000008007e6c       0x70 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
+                0x0000000008007e6c                Set_GPIO_Clock
  .text.gpio_set
-                0x0000000008007f28       0x2c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
-                0x0000000008007f28                gpio_set
+                0x0000000008007edc       0x2c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
+                0x0000000008007edc                gpio_set
  .text.gpio_init
-                0x0000000008007f54       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
-                0x0000000008007f54                gpio_init
+                0x0000000008007f08       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
+                0x0000000008007f08                gpio_init
  .text.gpio_mode
-                0x0000000008007f98        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
-                0x0000000008007f98                gpio_mode
+                0x0000000008007f4c        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
+                0x0000000008007f4c                gpio_mode
  .text.gpio_dir
-                0x0000000008007fa0       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
-                0x0000000008007fa0                gpio_dir
+                0x0000000008007f54       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/gpio_api.o
+                0x0000000008007f54                gpio_dir
  .text.HAL_InitTick
-                0x0000000008007fb0        0xa BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/hal_tick_overrides.o
-                0x0000000008007fb0                HAL_InitTick
- *fill*         0x0000000008007fba        0x2 
+                0x0000000008007f64        0xa BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/hal_tick_overrides.o
+                0x0000000008007f64                HAL_InitTick
+ *fill*         0x0000000008007f6e        0x2 
  .text.HAL_GetTick
-                0x0000000008007fbc       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/hal_tick_overrides.o
-                0x0000000008007fbc                HAL_GetTick
+                0x0000000008007f70       0x44 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/hal_tick_overrides.o
+                0x0000000008007f70                HAL_GetTick
  .text.i2c3_irq
-                0x0000000008008000       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x0000000008007fb4       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
  .text.i2c1_irq
-                0x000000000800801c       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x0000000008007fd0       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
  .text.i2c_ev_err_enable
-                0x0000000008008038       0xa0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x0000000008008038                i2c_ev_err_enable
+                0x0000000008007fec       0xa0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x0000000008007fec                i2c_ev_err_enable
  .text.i2c_ev_err_disable
-                0x00000000080080d8       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x00000000080080d8                i2c_ev_err_disable
+                0x000000000800808c       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x000000000800808c                i2c_ev_err_disable
  .text.i2c_get_irq_handler
-                0x00000000080080f0       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x00000000080080f0                i2c_get_irq_handler
+                0x00000000080080a4       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x00000000080080a4                i2c_get_irq_handler
  .text.i2c_hw_reset
-                0x0000000008008118       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x0000000008008118                i2c_hw_reset
+                0x00000000080080cc       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x00000000080080cc                i2c_hw_reset
  .text.i2c_frequency
-                0x0000000008008178      0x144 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x0000000008008178                i2c_frequency
+                0x000000000800812c      0x144 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x000000000800812c                i2c_frequency
  .text.i2c_init_internal
-                0x00000000080082bc       0xf0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x00000000080082bc                i2c_init_internal
+                0x0000000008008270       0xf0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x0000000008008270                i2c_init_internal
  .text.i2c_init
-                0x00000000080083ac       0x74 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x00000000080083ac                i2c_init
+                0x0000000008008360       0x74 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x0000000008008360                i2c_init
  .text.i2c_read
-                0x0000000008008420       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x0000000008008420                i2c_read
+                0x00000000080083d4       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x00000000080083d4                i2c_read
  .text.i2c_write
-                0x00000000080084c4       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x00000000080084c4                i2c_write
+                0x0000000008008478       0xa4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x0000000008008478                i2c_write
  .text.HAL_I2C_MasterTxCpltCallback
-                0x0000000008008568       0x3c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x0000000008008568                HAL_I2C_MasterTxCpltCallback
+                0x000000000800851c       0x3c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x000000000800851c                HAL_I2C_MasterTxCpltCallback
  .text.HAL_I2C_MasterRxCpltCallback
-                0x00000000080085a4        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x00000000080085a4                HAL_I2C_MasterRxCpltCallback
+                0x0000000008008558        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x0000000008008558                HAL_I2C_MasterRxCpltCallback
  .text.i2c_slave_address
-                0x00000000080085ac       0x26 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x00000000080085ac                i2c_slave_address
+                0x0000000008008560       0x26 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x0000000008008560                i2c_slave_address
  .text.HAL_I2C_ErrorCallback
-                0x00000000080085d2       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x00000000080085d2                HAL_I2C_ErrorCallback
+                0x0000000008008586       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x0000000008008586                HAL_I2C_ErrorCallback
  .text.HAL_I2C_AddrCallback
-                0x0000000008008606       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x0000000008008606                HAL_I2C_AddrCallback
+                0x00000000080085ba       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x00000000080085ba                HAL_I2C_AddrCallback
  .text.HAL_I2C_SlaveTxCpltCallback
-                0x000000000800861a        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x000000000800861a                HAL_I2C_SlaveTxCpltCallback
+                0x00000000080085ce        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x00000000080085ce                HAL_I2C_SlaveTxCpltCallback
  .text.HAL_I2C_SlaveRxCpltCallback
-                0x0000000008008622        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x0000000008008622                HAL_I2C_SlaveRxCpltCallback
+                0x00000000080085d6        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x00000000080085d6                HAL_I2C_SlaveRxCpltCallback
  .text.HAL_I2C_ListenCpltCallback
-                0x000000000800862a        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x000000000800862a                HAL_I2C_ListenCpltCallback
+                0x00000000080085de        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x00000000080085de                HAL_I2C_ListenCpltCallback
  .text.HAL_I2C_AbortCpltCallback
-                0x000000000800862e       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
-                0x000000000800862e                HAL_I2C_AbortCpltCallback
- *fill*         0x000000000800864a        0x2 
+                0x00000000080085e2       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/i2c_api.o
+                0x00000000080085e2                HAL_I2C_AbortCpltCallback
+ *fill*         0x00000000080085fe        0x2 
  .text.lp_ticker_get_info
-                0x000000000800864c        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
-                0x000000000800864c                lp_ticker_get_info
+                0x0000000008008600        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x0000000008008600                lp_ticker_get_info
  .text.lp_ticker_read
-                0x0000000008008654       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
-                0x0000000008008654                lp_ticker_read
+                0x0000000008008608       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x0000000008008608                lp_ticker_read
  .text.lp_ticker_fire_interrupt
-                0x0000000008008664       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
-                0x0000000008008664                lp_ticker_fire_interrupt
+                0x0000000008008618       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x0000000008008618                lp_ticker_fire_interrupt
  .text.lp_ticker_disable_interrupt
-                0x0000000008008698       0x6c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
-                0x0000000008008698                lp_ticker_disable_interrupt
+                0x000000000800864c       0x6c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x000000000800864c                lp_ticker_disable_interrupt
  .text.lp_ticker_init
-                0x0000000008008704      0x114 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
-                0x0000000008008704                lp_ticker_init
+                0x00000000080086b8      0x114 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x00000000080086b8                lp_ticker_init
  .text.lp_ticker_clear_interrupt
-                0x0000000008008818       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
-                0x0000000008008818                lp_ticker_clear_interrupt
+                0x00000000080087cc       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x00000000080087cc                lp_ticker_clear_interrupt
  .text.lp_ticker_set_interrupt
-                0x0000000008008840       0xcc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
-                0x0000000008008840                lp_ticker_set_interrupt
+                0x00000000080087f4       0xcc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x00000000080087f4                lp_ticker_set_interrupt
  .text.LPTIM_IRQHandler
-                0x000000000800890c       0xd8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x00000000080088c0       0xd8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
  .text.lp_ticker_free
-                0x00000000080089e4        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
-                0x00000000080089e4                lp_ticker_free
+                0x0000000008008998        0x4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x0000000008008998                lp_ticker_free
  .text.TargetBSP_Init
-                0x00000000080089e8        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/mbed_overrides.o
-                0x00000000080089e8                TargetBSP_Init
- *fill*         0x00000000080089ea        0x2 
+                0x000000000800899c        0x2 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/mbed_overrides.o
+                0x000000000800899c                TargetBSP_Init
+ *fill*         0x000000000800899e        0x2 
  .text.mbed_sdk_init
-                0x00000000080089ec       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/mbed_overrides.o
-                0x00000000080089ec                mbed_sdk_init
+                0x00000000080089a0       0x24 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/mbed_overrides.o
+                0x00000000080089a0                mbed_sdk_init
  .text.LL_GPIO_SetPinSpeed
-                0x0000000008008a10       0x2a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
+                0x00000000080089c4       0x2a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
  .text.LL_GPIO_SetPinPull
-                0x0000000008008a3a       0x2a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
+                0x00000000080089ee       0x2a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
  .text.stm_pin_PullConfig
-                0x0000000008008a64        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
- *fill*         0x0000000008008a72        0x2 
+                0x0000000008008a18        0xe BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
+ *fill*         0x0000000008008a26        0x2 
  .text.pin_function
-                0x0000000008008a74      0x10c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
-                0x0000000008008a74                pin_function
+                0x0000000008008a28      0x10c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
+                0x0000000008008a28                pin_function
  .text.pin_mode
-                0x0000000008008b80       0x90 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
-                0x0000000008008b80                pin_mode
+                0x0000000008008b34       0x90 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/pinmap.o
+                0x0000000008008b34                pin_mode
  .text.debug.constprop.0
-                0x0000000008008c10       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
+                0x0000000008008bc4       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
  .text.serial_readable
-                0x0000000008008c38       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
-                0x0000000008008c38                serial_readable
+                0x0000000008008bec       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
+                0x0000000008008bec                serial_readable
  .text.serial_writable
-                0x0000000008008c58       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
-                0x0000000008008c58                serial_writable
+                0x0000000008008c0c       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
+                0x0000000008008c0c                serial_writable
  .text.init_uart
-                0x0000000008008c70       0x84 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
-                0x0000000008008c70                init_uart
+                0x0000000008008c24       0x84 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
+                0x0000000008008c24                init_uart
  .text.serial_baud
-                0x0000000008008cf4       0xac BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
-                0x0000000008008cf4                serial_baud
+                0x0000000008008ca8       0xac BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
+                0x0000000008008ca8                serial_baud
  .text.get_uart_index
-                0x0000000008008da0       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
-                0x0000000008008da0                get_uart_index
+                0x0000000008008d54       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
+                0x0000000008008d54                get_uart_index
  .text.serial_init
-                0x0000000008008dc0      0x140 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
-                0x0000000008008dc0                serial_init
+                0x0000000008008d74      0x140 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
+                0x0000000008008d74                serial_init
  .text.serial_is_tx_ongoing
-                0x0000000008008f00       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
-                0x0000000008008f00                serial_is_tx_ongoing
+                0x0000000008008eb4       0x34 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
+                0x0000000008008eb4                serial_is_tx_ongoing
  .text.hal_sleep
-                0x0000000008008f34       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/sleep.o
-                0x0000000008008f34                hal_sleep
+                0x0000000008008ee8       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/sleep.o
+                0x0000000008008ee8                hal_sleep
  .text.timer_irq_handler
-                0x0000000008008f5c       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x0000000008008f5c                timer_irq_handler
+                0x0000000008008f10       0x28 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008008f10                timer_irq_handler
  .text.us_ticker_get_info
-                0x0000000008008f84        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x0000000008008f84                us_ticker_get_info
+                0x0000000008008f38        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008008f38                us_ticker_get_info
  .text.init_16bit_timer
-                0x0000000008008f8c       0xa0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x0000000008008f8c                init_16bit_timer
+                0x0000000008008f40       0xa0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008008f40                init_16bit_timer
  .text.us_ticker_init
-                0x000000000800902c       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x000000000800902c                us_ticker_init
+                0x0000000008008fe0       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008008fe0                us_ticker_init
  .text.us_ticker_read
-                0x0000000008009044        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x0000000008009044                us_ticker_read
+                0x0000000008008ff8        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008008ff8                us_ticker_read
  .text.us_ticker_set_interrupt
-                0x0000000008009050       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x0000000008009050                us_ticker_set_interrupt
+                0x0000000008009004       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008009004                us_ticker_set_interrupt
  .text.us_ticker_fire_interrupt
-                0x000000000800906c       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x000000000800906c                us_ticker_fire_interrupt
+                0x0000000008009020       0x20 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008009020                us_ticker_fire_interrupt
  .text.us_ticker_disable_interrupt
-                0x000000000800908c       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x000000000800908c                us_ticker_disable_interrupt
+                0x0000000008009040       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008009040                us_ticker_disable_interrupt
  .text.us_ticker_clear_interrupt
-                0x00000000080090a0       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x00000000080090a0                us_ticker_clear_interrupt
+                0x0000000008009054       0x10 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008009054                us_ticker_clear_interrupt
  .text.save_timer_ctx
-                0x00000000080090b0       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x00000000080090b0                save_timer_ctx
+                0x0000000008009064       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008009064                save_timer_ctx
  .text.restore_timer_ctx
-                0x00000000080090e0       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x00000000080090e0                restore_timer_ctx
+                0x0000000008009094       0x30 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000008009094                restore_timer_ctx
  .text._ZL13platform_readPvhPht
-                0x0000000008009110       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+                0x00000000080090c4       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
  .text._ZL14platform_writePvhPht
-                0x0000000008009128       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+                0x00000000080090dc       0x18 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
  .text._Z12lsm6dsox_mlcv
-                0x0000000008009140      0x118 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
-                0x0000000008009140                lsm6dsox_mlc()
+                0x00000000080090f4      0x148 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+                0x00000000080090f4                lsm6dsox_mlc()
  .text.startup._GLOBAL__sub_I__Z12lsm6dsox_mlcv
-                0x0000000008009258       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+                0x000000000800923c       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
  .text.startup.main
-                0x00000000080092b8       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
-                0x00000000080092b8                main
+                0x000000000800929c       0x14 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+                0x000000000800929c                main
  .text.startup._GLOBAL__sub_I_main
-                0x00000000080092cc       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
- .text.__errno  0x000000000800932c        0xc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-errno.o)
-                0x000000000800932c                __errno
+                0x00000000080092b0       0x60 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+ .text.__errno  0x0000000008009310        0xc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-errno.o)
+                0x0000000008009310                __errno
  .text._fclose_r
-                0x0000000008009338       0xcc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fclose.o)
-                0x0000000008009338                _fclose_r
+                0x000000000800931c       0xcc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fclose.o)
+                0x000000000800931c                _fclose_r
  .text.__sflush_r
-                0x0000000008009404      0x130 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fflush.o)
-                0x0000000008009404                __sflush_r
+                0x00000000080093e8      0x130 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fflush.o)
+                0x00000000080093e8                __sflush_r
  .text._fflush_r
-                0x0000000008009534       0x5c /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fflush.o)
-                0x0000000008009534                _fflush_r
- .text.fflush   0x0000000008009590       0x24 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fflush.o)
-                0x0000000008009590                fflush
- .text.std      0x00000000080095b4       0x50 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
+                0x0000000008009518       0x5c /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fflush.o)
+                0x0000000008009518                _fflush_r
+ .text.fflush   0x0000000008009574       0x24 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fflush.o)
+                0x0000000008009574                fflush
+ .text.std      0x0000000008009598       0x50 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
  .text._cleanup_r
-                0x0000000008009604        0xc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
-                0x0000000008009604                _cleanup_r
- .text.__sinit  0x0000000008009610       0x54 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
-                0x0000000008009610                __sinit
+                0x00000000080095e8        0xc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
+                0x00000000080095e8                _cleanup_r
+ .text.__sinit  0x00000000080095f4       0x54 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
+                0x00000000080095f4                __sinit
  .text.__sfp_lock_acquire
-                0x0000000008009664        0xc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
-                0x0000000008009664                __sfp_lock_acquire
+                0x0000000008009648        0xc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
+                0x0000000008009648                __sfp_lock_acquire
  .text.__sfp_lock_release
-                0x0000000008009670        0xc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
-                0x0000000008009670                __sfp_lock_release
- .text.fputc    0x000000000800967c       0x64 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fputc.o)
-                0x000000000800967c                fputc
+                0x0000000008009654        0xc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-findfp.o)
+                0x0000000008009654                __sfp_lock_release
+ .text.fputc    0x0000000008009660       0x64 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fputc.o)
+                0x0000000008009660                fputc
  .text._malloc_trim_r
-                0x00000000080096e0       0xa0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-freer.o)
-                0x00000000080096e0                _malloc_trim_r
- .text._free_r  0x0000000008009780      0x208 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-freer.o)
-                0x0000000008009780                _free_r
+                0x00000000080096c4       0xa0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-freer.o)
+                0x00000000080096c4                _malloc_trim_r
+ .text._free_r  0x0000000008009764      0x208 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-freer.o)
+                0x0000000008009764                _free_r
  .text._fstat_r
-                0x0000000008009988       0x2c /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fstatr.o)
-                0x0000000008009988                _fstat_r
+                0x000000000800996c       0x2c /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fstatr.o)
+                0x000000000800996c                _fstat_r
  .text.__sfvwrite_r
-                0x00000000080099b4      0x2e0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fvwrite.o)
-                0x00000000080099b4                __sfvwrite_r
+                0x0000000008009998      0x2e0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fvwrite.o)
+                0x0000000008009998                __sfvwrite_r
  .text._fwalk_reent
-                0x0000000008009c94       0x48 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fwalk.o)
-                0x0000000008009c94                _fwalk_reent
+                0x0000000008009c78       0x48 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-fwalk.o)
+                0x0000000008009c78                _fwalk_reent
  .text.__libc_init_array
-                0x0000000008009cdc       0x48 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-init.o)
-                0x0000000008009cdc                __libc_init_array
+                0x0000000008009cc0       0x48 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-init.o)
+                0x0000000008009cc0                __libc_init_array
  .text.__retarget_lock_init_recursive
-                0x0000000008009d24        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
-                0x0000000008009d24                __retarget_lock_init_recursive
+                0x0000000008009d08        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
+                0x0000000008009d08                __retarget_lock_init_recursive
  .text.__retarget_lock_close_recursive
-                0x0000000008009d28        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
-                0x0000000008009d28                __retarget_lock_close_recursive
+                0x0000000008009d0c        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
+                0x0000000008009d0c                __retarget_lock_close_recursive
  .text.__retarget_lock_acquire_recursive
-                0x0000000008009d2c        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
-                0x0000000008009d2c                __retarget_lock_acquire_recursive
+                0x0000000008009d10        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
+                0x0000000008009d10                __retarget_lock_acquire_recursive
  .text.__retarget_lock_release_recursive
-                0x0000000008009d30        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
-                0x0000000008009d30                __retarget_lock_release_recursive
+                0x0000000008009d14        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
+                0x0000000008009d14                __retarget_lock_release_recursive
  .text.__swhatbuf_r
-                0x0000000008009d34       0x5c /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-makebuf.o)
-                0x0000000008009d34                __swhatbuf_r
+                0x0000000008009d18       0x5c /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-makebuf.o)
+                0x0000000008009d18                __swhatbuf_r
  .text.__smakebuf_r
-                0x0000000008009d90       0x98 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-makebuf.o)
-                0x0000000008009d90                __smakebuf_r
- .text.free     0x0000000008009e28       0x10 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-malloc.o)
-                0x0000000008009e28                free
+                0x0000000008009d74       0x98 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-makebuf.o)
+                0x0000000008009d74                __smakebuf_r
+ .text.free     0x0000000008009e0c       0x10 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-malloc.o)
+                0x0000000008009e0c                free
  .text._malloc_r
-                0x0000000008009e38      0x574 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
-                0x0000000008009e38                _malloc_r
- *fill*         0x000000000800a3ac        0x4 
- .text          0x000000000800a3b0       0xa0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-memchr.o)
-                0x000000000800a3b0                memchr
- .text          0x000000000800a450      0x134 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-memcpy.o)
-                0x000000000800a450                memcpy
- .text.memmove  0x000000000800a584       0xd8 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-memmove.o)
-                0x000000000800a584                memmove
- .text.memset   0x000000000800a65c       0xa0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-memset.o)
-                0x000000000800a65c                memset
- .text._putc_r  0x000000000800a6fc       0x74 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-putc.o)
-                0x000000000800a6fc                _putc_r
- .text._puts_r  0x000000000800a770       0x9c /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-puts.o)
-                0x000000000800a770                _puts_r
- .text.puts     0x000000000800a80c       0x10 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-puts.o)
-                0x000000000800a80c                puts
+                0x0000000008009e1c      0x574 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
+                0x0000000008009e1c                _malloc_r
+ .text          0x000000000800a390       0xa0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-memchr.o)
+                0x000000000800a390                memchr
+ .text          0x000000000800a430      0x134 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-memcpy.o)
+                0x000000000800a430                memcpy
+ .text.memmove  0x000000000800a564       0xd8 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-memmove.o)
+                0x000000000800a564                memmove
+ .text.memset   0x000000000800a63c       0xa0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-memset.o)
+                0x000000000800a63c                memset
+ .text._putc_r  0x000000000800a6dc       0x74 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-putc.o)
+                0x000000000800a6dc                _putc_r
+ .text._puts_r  0x000000000800a750       0x9c /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-puts.o)
+                0x000000000800a750                _puts_r
+ .text.puts     0x000000000800a7ec       0x10 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-puts.o)
+                0x000000000800a7ec                puts
  .text._realloc_r
-                0x000000000800a81c      0x3e0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-reallocr.o)
-                0x000000000800a81c                _realloc_r
- .text._sbrk_r  0x000000000800abfc       0x24 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-sbrkr.o)
-                0x000000000800abfc                _sbrk_r
- .text.__sread  0x000000000800ac20       0x24 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-stdio.o)
-                0x000000000800ac20                __sread
+                0x000000000800a7fc      0x3e0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-reallocr.o)
+                0x000000000800a7fc                _realloc_r
+ .text._sbrk_r  0x000000000800abdc       0x24 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-sbrkr.o)
+                0x000000000800abdc                _sbrk_r
+ .text.__sread  0x000000000800ac00       0x24 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-stdio.o)
+                0x000000000800ac00                __sread
  .text.__swrite
-                0x000000000800ac44       0x40 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-stdio.o)
-                0x000000000800ac44                __swrite
- .text.__sseek  0x000000000800ac84       0x20 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-stdio.o)
-                0x000000000800ac84                __sseek
+                0x000000000800ac24       0x40 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-stdio.o)
+                0x000000000800ac24                __swrite
+ .text.__sseek  0x000000000800ac64       0x20 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-stdio.o)
+                0x000000000800ac64                __sseek
  .text.__sclose
-                0x000000000800aca4        0x8 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-stdio.o)
-                0x000000000800aca4                __sclose
- *fill*         0x000000000800acac       0x14 
+                0x000000000800ac84        0x8 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-stdio.o)
+                0x000000000800ac84                __sclose
+ *fill*         0x000000000800ac8c       0x34 
  .text          0x000000000800acc0       0xdc /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-strlen.o)
                 0x000000000800acc0                strlen
  .text.__swbuf_r
@@ -21710,58 +21708,59 @@ LOAD /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../
  .rodata.info.17532
                 0x000000000800c5cc        0x8 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
  .rodata._Z12lsm6dsox_mlcv.str1.1
-                0x000000000800c5d4       0x25 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
- .rodata._ZL29lsm6dsox_vibration_monitoring
-                0x000000000800c5f9      0x138 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+                0x000000000800c5d4       0x6a BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+ .rodata._ZL23lsm6dsox_six_d_position
+                0x000000000800c63e      0x24c BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
  .rodata.main.str1.1
-                0x000000000800c731       0x17 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+                0x000000000800c88a       0x17 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+ *fill*         0x000000000800c8a1        0x3 
  .rodata._global_impure_ptr
-                0x000000000800c748        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-impure.o)
-                0x000000000800c748                _global_impure_ptr
+                0x000000000800c8a4        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-impure.o)
+                0x000000000800c8a4                _global_impure_ptr
  .rodata._puts_r.str1.4
-                0x000000000800c74c        0x2 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-puts.o)
+                0x000000000800c8a8        0x2 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-puts.o)
  *(.eh_frame*)
- *fill*         0x000000000800c74e        0x2 
- .eh_frame      0x000000000800c750        0x0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtbegin.o
- .eh_frame      0x000000000800c750        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtend.o
+ *fill*         0x000000000800c8aa        0x2 
+ .eh_frame      0x000000000800c8ac        0x0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtbegin.o
+ .eh_frame      0x000000000800c8ac        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtend.o
 
-.glue_7         0x000000000800c754        0x0
- .glue_7        0x000000000800c754        0x0 linker stubs
+.glue_7         0x000000000800c8b0        0x0
+ .glue_7        0x000000000800c8b0        0x0 linker stubs
 
-.glue_7t        0x000000000800c754        0x0
- .glue_7t       0x000000000800c754        0x0 linker stubs
+.glue_7t        0x000000000800c8b0        0x0
+ .glue_7t       0x000000000800c8b0        0x0 linker stubs
 
-.vfp11_veneer   0x000000000800c754        0x0
- .vfp11_veneer  0x000000000800c754        0x0 linker stubs
+.vfp11_veneer   0x000000000800c8b0        0x0
+ .vfp11_veneer  0x000000000800c8b0        0x0 linker stubs
 
-.v4_bx          0x000000000800c754        0x0
- .v4_bx         0x000000000800c754        0x0 linker stubs
+.v4_bx          0x000000000800c8b0        0x0
+ .v4_bx         0x000000000800c8b0        0x0 linker stubs
 
-.iplt           0x000000000800c754        0x0
- .iplt          0x000000000800c754        0x0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtbegin.o
+.iplt           0x000000000800c8b0        0x0
+ .iplt          0x000000000800c8b0        0x0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtbegin.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x000000000800c754                __exidx_start = .
+                0x000000000800c8b0                __exidx_start = .
 
-.ARM.exidx      0x000000000800c754        0x8
+.ARM.exidx      0x000000000800c8b0        0x8
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx     0x000000000800c754        0x8 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/crt0.o
+ .ARM.exidx     0x000000000800c8b0        0x8 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/crt0.o
                                          0x10 (size before relaxing)
- .ARM.exidx     0x000000000800c75c        0x0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/TARGET_CORTEX_M/TOOLCHAIN_GCC/except.o
+ .ARM.exidx     0x000000000800c8b8        0x0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/TARGET_CORTEX_M/TOOLCHAIN_GCC/except.o
                                          0x28 (size before relaxing)
- .ARM.exidx     0x000000000800c75c        0x0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/TOOLCHAIN_GCC/TARGET_RTOS_M4_M7/irq_cm4f.o
+ .ARM.exidx     0x000000000800c8b8        0x0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/rtx5/RTX/Source/TOOLCHAIN_GCC/TARGET_RTOS_M4_M7/irq_cm4f.o
                                          0x18 (size before relaxing)
- .ARM.exidx     0x000000000800c75c        0x0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/libgcc.a(_udivmoddi4.o)
+ .ARM.exidx     0x000000000800c8b8        0x0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/libgcc.a(_udivmoddi4.o)
                                           0x8 (size before relaxing)
-                0x000000000800c75c                __exidx_end = .
-                0x000000000800c75c                __etext = .
-                0x000000000800c75c                _sidata = .
+                0x000000000800c8b8                __exidx_end = .
+                0x000000000800c8b8                __etext = .
+                0x000000000800c8b8                _sidata = .
 
-.rel.dyn        0x000000000800c75c        0x0
- .rel.iplt      0x000000000800c75c        0x0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtbegin.o
+.rel.dyn        0x000000000800c8b8        0x0
+ .rel.iplt      0x000000000800c8b8        0x0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtbegin.o
 
-.data           0x0000000020000140      0xa18 load address 0x000000000800c75c
+.data           0x0000000020000140      0xa18 load address 0x000000000800c8b8
                 0x0000000020000140                __data_start__ = .
                 0x0000000020000140                _sdata = .
  *(vtable)
@@ -21826,10 +21825,10 @@ LOAD /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../
                 0x0000000020000b58                __data_end__ = .
                 0x0000000020000b58                _edata = .
 
-.igot.plt       0x0000000020000b58        0x0 load address 0x000000000800d174
+.igot.plt       0x0000000020000b58        0x0 load address 0x000000000800d2d0
  .igot.plt      0x0000000020000b58        0x0 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/thumb/v7e-m+fp/softfp/crtbegin.o
 
-.uninitialized  0x0000000020000b58        0x8 load address 0x000000000800d174
+.uninitialized  0x0000000020000b58        0x8 load address 0x000000000800d2d0
                 0x0000000020000b60                . = ALIGN (0x20)
  *fill*         0x0000000020000b58        0x8 
                 0x0000000020000b60                __uninitialized_start = .
@@ -21838,7 +21837,7 @@ LOAD /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../
                 0x0000000020000b60                . = ALIGN (0x20)
                 0x0000000020000b60                __uninitialized_end = .
 
-.bss            0x0000000020000b60     0x2320 load address 0x000000000800d180
+.bss            0x0000000020000b60     0x1f38 load address 0x000000000800d2d8
                 0x0000000020000b60                . = ALIGN (0x8)
                 0x0000000020000b60                __bss_start__ = .
                 0x0000000020000b60                _sbss = .
@@ -21975,72 +21974,70 @@ LOAD /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../
  .bss._ZL4i2c1  0x00000000200015e8       0xd0 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
  .bss._ZL6whoamI
                 0x00000000200016b8        0x1 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
- .bss._ZL9tx_buffer
-                0x00000000200016b9      0x3e8 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
- *fill*         0x0000000020001aa1        0x3 
+ *fill*         0x00000000200016b9        0x3 
  .bss._ZL12lsm6dsox_i2c
-                0x0000000020001aa4        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+                0x00000000200016bc        0xc BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
  .bss._ZL14INT_1_LSM6DSOX
-                0x0000000020001ab0       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
- .bss._ZL4i2c1  0x0000000020001acc       0xd0 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+                0x00000000200016c8       0x1c BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+ .bss._ZL4i2c1  0x00000000200016e4       0xd0 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
  .bss.__malloc_current_mallinfo
-                0x0000000020001b9c       0x28 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
-                0x0000000020001b9c                __malloc_current_mallinfo
+                0x00000000200017b4       0x28 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
+                0x00000000200017b4                __malloc_current_mallinfo
  .bss.__malloc_max_sbrked_mem
-                0x0000000020001bc4        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
-                0x0000000020001bc4                __malloc_max_sbrked_mem
+                0x00000000200017dc        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
+                0x00000000200017dc                __malloc_max_sbrked_mem
  .bss.__malloc_max_total_mem
-                0x0000000020001bc8        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
-                0x0000000020001bc8                __malloc_max_total_mem
+                0x00000000200017e0        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
+                0x00000000200017e0                __malloc_max_total_mem
  .bss.__malloc_top_pad
-                0x0000000020001bcc        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
-                0x0000000020001bcc                __malloc_top_pad
+                0x00000000200017e4        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-mallocr.o)
+                0x00000000200017e4                __malloc_top_pad
  *(COMMON)
- COMMON         0x0000000020001bd0       0x54 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/TARGET_CORTEX_M/mbed_fault_handler.o
-                0x0000000020001bd0                fault_context
- COMMON         0x0000000020001c24        0x1 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/mbed_error.o
-                0x0000000020001c24                mbed_error_in_progress
- *fill*         0x0000000020001c25        0x3 
- COMMON         0x0000000020001c28     0x1044 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtos_rtx.o
-                0x0000000020001c28                _main_stack
-                0x0000000020002c28                singleton_mutex_id
-                0x0000000020002c2c                singleton_mutex_obj
-                0x0000000020002c48                _main_thread_attr
- COMMON         0x0000000020002c6c      0x118 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/serial_device.o
-                0x0000000020002c6c                uart_handlers
- COMMON         0x0000000020002d84       0x38 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
-                0x0000000020002d84                LptimHandle
- COMMON         0x0000000020002dbc       0x4c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
-                0x0000000020002dbc                stdio_uart
- COMMON         0x0000000020002e08       0x4c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
-                0x0000000020002e08                TimMasterHandle
-                0x0000000020002e48                timer_ccr1_reg
-                0x0000000020002e4c                timer_dier_reg
-                0x0000000020002e50                timer_cnt_reg
- COMMON         0x0000000020002e54       0x21 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
-                0x0000000020002e54                __lock___malloc_recursive_mutex
-                0x0000000020002e58                __lock___atexit_recursive_mutex
-                0x0000000020002e5c                __lock___dd_hash_mutex
-                0x0000000020002e60                __lock___sinit_recursive_mutex
-                0x0000000020002e64                __lock___sfp_recursive_mutex
-                0x0000000020002e68                __lock___at_quick_exit_mutex
-                0x0000000020002e6c                __lock___env_recursive_mutex
-                0x0000000020002e70                __lock___tz_mutex
-                0x0000000020002e74                __lock___arc4random_mutex
- *fill*         0x0000000020002e75        0x3 
- COMMON         0x0000000020002e78        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-reent.o)
-                0x0000000020002e78                errno
-                0x0000000020002e80                . = ALIGN (0x8)
- *fill*         0x0000000020002e7c        0x4 
-                0x0000000020002e80                __bss_end__ = .
-                0x0000000020002e80                _ebss = .
+ COMMON         0x00000000200017e8       0x54 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/TARGET_CORTEX_M/mbed_fault_handler.o
+                0x00000000200017e8                fault_context
+ COMMON         0x000000002000183c        0x1 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/platform/source/mbed_error.o
+                0x000000002000183c                mbed_error_in_progress
+ *fill*         0x000000002000183d        0x3 
+ COMMON         0x0000000020001840     0x1044 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/rtos/source/TARGET_CORTEX/mbed_rtos_rtx.o
+                0x0000000020001840                _main_stack
+                0x0000000020002840                singleton_mutex_id
+                0x0000000020002844                singleton_mutex_obj
+                0x0000000020002860                _main_thread_attr
+ COMMON         0x0000000020002884      0x118 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/TARGET_STM32WB/serial_device.o
+                0x0000000020002884                uart_handlers
+ COMMON         0x000000002000299c       0x38 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/lp_ticker.o
+                0x000000002000299c                LptimHandle
+ COMMON         0x00000000200029d4       0x4c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
+                0x00000000200029d4                stdio_uart
+ COMMON         0x0000000020002a20       0x4c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
+                0x0000000020002a20                TimMasterHandle
+                0x0000000020002a60                timer_ccr1_reg
+                0x0000000020002a64                timer_dier_reg
+                0x0000000020002a68                timer_cnt_reg
+ COMMON         0x0000000020002a6c       0x21 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-lock.o)
+                0x0000000020002a6c                __lock___malloc_recursive_mutex
+                0x0000000020002a70                __lock___atexit_recursive_mutex
+                0x0000000020002a74                __lock___dd_hash_mutex
+                0x0000000020002a78                __lock___sinit_recursive_mutex
+                0x0000000020002a7c                __lock___sfp_recursive_mutex
+                0x0000000020002a80                __lock___at_quick_exit_mutex
+                0x0000000020002a84                __lock___env_recursive_mutex
+                0x0000000020002a88                __lock___tz_mutex
+                0x0000000020002a8c                __lock___arc4random_mutex
+ *fill*         0x0000000020002a8d        0x3 
+ COMMON         0x0000000020002a90        0x4 /home/sam/binaries_perso_install/gcc-arm-none-eabi-9-2020-q2-update/bin/../lib/gcc/arm-none-eabi/9.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/softfp/libc.a(lib_a-reent.o)
+                0x0000000020002a90                errno
+                0x0000000020002a98                . = ALIGN (0x8)
+ *fill*         0x0000000020002a94        0x4 
+                0x0000000020002a98                __bss_end__ = .
+                0x0000000020002a98                _ebss = .
 
-.heap           0x0000000020002e80    0x2cd80
-                0x0000000020002e80                __end__ = .
+.heap           0x0000000020002a98    0x2d168
+                0x0000000020002a98                __end__ = .
                 [!provide]                        PROVIDE (end = .)
  *(.heap*)
                 0x000000002002fc00                . = ((ORIGIN (RAM) + LENGTH (RAM)) - 0x400)
- *fill*         0x0000000020002e80    0x2cd80 
+ *fill*         0x0000000020002a98    0x2d168 
                 0x000000002002fc00                __HeapLimit = .
 
 .stack_dummy
@@ -22400,7 +22397,7 @@ LOAD linker stubs
  .comment       0x000000000000004c       0x4d BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
  .comment       0x000000000000004c       0x4d BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
 
-.debug_info     0x0000000000000000    0xfcf06
+.debug_info     0x0000000000000000    0xfcfe4
  .debug_info    0x0000000000000000     0x7f33 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/communication/lsm6dsox/LSM6DSOX_CommunicationI2C.o
  .debug_info    0x0000000000007f33    0x17d2e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/driver/lsm6dsox/lsm6dsox_reg.o
  .debug_info    0x000000000001fc61     0x65a1 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/drivers/source/AnalogIn.o
@@ -22483,10 +22480,10 @@ LOAD linker stubs
  .debug_info    0x00000000000e58b5     0x2c63 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
  .debug_info    0x00000000000e8518     0x144d BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/sleep.o
  .debug_info    0x00000000000e9965     0x160c BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
- .debug_info    0x00000000000eaf71     0x966c BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
- .debug_info    0x00000000000f45dd     0x8929 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+ .debug_info    0x00000000000eaf71     0x9634 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+ .debug_info    0x00000000000f45a5     0x8a3f BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
 
-.debug_abbrev   0x0000000000000000    0x19631
+.debug_abbrev   0x0000000000000000    0x19641
  .debug_abbrev  0x0000000000000000      0xbb0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/communication/lsm6dsox/LSM6DSOX_CommunicationI2C.o
  .debug_abbrev  0x0000000000000bb0      0x4f7 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/driver/lsm6dsox/lsm6dsox_reg.o
  .debug_abbrev  0x00000000000010a7      0xae9 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/drivers/source/AnalogIn.o
@@ -22569,8 +22566,8 @@ LOAD linker stubs
  .debug_abbrev  0x0000000000016ffa      0x572 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
  .debug_abbrev  0x000000000001756c      0x362 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/sleep.o
  .debug_abbrev  0x00000000000178ce      0x3b1 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
- .debug_abbrev  0x0000000000017c7f      0xd17 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
- .debug_abbrev  0x0000000000018996      0xc9b BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+ .debug_abbrev  0x0000000000017c7f      0xd27 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+ .debug_abbrev  0x00000000000189a6      0xc9b BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
 
 .debug_loc      0x0000000000000000    0x39a54
  .debug_loc     0x0000000000000000      0x2b7 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/communication/lsm6dsox/LSM6DSOX_CommunicationI2C.o
@@ -22903,7 +22900,7 @@ LOAD linker stubs
  .debug_ranges  0x00000000000074a8       0x88 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
  .debug_ranges  0x0000000000007530       0x78 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
 
-.debug_line     0x0000000000000000    0x467a4
+.debug_line     0x0000000000000000    0x467da
  .debug_line    0x0000000000000000      0xcf7 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/communication/lsm6dsox/LSM6DSOX_CommunicationI2C.o
  .debug_line    0x0000000000000cf7     0x9b9e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/driver/lsm6dsox/lsm6dsox_reg.o
  .debug_line    0x000000000000a895      0xcc0 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/drivers/source/AnalogIn.o
@@ -22986,10 +22983,10 @@ LOAD linker stubs
  .debug_line    0x00000000000431d2      0xc5e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/serial_api.o
  .debug_line    0x0000000000043e30      0x59e BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/sleep.o
  .debug_line    0x00000000000443ce      0x5a1 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
- .debug_line    0x000000000004496f      0xfd3 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
- .debug_line    0x0000000000045942      0xe62 BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+ .debug_line    0x000000000004496f     0x100f BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+ .debug_line    0x000000000004597e      0xe5c BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
 
-.debug_str      0x0000000000000000    0x2e4a5
+.debug_str      0x0000000000000000    0x2e49f
  .debug_str     0x0000000000000000     0x51e6 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/communication/lsm6dsox/LSM6DSOX_CommunicationI2C.o
                                        0x58d2 (size before relaxing)
  .debug_str     0x00000000000051e6     0x72ad BUILD/NUCLEO_WB55RG/GCC_ARM/lib/driver/lsm6dsox/lsm6dsox_reg.o
@@ -23154,10 +23151,10 @@ LOAD linker stubs
                                         0xc20 (size before relaxing)
  .debug_str     0x000000000002e047      0x10a BUILD/NUCLEO_WB55RG/GCC_ARM/lib/mbed-os/targets/TARGET_STM/us_ticker.o
                                        0x11c4 (size before relaxing)
- .debug_str     0x000000000002e151      0x318 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
-                                       0x69ce (size before relaxing)
- .debug_str     0x000000000002e469       0x3c BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
-                                       0x6055 (size before relaxing)
+ .debug_str     0x000000000002e151      0x321 BUILD/NUCLEO_WB55RG/GCC_ARM/src/lsm6dsox_mlc.o
+                                       0x69cd (size before relaxing)
+ .debug_str     0x000000000002e472       0x2d BUILD/NUCLEO_WB55RG/GCC_ARM/src/main.o
+                                       0x604f (size before relaxing)
 
 .debug_frame    0x0000000000000000     0xb944
  .debug_frame   0x0000000000000000       0xc4 BUILD/NUCLEO_WB55RG/GCC_ARM/lib/communication/lsm6dsox/LSM6DSOX_CommunicationI2C.o

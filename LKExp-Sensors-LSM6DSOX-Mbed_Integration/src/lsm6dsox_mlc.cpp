@@ -85,6 +85,7 @@ void lsm6dsox_mlc(void)
     lsm6dsox_reset_get(&dev_ctx, &rst);
   } while (rst);
 
+
   /* Start Machine Learning Core configuration */
   for ( i = 0; i < (sizeof(lsm6dsox_six_d_position) /
                     sizeof(ucf_line_t) ); i++ ){
@@ -93,6 +94,7 @@ void lsm6dsox_mlc(void)
                        (uint8_t*)&lsm6dsox_six_d_position[i].data, 1);
      
   } 
+
   /* End Machine Learning Core configuration */
 
   /* At this point the device is ready to run but if you need you can also
