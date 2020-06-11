@@ -60,17 +60,17 @@ Their aim is to test they are operational, **NOT** to test functionalities asked
 
 ## Current status of Goal
 
-* [ ] Firmwares                         
-* [ ] SD                                    
-* [ ] SRAM                      
-* [ ] Screen ❌                           
-* [ ] Accelerometer & Gyroscope 🚧       
-* [ ] Magnetometer                          
-* [ ] Temperature                       
-* [x] Microphone ✅                        
-* [x] Light sensor ✅                      
-* [ ] Motors 🚧                   
-* [ ] BLE                       
-* [ ] Wifi                          
-* [ ] Bluetooth                     
-* [ ] Speakers 🚧                         
+* [ ] Firmwares
+* [ ] SD
+* [ ] SRAM
+* [ ] Screen ❌
+* [x] Accelerometer & Gyroscope ✅
+* [ ] Magnetometer
+* [ ] Temperature
+* [x] Microphone ✅
+* [x] Light sensor ✅
+* [x] Motors ✅
+* [ ] BLE
+* [ ] Wifi
+* [ ] Bluetooth
+* [x] Speakers ✅
