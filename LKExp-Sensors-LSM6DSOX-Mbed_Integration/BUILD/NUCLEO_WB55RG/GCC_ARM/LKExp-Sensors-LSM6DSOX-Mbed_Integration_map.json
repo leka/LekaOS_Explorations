@@ -3,11 +3,11 @@
         "module": "[fill]", 
         "size": {
             ".data-delta": 0, 
-            ".text-delta": 0, 
-            ".bss": 37, 
+            ".text-delta": -16, 
+            ".bss": 31, 
             ".data": 4, 
             ".bss-delta": 0, 
-            ".text": 126
+            ".text": 100
         }
     }, 
     {
@@ -25,7 +25,7 @@
         "module": "[lib]/gcc.a", 
         "size": {
             ".data-delta": 0, 
-            ".text-delta": 0, 
+            ".text-delta": -888, 
             ".bss": 0, 
             ".data": 0, 
             ".bss-delta": 0, 
@@ -55,6 +55,17 @@
         }
     }, 
     {
+        "module": "lib/component", 
+        "size": {
+            ".data-delta": 0, 
+            ".text-delta": 0, 
+            ".bss": 0, 
+            ".data": 0, 
+            ".bss-delta": 0, 
+            ".text": 2654
+        }
+    }, 
+    {
         "module": "lib/driver", 
         "size": {
             ".data-delta": 0, 
@@ -62,7 +73,18 @@
             ".bss": 0, 
             ".data": 0, 
             ".bss-delta": 0, 
-            ".text": 4462
+            ".text": 6978
+        }
+    }, 
+    {
+        "module": "lib/machineLearningCore", 
+        "size": {
+            ".data-delta": 0, 
+            ".text-delta": 0, 
+            ".bss": 0, 
+            ".data": 0, 
+            ".bss-delta": 0, 
+            ".text": 1848
         }
     }, 
     {
@@ -70,10 +92,10 @@
         "size": {
             ".data-delta": 0, 
             ".text-delta": 0, 
-            ".bss": 7340, 
+            ".bss": 7876, 
             ".data": 444, 
             ".bss-delta": 0, 
-            ".text": 32148
+            ".text": 33472
         }
     }, 
     {
@@ -81,29 +103,29 @@
         "size": {
             ".data-delta": 0, 
             ".text-delta": 0, 
-            ".bss": 250, 
+            ".bss": 248, 
             ".data": 0, 
             ".bss-delta": 0, 
-            ".text": 472
+            ".text": 96
         }
     }, 
     {
         "module": "src/main.o", 
         "size": {
             ".data-delta": 0, 
-            ".text-delta": 0, 
-            ".bss": 248, 
+            ".text-delta": 16, 
+            ".bss": 560, 
             ".data": 0, 
             ".bss-delta": 0, 
-            ".text": 116
+            ".text": 560
         }
     }, 
     {
         "summary": {
-            "static_ram": 10552, 
-            "total_flash_delta": 0, 
+            "static_ram": 11392, 
+            "total_flash_delta": -888, 
             "static_ram_delta": 0, 
-            "total_flash": 48352
+            "total_flash": 56736
         }
     }
 ]

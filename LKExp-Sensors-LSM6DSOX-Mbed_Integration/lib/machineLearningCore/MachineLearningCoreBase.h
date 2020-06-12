@@ -32,21 +32,6 @@ namespace MachineLearningCore {
 
     
 	/* Unions --------------------------------------------------------------------*/
-    union MachineLearningCoreData {
-    std::array<uint8_t, 8> data;
-    struct {
-        uint8_t tree0;
-        uint8_t tree1;
-        uint8_t tree2;
-        uint8_t tree3;
-        uint8_t tree4;
-        uint8_t tree5;
-        uint8_t tree6;
-        uint8_t tree7;
-    } mlcTreeVal;
-	};
-
-
 	/* Class Declaration ---------------------------------------------------------*/
 	/**
 	 * Abstract base class for any component.
@@ -55,14 +40,20 @@ namespace MachineLearningCore {
 	  public:
 		virtual ~MachineLearningCoreBase() {}
 		virtual Status init()			  = 0;
-        virtual Status setDecisionTrees(const ucf_line_t ucfConfig[])           = 0;
+
+		virtual Status enable()			  = 0;
+		virtual Status disable()		  = 0;		
+
+        virtual Status setDecisionTrees(const ucf_line_t ucfConfig[], uint32_t numLines)  = 0;
 		virtual Status getID(uint8_t &id) = 0;
+
+
 
         // The data is of a specific size, which works in our case but might need to be abstracted in case of different MLC usage
 		virtual Status getData(std::array<uint8_t, 8> &data)	= 0;
 
 		// virtual  Status setPinInterrupt(PinName pin_interrupt)	  = 0;
-		virtual PinName getPinInterrupt()						= 0;
+		//virtual PinName getInterruptPin()						= 0;
 		virtual Status enableInterrupt()						= 0;
 		virtual Status disableInterrupt()						= 0;
 		virtual Status readInterrupt(uint8_t &interrupt_status) = 0;

@@ -55,6 +55,21 @@
 
 #include "lsm6dsox_mlc.h"
 
+
+
+#define PIN_I2C1_SDA (D14)
+#define PIN_I2C1_SCL (D15)
+// #define PIN_LSM6DSOX_INT NC
+
+// DigitalOut INT_1_LSM6DSOX(A5,
+// 						  0);	// This line fix the use of LSM6DSOX on X-NUCLEO_IKS01A2
+
+// I2C i2c1(PIN_I2C1_SDA, PIN_I2C1_SCL);
+// Communication::LSM6DSOX_I2C lsm6dsox_i2c(i2c1);
+// Component::LSM6DSOX_Accelerometer lsm6dsox_accelerometer_component(lsm6dsox_i2c, PIN_LSM6DSOX_INT);
+// Component::LSM6DSOX_Gyroscope lsm6dsox_gyroscope_component(lsm6dsox_i2c, PIN_LSM6DSOX_INT);
+
+
 /* Main Example --------------------------------------------------------------*/
 void lsm6dsox_mlc(void)
 {
@@ -93,7 +108,7 @@ void lsm6dsox_mlc(void)
     lsm6dsox_write_reg(&dev_ctx, lsm6dsox_six_d_position[i].address,
                        (uint8_t*)&lsm6dsox_six_d_position[i].data, 1);
      
-  } 
+  }
 
   /* End Machine Learning Core configuration */
 

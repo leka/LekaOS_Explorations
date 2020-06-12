@@ -34,7 +34,6 @@ static Communication::LSM6DSOX_I2C lsm6dsox_i2c(i2c1);
 
 /* Private variables ---------------------------------------------------------*/
 static uint8_t whoamI, rst;
-static uint8_t tx_buffer[1000];
 
 /* Extern variables ----------------------------------------------------------*/
 
