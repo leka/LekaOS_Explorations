@@ -43,8 +43,10 @@ namespace Component {
 		virtual Status getData(std::array<float, 3> &data);
 
 		virtual PinName getPinInterrupt();
+		
 		virtual Status enableInterrupt();
 		virtual Status disableInterrupt();
+
 		virtual Status readInterrupt(uint8_t &interrupt_status);
 		virtual Status attachInterrupt(Callback<void()> func);
 
