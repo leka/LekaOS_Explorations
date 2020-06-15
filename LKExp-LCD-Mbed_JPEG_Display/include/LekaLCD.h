@@ -4,19 +4,46 @@
 #define __LEKALCD_H__
 
 #include "mbed.h"
-#define LCD_DSI_ID 0x11
 
 class LekaLCD {
 
 public:
-    // constructor does all the initialization stuff, 
-    // might move it to an init() method
+    /**
+     * @brief Construct a new Leka LCDD object and 
+     * does all the initialization needed
+     */
     LekaLCD();
-
-    void reset();
 
     uint32_t getScreenWidth();
     uint32_t getScreenHeight();
+    void setActiveLayer(uint16_t layer_index);
+
+    /**
+     * @brief Clears the screen with a color
+     * 
+     * @param color     : Color
+     */
+    void clear(uint32_t color);
+
+    /**
+     * @brief Draws a pixel in a color
+     * 
+     * @param x     : x position
+     * @param y     : y position
+     * @param color : color of the pixel
+     */
+    void drawPixel(uint32_t x, uint32_t y, uint32_t color);
+    
+    /**
+     * @brief Fills a rectangle on the active layer with a color
+     * 
+     * @param x         : x position
+     * @param y         : y position 
+     * @param width     : width
+     * @param height    : height
+     * @param color     : color
+     */
+    void fillRect(uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t color);
 
 private:
     DMA2D_HandleTypeDef _handle_dma2d;
@@ -28,22 +55,29 @@ private:
     const uint32_t _screen_width = 800;
     const uint32_t _screen_height = 480;
 
+    const uint32_t _frame_buffer_start_address = 0xC0000000;
+
+    // active layer can be either 0 or 1 (LTC supports 2 layers)
+    uint16_t _active_layer = 0;
+    
+    /**
+     * @brief Fills a rectangle in the frame buffer
+     * 
+     * @param layer_index : Layer index where to draw (0 or 1)
+     * @param dest_addr   : Frame buffer start address
+     * @param width       : Width of the rectangle
+     * @param height      : Height of the rectangle
+     * @param offset      : offset = screen_width - rectangle_width
+     * @param color       : Color
+     */
+    void fillBuffer(uint32_t layer_index, void* dest_addr, uint32_t width, uint32_t height, uint32_t offset, uint32_t color);
+    
+    // internal init functions
+    void reset();
     void MspInit();
+    void LTDC_LayerInit(uint16_t layer_index);
+    void DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams);
+    uint8_t OTM8009A_Init(uint32_t ColorCoding, uint32_t orientation);
 };
 
-// experimental DMA2D
-/* 
-DMA2D_HandleTypeDef hdma2d;
-
-void DMA2D_FillRect(uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t color) {
-        hdma2d.Instance = DMA2D;
-        hdma2d.Init.Mode = DMA2D_R2M;
-        hdma2d.Init.ColorMode = DMA2D_ARGB8888;
-        hdma2d.Init.OutputOffset = 0;
-        HAL_DMA2D_Init(&hdma2d);
-        HAL_DMA2D_Start(&hdma2d, color, (uint32_t)0xC0000000, width, height);
-        HAL_DMA2D_PollForTransfer(&hdma2d, 10);
-
-}
-*/
 #endif
