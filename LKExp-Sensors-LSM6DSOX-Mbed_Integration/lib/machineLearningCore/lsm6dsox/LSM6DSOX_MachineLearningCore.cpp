@@ -14,7 +14,8 @@ namespace MachineLearningCore {
 		: _lsm6dsox_component_i2c(component_i2c),
 		  _mcu_pin_interrupt1(pin_interrupt1),
 		  _mcu_pin_interrupt2(pin_interrupt2),
-		  _lsm6dsox_interrupt(pin_interrupt1) {
+		  _lsm6dsox_interrupt1(pin_interrupt1),
+		  _lsm6dsox_interrupt2(pin_interrupt2){
 		_register_io_function.write_reg = (stmdev_write_ptr)ptr_io_write;
 		_register_io_function.read_reg	= (stmdev_read_ptr)ptr_io_read;
 		_register_io_function.handle	= (void *)this;
@@ -72,6 +73,22 @@ namespace MachineLearningCore {
 	{
 		return &_register_io_function;
 	}
+
+
+	/**
+	 * @brief 
+	 * 
+	 * @param intPin1 
+	 * @return Status 
+	 */
+	Status LSM6DSOX_MachineLearningCore::setInterrupt1Pin(PinName intPin1)
+	{
+		delete(&_lsm6dsox_interrupt1);
+		InterruptIn _lsm6dsox_interrupt1(intPin1);
+
+		return Status::OK;
+	}
+
 
 
 	Status LSM6DSOX_MachineLearningCore::enable(){
@@ -191,9 +208,6 @@ namespace MachineLearningCore {
 			case LSM6DSOX_ODR_PRGS_104Hz:
 				data_rate = 104.0f;
 				break;
-			default:
-				ret = Status::ERROR;
-				break;
 		}
 		return ret;
 	}
@@ -238,7 +252,7 @@ namespace MachineLearningCore {
 	 * @retval 0 in case of success, an error code otherwise
 	 */
 	Status LSM6DSOX_MachineLearningCore::enableInterrupt() {
-		_lsm6dsox_interrupt.enable_irq();
+		_lsm6dsox_interrupt2.enable_irq();
 		return Status::OK;
 	}
 
@@ -247,7 +261,7 @@ namespace MachineLearningCore {
 	 * @retval 0 in case of success, an error code otherwise
 	 */
 	Status LSM6DSOX_MachineLearningCore::disableInterrupt() {
-		_lsm6dsox_interrupt.disable_irq();
+		_lsm6dsox_interrupt1.disable_irq();
 		return Status::OK;
 	}
 
@@ -485,32 +499,30 @@ namespace MachineLearningCore {
 
 
 
-	/**
-	 * @brief  Read interrupt from component
-	 * @param  interrupt_status contain the value on pin interrupt of component
-	 * @retval 0 in case of success, an error code otherwise
-	 */
-	Status LSM6DSOX_MachineLearningCore::readInterrupt(uint8_t &interrupt_status) {
-		interrupt_status = _lsm6dsox_interrupt;
+	
+	Status LSM6DSOX_MachineLearningCore::readInterrupt1(uint8_t &interrupt_status) {
+		interrupt_status = _lsm6dsox_interrupt1.read();
 		return Status::OK;
 	}
 
-	/**
-	 * @brief  Attaching an interrupt handler to the component interrupt
-	 * @param  func An interrupt handler.
-	 * @retval 0 in case of success, an error code otherwise
-	 */
-	Status LSM6DSOX_MachineLearningCore::attachInterrupt(Callback<void()> func) {
-		_lsm6dsox_interrupt.rise(func);
+	Status LSM6DSOX_MachineLearningCore::attachInterrupt1(Callback<void()> func) {
+		_lsm6dsox_interrupt1.rise(func);
 		return Status::OK;
 	}
 
-	/**
-	 * @brief  Get status of events on component
-	 * @param  component_events array of events available. Check AccelerometerComponentEvents for
-	 * more details
-	 * @retval 0 in case of success, an error code otherwise
-	 */
+
+	Status LSM6DSOX_MachineLearningCore::readInterrupt2(uint8_t &interrupt_status) {
+		interrupt_status = _lsm6dsox_interrupt2.read();
+		return Status::OK;
+	}
+
+	Status LSM6DSOX_MachineLearningCore::attachInterrupt2(Callback<void()> func) {
+		_lsm6dsox_interrupt2.rise(func);
+		return Status::OK;
+	}
+
+
+
 	Status LSM6DSOX_MachineLearningCore::getEventStatus(std::array<uint8_t, 16> &component_events) {
 		//TODO
         //Need change       

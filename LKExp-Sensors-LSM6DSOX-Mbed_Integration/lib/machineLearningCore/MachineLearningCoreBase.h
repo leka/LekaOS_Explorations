@@ -56,8 +56,8 @@ namespace MachineLearningCore {
 		//virtual PinName getInterruptPin()						= 0;
 		virtual Status enableInterrupt()						= 0;
 		virtual Status disableInterrupt()						= 0;
-		virtual Status readInterrupt(uint8_t &interrupt_status) = 0;
-		virtual Status attachInterrupt(Callback<void()> func)	= 0;
+		// virtual Status readInterrupt(uint8_t &interrupt_status) = 0;
+		// virtual Status attachInterrupt(Callback<void()> func)	= 0;
 
 		// Some component can generate more than one event, component_events list them.
 		virtual Status getEventStatus(std::array<uint8_t, 16> &component_events) = 0;
