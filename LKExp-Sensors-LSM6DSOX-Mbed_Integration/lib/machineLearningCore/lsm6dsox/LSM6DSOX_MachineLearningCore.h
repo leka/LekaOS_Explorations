@@ -74,6 +74,11 @@ namespace MachineLearningCore {
 		// TODO erase this once no more in use
 		virtual stmdev_ctx_t* TMP_getIoFunc();
 
+		//temporary, we have to find a better way to do this
+		// TODO change the method when the functionnality is clarified
+		virtual Status setInterrupt1Pin(PinName intPin1);
+
+		
 		virtual Status enable();
 		virtual Status disable();
 
@@ -94,8 +99,11 @@ namespace MachineLearningCore {
 		virtual Status getTreeInterrupt(MachineLearningCoreTree tree, TreeInterruptNum &intNum);
 
 
-		virtual Status readInterrupt(uint8_t &interrupt_status);
-		virtual Status attachInterrupt(Callback<void()> func);
+		virtual Status readInterrupt1(uint8_t &interrupt_status);
+		virtual Status attachInterrupt1(Callback<void()> func);
+
+		virtual Status readInterrupt2(uint8_t &interrupt_status);
+		virtual Status attachInterrupt2(Callback<void()> func);
 
 		// Some component can generate more than one event, component_events list them.
 		virtual Status getEventStatus(std::array<uint8_t, 16> &component_events);
@@ -116,7 +124,8 @@ namespace MachineLearningCore {
 		stmdev_ctx_t _register_io_function;
 		PinName _mcu_pin_interrupt1;
 		PinName _mcu_pin_interrupt2;
-		InterruptIn _lsm6dsox_interrupt;
+		InterruptIn _lsm6dsox_interrupt1;
+		InterruptIn _lsm6dsox_interrupt2;
 	};
 }	// namespace Component
 

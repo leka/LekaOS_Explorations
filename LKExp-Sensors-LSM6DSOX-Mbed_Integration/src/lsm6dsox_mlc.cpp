@@ -87,7 +87,7 @@ void lsm6dsox_mlc(void)
   dev_ctx.handle    = NULL;
 
   /* Wait sensor boot time */
-  ThisThread::sleep_for(10);
+  ThisThread::sleep_for(10ms);
 
   /* Check device ID */
   lsm6dsox_device_id_get(&dev_ctx, &whoamI);
