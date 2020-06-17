@@ -35,7 +35,7 @@ LekaLCD::LekaLCD() {
     uint32_t HACT = _screen_width;
 
     _handle_dsivideo.VirtualChannelID = 0;      // LCD_OTM8009A_ID = 0
-    _handle_dsivideo.ColorCoding = DSI_RGB888;
+    _handle_dsivideo.ColorCoding = DSI_RGB888;  // = LCD_DSI_PIXEL_DATA_FMT_RGB888
     _handle_dsivideo.VSPolarity = DSI_VSYNC_ACTIVE_HIGH;
     _handle_dsivideo.HSPolarity = DSI_HSYNC_ACTIVE_HIGH;
     _handle_dsivideo.DEPolarity = DSI_DATA_ENABLE_ACTIVE_HIGH;
@@ -91,9 +91,9 @@ LekaLCD::LekaLCD() {
     HAL_RCCEx_PeriphCLKConfig(&periph_clk_init);
 
     // background value
-    _handle_ltdc.Init.Backcolor.Blue = 0;
-    _handle_ltdc.Init.Backcolor.Green = 50;
-    _handle_ltdc.Init.Backcolor.Red = 0;
+    _handle_ltdc.Init.Backcolor.Blue = 0xff;
+    _handle_ltdc.Init.Backcolor.Green = 0xff;
+    _handle_ltdc.Init.Backcolor.Red = 0xff;
     _handle_ltdc.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
     _handle_ltdc.Instance = LTDC;
 
@@ -105,15 +105,12 @@ LekaLCD::LekaLCD() {
 
     HAL_DSI_Start(&_handle_dsi); 
 
-    // HERE : need to add external SDRAM initialization
+    #if !defined(DATA_IN_ExtSDRAM) 
+      SDRAM_init();
+    #endif;
     
-    // this command takes too much time why ?
     OTM8009A_Init(OTM8009A_FORMAT_RGB888, OTM8009A_ORIENTATION_LANDSCAPE);
-
-    LTDC_LayerInit(0);
-    //LTDC_LayerInit(1);
 }
-
 
 uint32_t LekaLCD::getScreenWidth() {
     return _screen_width;
@@ -123,18 +120,66 @@ uint32_t LekaLCD::getScreenHeight() {
     return _screen_height;
 }
 
+void LekaLCD::turnOff() {
+    HAL_DSI_ShortWrite(
+        &_handle_dsi,
+        _handle_dsivideo.VirtualChannelID,
+        DSI_DCS_SHORT_PKT_WRITE_P1,
+        0x28, 
+        0x00
+    );
+}
+
+void LekaLCD::turnOn() {
+    HAL_DSI_ShortWrite(
+        &_handle_dsi,
+        _handle_dsivideo.VirtualChannelID,
+        DSI_DCS_SHORT_PKT_WRITE_P1,
+        0x29, 
+        0x00
+    );
+}
+
+// Layer init (copied from BSP)
+void LekaLCD::LTDC_LayerInit(uint16_t layer_index) {
+    LTDC_LayerCfgTypeDef  Layercfg;
+    Layercfg.WindowX0 = 0;
+    Layercfg.WindowX1 = _screen_width;
+    Layercfg.WindowY0 = 0;
+    Layercfg.WindowY1 = _screen_height;
+    Layercfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
+    Layercfg.FBStartAdress = _frame_buffer_start_address;
+    Layercfg.Alpha = 255;
+    Layercfg.Alpha0 = 0;
+    Layercfg.Backcolor.Blue = 0;
+    Layercfg.Backcolor.Green = 0;
+    Layercfg.Backcolor.Red = 0;
+    Layercfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;
+    Layercfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_PAxCA;
+    Layercfg.ImageWidth = _screen_width;
+    Layercfg.ImageHeight = _screen_height;
+  
+    HAL_LTDC_ConfigLayer(&_handle_ltdc, &Layercfg, layer_index);
+}
+
 void LekaLCD::setActiveLayer(uint16_t layer_index) {
     _active_layer = layer_index;
 }
 
 void LekaLCD::clear(uint32_t color) {
-    fillBuffer(_active_layer, (uint32_t*)(_frame_buffer_start_address), _screen_width, _screen_height, 0, color);
+    fillBuffer(_active_layer, (uint32_t*)(_handle_ltdc.LayerCfg[_active_layer].FBStartAdress), _screen_width, _screen_height, 0, color);
 }
 
 void LekaLCD::drawPixel(uint32_t x, uint32_t y, uint32_t color) {
-    *(__IO uint32_t*) (_frame_buffer_start_address + (4*(y*_screen_width + x))) = color;
+    *(__IO uint32_t*) (_handle_ltdc.LayerCfg[_active_layer].FBStartAdress + (4*(y*_screen_width + x))) = color;
 }
 
+uint32_t LekaLCD::readPixel(uint16_t Xpos, uint16_t Ypos) {
+    uint32_t ret = 0;
+    // Read data value from SDRAM memory (in ARGB8888 format)
+    ret = *(__IO uint32_t*) (_handle_ltdc.LayerCfg[_active_layer].FBStartAdress + (4*(Ypos*_screen_width + Xpos)));
+    return ret;
+}
 
 void LekaLCD::fillRect(uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t color) {
     uint32_t dest_address = (_handle_ltdc.LayerCfg[_active_layer].FBStartAdress) + 4*(_screen_width*y + x);
@@ -149,6 +194,9 @@ void LekaLCD::fillBuffer(uint32_t layer_index, void* dest_addr, uint32_t width, 
     _handle_dma2d.Init.OutputOffset = offset;
     _handle_dma2d.Instance = DMA2D;
     
+    /*_handle_dma2d.LayerCfg[layer_index].AlphaMode = DMA2D_NO_MODIF_ALPHA;
+    _handle_dma2d.LayerCfg[layer_index].InputColorMode = DMA2D_INPUT_ARGB8888;
+    _handle_dma2d.LayerCfg[layer_index].InputOffset = 0;*/
     if(HAL_DMA2D_Init(&_handle_dma2d) == HAL_OK ) {
         if(HAL_DMA2D_ConfigLayer(&_handle_dma2d, layer_index) == HAL_OK){
             if(HAL_DMA2D_Start(&_handle_dma2d, color, (uint32_t)dest_addr, width, height) == HAL_OK){
@@ -220,37 +268,12 @@ void LekaLCD::MspInit() {
     HAL_NVIC_EnableIRQ(DSI_IRQn);
 }
 
-// Layer init (copied from BSP)
-void LekaLCD::LTDC_LayerInit(uint16_t layer_index) {
-	LTDC_LayerCfgTypeDef  Layercfg;
-
-    Layercfg.WindowX0 = 0;
-    Layercfg.WindowX1 = 800;
-    Layercfg.WindowY0 = 0;
-    Layercfg.WindowY1 = 480; 
-    Layercfg.PixelFormat = LTDC_PIXEL_FORMAT_ARGB8888;
-    Layercfg.FBStartAdress = _frame_buffer_start_address;
-    Layercfg.Alpha = 255;
-    Layercfg.Alpha0 = 0;
-    Layercfg.Backcolor.Blue = 0;
-    Layercfg.Backcolor.Green = 0;
-    Layercfg.Backcolor.Red = 0;
-    Layercfg.BlendingFactor1 = LTDC_BLENDING_FACTOR1_PAxCA;
-    Layercfg.BlendingFactor2 = LTDC_BLENDING_FACTOR2_PAxCA;
-    Layercfg.ImageWidth = 800;
-    Layercfg.ImageHeight = 480;
-  
-    HAL_LTDC_ConfigLayer(&_handle_ltdc, &Layercfg, layer_index);
-}
-
 // DSI write commands
 void LekaLCD::DSI_IO_WriteCmd(uint32_t NbrParams, uint8_t *pParams) {
-    if(NbrParams <= 1)
-    {
+    if(NbrParams <= 1) {
         HAL_DSI_ShortWrite(&_handle_dsi, 0, DSI_DCS_SHORT_PKT_WRITE_P1, pParams[0], pParams[1]); 
     }
-    else
-    {
+    else {
         HAL_DSI_LongWrite(&_handle_dsi,  0, DSI_DCS_LONG_PKT_WRITE, NbrParams, pParams[NbrParams], pParams); 
     } 
 }
@@ -447,8 +470,7 @@ uint8_t LekaLCD::OTM8009A_Init(uint32_t ColorCoding, uint32_t orientation) {
   /* Wait for sleep out exit */
     HAL_Delay(120);
 
-    switch(ColorCoding)
-    {
+    switch(ColorCoding) {
     case OTM8009A_FORMAT_RBG565 :
     /* Set Pixel color format to RGB565 */
         DSI_IO_WriteCmd(0, (uint8_t *)ShortRegData37);
@@ -463,8 +485,7 @@ uint8_t LekaLCD::OTM8009A_Init(uint32_t ColorCoding, uint32_t orientation) {
 
   /* Send command to configure display in landscape orientation mode. By default
       the orientation mode is portrait  */
-    if(orientation == OTM8009A_ORIENTATION_LANDSCAPE)
-    {
+    if(orientation == OTM8009A_ORIENTATION_LANDSCAPE) {
         DSI_IO_WriteCmd(0, (uint8_t *)ShortRegData39);
         DSI_IO_WriteCmd( 4, (uint8_t *)lcdRegData27);
         DSI_IO_WriteCmd( 4, (uint8_t *)lcdRegData28);
@@ -496,4 +517,181 @@ uint8_t LekaLCD::OTM8009A_Init(uint32_t ColorCoding, uint32_t orientation) {
     DSI_IO_WriteCmd(0, (uint8_t *)ShortRegData45);
 
     return 0;
+}
+
+// SDRAM initialization (copied from BSP)
+void LekaLCD::SDRAM_init() {
+    _handle_sdram.Instance = FMC_SDRAM_DEVICE;
+
+    FMC_SDRAM_TimingTypeDef timing;
+    timing.LoadToActiveDelay    = 2;
+    timing.ExitSelfRefreshDelay = 7;
+    timing.SelfRefreshTime      = 4;
+    timing.RowCycleDelay        = 7;
+    timing.WriteRecoveryTime    = 2;
+    timing.RPDelay              = 2;
+    timing.RCDDelay             = 2;
+
+    _handle_sdram.Init.SDBank               = FMC_SDRAM_BANK1;
+    _handle_sdram.Init.ColumnBitsNumber     = FMC_SDRAM_COLUMN_BITS_NUM_8;
+    _handle_sdram.Init.RowBitsNumber        = FMC_SDRAM_ROW_BITS_NUM_12;
+    _handle_sdram.Init.MemoryDataWidth      = FMC_SDRAM_MEM_BUS_WIDTH_32;
+    _handle_sdram.Init.InternalBankNumber   = FMC_SDRAM_INTERN_BANKS_NUM_4;
+    _handle_sdram.Init.CASLatency           = FMC_SDRAM_CAS_LATENCY_3;
+    _handle_sdram.Init.WriteProtection      = FMC_SDRAM_WRITE_PROTECTION_DISABLE;
+    _handle_sdram.Init.SDClockPeriod        = FMC_SDRAM_CLOCK_PERIOD_2;
+    _handle_sdram.Init.ReadBurst            = FMC_SDRAM_RBURST_ENABLE;
+    _handle_sdram.Init.ReadPipeDelay        = FMC_SDRAM_RPIPE_DELAY_0;
+
+    ////// SDRAM MspInit  ////////////////////////////////////////////
+    static DMA_HandleTypeDef dma_handle;
+    GPIO_InitTypeDef gpio_init_structure;
+    
+    // Enable FMC clock 
+    __HAL_RCC_FMC_CLK_ENABLE();
+    
+    // Enable chosen DMAx clock 
+    __HAL_RCC_DMA2_CLK_ENABLE();
+
+    // Enable GPIOs clock 
+    __HAL_RCC_GPIOD_CLK_ENABLE();
+    __HAL_RCC_GPIOE_CLK_ENABLE();
+    __HAL_RCC_GPIOF_CLK_ENABLE();
+    __HAL_RCC_GPIOG_CLK_ENABLE();
+    __HAL_RCC_GPIOH_CLK_ENABLE();
+    __HAL_RCC_GPIOI_CLK_ENABLE();
+    
+    // Common GPIO configuration 
+    gpio_init_structure.Mode      = GPIO_MODE_AF_PP;
+    gpio_init_structure.Pull      = GPIO_PULLUP;
+    gpio_init_structure.Speed     = GPIO_SPEED_HIGH;
+    gpio_init_structure.Alternate = GPIO_AF12_FMC;
+    
+    // GPIOD configuration 
+    gpio_init_structure.Pin   = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_8| GPIO_PIN_9 | GPIO_PIN_10 |\
+                                GPIO_PIN_14 | GPIO_PIN_15;
+    
+    
+    HAL_GPIO_Init(GPIOD, &gpio_init_structure);
+
+    // GPIOE configuration */
+    gpio_init_structure.Pin   = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_7| GPIO_PIN_8 | GPIO_PIN_9 |\
+                                GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 |\
+                                GPIO_PIN_15;
+
+    HAL_GPIO_Init(GPIOE, &gpio_init_structure);
+    
+    // GPIOF configuration */
+    gpio_init_structure.Pin   = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2| GPIO_PIN_3 | GPIO_PIN_4 |\
+                                GPIO_PIN_5 | GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 |\
+                                GPIO_PIN_15;
+
+    HAL_GPIO_Init(GPIOF, &gpio_init_structure);
+    
+    // GPIOG configuration */
+    gpio_init_structure.Pin   = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_4|\
+                                GPIO_PIN_5 | GPIO_PIN_8 | GPIO_PIN_15;
+    HAL_GPIO_Init(GPIOG, &gpio_init_structure);
+
+    // GPIOH configuration */
+    gpio_init_structure.Pin   = GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_5 | GPIO_PIN_8 | GPIO_PIN_9 |\
+                                GPIO_PIN_10 | GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 |\
+                                GPIO_PIN_15;
+    HAL_GPIO_Init(GPIOH, &gpio_init_structure); 
+    
+    // GPIOI configuration */
+    gpio_init_structure.Pin   = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4 |\
+                                GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_9 | GPIO_PIN_10;
+    HAL_GPIO_Init(GPIOI, &gpio_init_structure);  
+    
+    // Configure common DMA parameters 
+    dma_handle.Init.Channel             = DMA_CHANNEL_0;
+    dma_handle.Init.Direction           = DMA_MEMORY_TO_MEMORY;
+    dma_handle.Init.PeriphInc           = DMA_PINC_ENABLE;
+    dma_handle.Init.MemInc              = DMA_MINC_ENABLE;
+    dma_handle.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+    dma_handle.Init.MemDataAlignment    = DMA_MDATAALIGN_WORD;
+    dma_handle.Init.Mode                = DMA_NORMAL;
+    dma_handle.Init.Priority            = DMA_PRIORITY_HIGH;
+    dma_handle.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;         
+    dma_handle.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
+    dma_handle.Init.MemBurst            = DMA_MBURST_SINGLE;
+    dma_handle.Init.PeriphBurst         = DMA_PBURST_SINGLE; 
+    
+    dma_handle.Instance = DMA2_Stream0;
+    
+    // Associate the DMA handle 
+    __HAL_LINKDMA(&_handle_sdram, hdma, dma_handle);
+    
+    // Deinitialize the stream for new transfer
+    HAL_DMA_DeInit(&dma_handle);
+    
+    // Configure the DMA stream 
+    HAL_DMA_Init(&dma_handle); 
+    
+    // NVIC configuration for DMA transfer complete interrupt 
+    HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0x0F, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+
+    HAL_SDRAM_Init(&_handle_sdram, &timing);
+    ////// End SDRAM Msp Init /////////////////////////////////////////////
+
+    ////// SDRAM Initialization sequence //////////////////////////////////
+    #define REFRESH_COUNT  ((uint32_t)0x0603)
+    #define SDRAM_TIMEOUT  ((uint32_t)0xFFFF)
+    FMC_SDRAM_CommandTypeDef command;
+    __IO uint32_t tmpmrd = 0;
+
+    // Step 1: Configure a clock configuration enable command
+    command.CommandMode            = FMC_SDRAM_CMD_CLK_ENABLE;
+    command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
+    command.AutoRefreshNumber      = 1;
+    command.ModeRegisterDefinition = 0;
+
+    // Send the command
+    HAL_SDRAM_SendCommand(&_handle_sdram, &command, SDRAM_TIMEOUT);
+
+    // Step 2: Insert 100 us minimum delay 
+    // Inserted delay is equal to 1 ms due to systick time base unit (ms)
+    HAL_Delay(1);
+
+    // Step 3: Configure a PALL (precharge all) command 
+    command.CommandMode            = FMC_SDRAM_CMD_PALL;
+    command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
+    command.AutoRefreshNumber      = 1;
+    command.ModeRegisterDefinition = 0;
+
+    // Send the command
+    HAL_SDRAM_SendCommand(&_handle_sdram, &command, SDRAM_TIMEOUT);  
+    
+    // Step 4: Configure an Auto Refresh command
+    command.CommandMode            = FMC_SDRAM_CMD_AUTOREFRESH_MODE;
+    command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
+    command.AutoRefreshNumber      = 8;
+    command.ModeRegisterDefinition = 0;
+
+    // Send the command
+    HAL_SDRAM_SendCommand(&_handle_sdram, &command, SDRAM_TIMEOUT);
+    
+    // Step 5: Program the external memory mode register 
+    //  SDRAM_MODEREG_BURST_LENGTH_1            |\
+        SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL     |\
+        SDRAM_MODEREG_CAS_LATENCY_3             |\
+        SDRAM_MODEREG_OPERATING_MODE_STANDARD   |\
+        SDRAM_MODEREG_WRITEBURST_MODE_SINGLE
+
+    tmpmrd = (uint32_t)0x0000 | 0x0000 | 0x0030 | 0x0000 | 0x0200;
+    
+    command.CommandMode            = FMC_SDRAM_CMD_LOAD_MODE;
+    command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
+    command.AutoRefreshNumber      = 1;
+    command.ModeRegisterDefinition = tmpmrd;
+
+    // Send the command 
+    HAL_SDRAM_SendCommand(&_handle_sdram, &command, SDRAM_TIMEOUT);
+    
+    // Step 6: Set the refresh rate counter 
+    // Set the device refresh rate 
+    HAL_SDRAM_ProgramRefreshRate(&_handle_sdram, REFRESH_COUNT); 
+
 }
