@@ -194,9 +194,6 @@ void LekaLCD::fillBuffer(uint32_t layer_index, void* dest_addr, uint32_t width, 
     _handle_dma2d.Init.OutputOffset = offset;
     _handle_dma2d.Instance = DMA2D;
     
-    /*_handle_dma2d.LayerCfg[layer_index].AlphaMode = DMA2D_NO_MODIF_ALPHA;
-    _handle_dma2d.LayerCfg[layer_index].InputColorMode = DMA2D_INPUT_ARGB8888;
-    _handle_dma2d.LayerCfg[layer_index].InputOffset = 0;*/
     if(HAL_DMA2D_Init(&_handle_dma2d) == HAL_OK ) {
         if(HAL_DMA2D_ConfigLayer(&_handle_dma2d, layer_index) == HAL_OK){
             if(HAL_DMA2D_Start(&_handle_dma2d, color, (uint32_t)dest_addr, width, height) == HAL_OK){
