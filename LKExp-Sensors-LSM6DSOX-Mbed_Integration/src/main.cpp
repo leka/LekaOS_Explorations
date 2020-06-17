@@ -57,11 +57,16 @@ bool int2Flag = false;
 // Main
 //##################################################################################################
 
+/**
+ * @brief 
+ * 
+ * @return int 
+ */
 int main(void) {
 	//-------------------------------------------------------------------------------------
 	// Initial setup
 
-	ThisThread::sleep_for(10ms);	//waiting for sensor startup
+	ThisThread::sleep_for(15ms);	//waiting for sensor startup
 	lsm6dsox_mlc.disableI3C();		//disabling I3C on sensor
 	INT_1_LSM6DSOX.input();			//setting up INT1 pin as input (for interrupts to work)
 
@@ -86,6 +91,23 @@ int main(void) {
 	lsm6dsox_mlc.setDecisionTrees(
 		(MachineLearningCore::ucf_line_t *)lsm6dsox_six_d_position,
 		(sizeof(lsm6dsox_six_d_position) / sizeof(MachineLearningCore::ucf_line_t)));
+
+	//-------------------------------------------------------------------------------------
+	//state of interrupts before setup
+	lsm6dsox_pin_int1_route_t   pin_int1_route;
+	lsm6dsox_pin_int2_route_t   pin_int2_route;
+
+	//disable int1 and int2
+	lsm6dsox_pin_int1_route_get(lsm6dsox_mlc.TMP_getIoFunc(), &pin_int1_route);
+	lsm6dsox_pin_int2_route_get(lsm6dsox_mlc.TMP_getIoFunc(), NULL, &pin_int2_route);
+	pin_int1_route.mlc1 = PROPERTY_DISABLE;
+	pin_int2_route.mlc1 = PROPERTY_DISABLE;
+	lsm6dsox_pin_int1_route_set(lsm6dsox_mlc.TMP_getIoFunc(), pin_int1_route);
+	lsm6dsox_pin_int2_route_set(lsm6dsox_mlc.TMP_getIoFunc(), NULL, pin_int2_route);
+
+	//disable rerouting of int2 on int1
+	lsm6dsox_all_on_int1_set(lsm6dsox_mlc.TMP_getIoFunc(), PROPERTY_DISABLE);
+	
 
 	//-------------------------------------------------------------------------------------
 	// Setting up the xl and the gyro to work properly
@@ -125,44 +147,71 @@ int main(void) {
 	//   LSM6DSOX_BASE_PULSED_EMB_LATCHED   = 2
 	//   LSM6DSOX_ALL_INT_LATCHED           = 3
 	
+
+	
+
+	//--------------------------------------------------------------
+	//int setup
 	// Route signals on interrupt
 	lsm6dsox_mlc.enableTreeInterrupt(MachineLearningCoreTree::_TREE_1,
-									 TreeInterruptNum::_INT1);
+									 TreeInterruptNum::_INT2);
 
-	// verifying interrupt was set correctly
-	lsm6dsox_pin_int1_route_t   pin_int1_route;
-	lsm6dsox_pin_int1_route_get(lsm6dsox_mlc.TMP_getIoFunc(), &pin_int1_route);
-	printf("Interrupt 1 route for mlc1: %d\n", pin_int1_route.mlc1);
 
 	//-------------------------------------------------------------------------------------
-	// Testing interrupts
+	// Setting up callbacks
 	lsm6dsox_mlc.attachInterrupt1(ISR_INT1);
 	lsm6dsox_mlc.attachInterrupt2(ISR_INT2);
+
+	//--------------------------------------------------------------
+	//all ints on 1
+
+	//disable
+	lsm6dsox_all_on_int1_set(lsm6dsox_mlc.TMP_getIoFunc(), PROPERTY_DISABLE);
+	printf("Changing all on int 1 \n");
+
+	//check
+	uint8_t val;
+	lsm6dsox_all_on_int1_get(lsm6dsox_mlc.TMP_getIoFunc(), &val);
+	printf("INT2 on INT1 property: ");
+	printf((val == 1)?"true\n" : "false\n");
+
+	//comm with card
+	uint8_t ID = 0;
+	
+	printf("status comm carte: %d\n",lsm6dsox_mlc.getID(ID));
+
+	//emptying latched interrupts
+	lsm6dsox_all_sources_t status;
+	lsm6dsox_all_sources_get(lsm6dsox_mlc.TMP_getIoFunc(), &status);
+
+	printf("valeur status.mlc1 avant le while: %d\n", status.mlc1);
 	
 	//-------------------------------------------------------------------------------------
 	// Main loop
 	while (1) {
-		if(int1Flag)
+		if(int1Flag || int2Flag)
 		{
+			//int 1
+			lsm6dsox_pin_int1_route_get(lsm6dsox_mlc.TMP_getIoFunc(), &pin_int1_route);
+			printf("\nInterrupt 1 route for mlc1: %d\n", pin_int1_route.mlc1);
+			//int 2
+			lsm6dsox_pin_int2_route_get(lsm6dsox_mlc.TMP_getIoFunc(),NULL, &pin_int2_route);
+			printf("Interrupt 2 route for mlc1: %d\n", pin_int2_route.mlc1);
+
 			lsm6dsox_all_sources_t status;
 			lsm6dsox_all_sources_get(lsm6dsox_mlc.TMP_getIoFunc(), &status);
+			
 			if (status.mlc1)
 			{
-				mlc_interrupt_on_1();
+				printf("Status mlc1 is true \n");
+				if(int1Flag) mlc_interrupt_on_1();
+				else mlc_interrupt_on_2();				
 			}
 			int1Flag = false;
+			int2Flag = false;
 		}
-		else if(int2Flag)
-		{
-			lsm6dsox_all_sources_t status;
-			lsm6dsox_all_sources_get(lsm6dsox_mlc.TMP_getIoFunc(), &status);
-			if (status.mlc1)
-			{
-				mlc_interrupt_on_2();
-			}
-			int1Flag = false;
-		}
-		ThisThread::sleep_for(1s);
+
+		ThisThread::sleep_for(200ms);
 	}
 	return 0;
 }
@@ -171,29 +220,44 @@ int main(void) {
 // Functions
 //##################################################################################################
 
-// ISR for INT1
+/**
+ * @brief ISR for INT1
+ * 
+ */
 void ISR_INT1() {
 	int1Flag = true;
 }
 
-// ISR for INT2
+/**
+ * @brief  ISR for INT2
+ * 
+ */
 void ISR_INT2() {
 	int2Flag = true;
 }
 
-//function called if int1Flag is set
+/**
+ * @brief function called if int1Flag is set
+ * 
+ */
 void mlc_interrupt_on_1() {
 	printf("Interrupt comming from: INT1\n");
 	printState6D();
 }
 
-//function called if int2Flag is set
+/**
+ * @brief function called if int2Flag is set
+ * 
+ */
 void mlc_interrupt_on_2() {
 	printf("Interrupt comming from: INT2\n");
 	printState6D();
 }
 
-//Printing state of 6D position
+/**
+ * @brief Printing state of 6D position
+ * 
+ */
 void printState6D()
 {
 	MachineLearningCoreData values;
