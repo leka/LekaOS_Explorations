@@ -59,9 +59,6 @@ namespace MachineLearningCore {
 		} mlcTreeVal;
 	};
 	/* Class Declaration ---------------------------------------------------------*/
-	/**
-	 * Class for the use of LSM6DSOX component.
-	 */
 	class LSM6DSOX_MachineLearningCore : MachineLearningCoreBase {
 	  public:
 		LSM6DSOX_MachineLearningCore(Communication::I2CBase &component_i2c, PinName pin_interrupt1, PinName pin_interrupt2);
