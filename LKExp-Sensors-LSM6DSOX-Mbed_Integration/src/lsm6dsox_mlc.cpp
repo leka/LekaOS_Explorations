@@ -57,9 +57,9 @@
 
 
 
-#define PIN_I2C1_SDA (D14)
-#define PIN_I2C1_SCL (D15)
-// #define PIN_LSM6DSOX_INT NC
+// #define PIN_I2C1_SDA (D14)
+// #define PIN_I2C1_SCL (D15)
+// // #define PIN_LSM6DSOX_INT NC
 
 // DigitalOut INT_1_LSM6DSOX(A5,
 // 						  0);	// This line fix the use of LSM6DSOX on X-NUCLEO_IKS01A2

@@ -1,4 +1,4 @@
-#MLC documentation
+# MLC documentation
 
 This document is used as a "dump" of all the things we are learning about the MLC.
 The idea is to keep the info extracted from the Datasheet and the Application note safe. We will be trying to put things in order as we advance in the project
@@ -40,6 +40,10 @@ Here you can find all the files from the data logs to the final _.ucf_ file, sho
 
 * After the device is powered up, it performs a 10 ms (maximum) boot procedure. During the boot time the registers are not accessible.
 
+* INT2 signals can be redirected on INT1
+
+* It seems the configuration of the trees is reset or lost on power loss
+
 
 ## Getting a ucf file from a data set 
 1. Collect the data
@@ -54,7 +58,7 @@ Once you created a arff file, you will need to switch to weka to generate the de
 4. Finish the configuration with the decision tree
 To finish with the ucf file creation, go back to the MLC configuration on Unico GUI and define your decision tree [video](https://youtu.be/yvoBt9zl5Ws).
 5. (Mbed target) Change the the ucf file to a header file
-The last step to be able to use the ucf file, which define what registers need to be written with which data, in an mbed implemented code, it to change a bit his format and make it into a header file that may be included in you code.
+The last step to be able to use the ucf file, which define what registers need to be written with which data, in an mbed implemented code, it to change a bit his format and make it into a header file that may be included in you code. This is possible using once again Unico GUI, on the main page in the "options" tab, select the button "C code generation" and select your ucf file.
 
 
 ## working with xl and gy
