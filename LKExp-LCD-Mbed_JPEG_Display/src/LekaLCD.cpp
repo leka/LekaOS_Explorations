@@ -107,7 +107,7 @@ LekaLCD::LekaLCD() {
 
     #if !defined(DATA_IN_ExtSDRAM) 
       SDRAM_init();
-    #endif;
+    #endif
     
     OTM8009A_Init(OTM8009A_FORMAT_RGB888, OTM8009A_ORIENTATION_LANDSCAPE);
 }
@@ -186,6 +186,33 @@ void LekaLCD::fillRect(uint32_t x, uint32_t y, uint32_t width, uint32_t height, 
     uint32_t offset = _screen_width - width;
 
     fillBuffer(_active_layer, (uint32_t*)dest_address, width, height, offset, color);
+}
+
+void LekaLCD::drawImage(uint32_t data, uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+    uint32_t destination = _frame_buffer_start_address + (x + y * _screen_width) * 4;
+    _handle_dma2d.Instance = DMA2D;
+
+    _handle_dma2d.Init.Mode = DMA2D_M2M_BLEND;
+    _handle_dma2d.Init.ColorMode = DMA2D_OUTPUT_ARGB8888;
+    _handle_dma2d.Init.OutputOffset = _screen_width - width;
+
+    // Foreground
+    _handle_dma2d.LayerCfg[1].AlphaMode = DMA2D_NO_MODIF_ALPHA;
+    _handle_dma2d.LayerCfg[1].InputColorMode = DMA2D_INPUT_ARGB8888;
+    _handle_dma2d.LayerCfg[1].InputOffset = 0;
+    _handle_dma2d.LayerCfg[1].AlphaInverted = DMA2D_REGULAR_ALPHA;
+
+    // Background
+    _handle_dma2d.LayerCfg[0].AlphaMode = DMA2D_NO_MODIF_ALPHA;
+    _handle_dma2d.LayerCfg[0].InputColorMode = DMA2D_INPUT_ARGB8888;
+    _handle_dma2d.LayerCfg[0].InputOffset = _screen_width - width;
+
+    HAL_DMA2D_Init(&_handle_dma2d);
+    HAL_DMA2D_ConfigLayer(&_handle_dma2d, 1);
+    HAL_DMA2D_ConfigLayer(&_handle_dma2d, 0);
+    //HAL_DMA2D_Start(&_handle_dma2d, data, destination, width, height);
+    HAL_DMA2D_BlendingStart(&_handle_dma2d, data, destination, destination, width, height);
+    HAL_DMA2D_PollForTransfer(&_handle_dma2d, 10);
 }
 
 void LekaLCD::fillBuffer(uint32_t layer_index, void* dest_addr, uint32_t width, uint32_t height, uint32_t offset, uint32_t color) {
@@ -671,11 +698,12 @@ void LekaLCD::SDRAM_init() {
     HAL_SDRAM_SendCommand(&_handle_sdram, &command, SDRAM_TIMEOUT);
     
     // Step 5: Program the external memory mode register 
-    //  SDRAM_MODEREG_BURST_LENGTH_1            |\
-        SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL     |\
-        SDRAM_MODEREG_CAS_LATENCY_3             |\
-        SDRAM_MODEREG_OPERATING_MODE_STANDARD   |\
-        SDRAM_MODEREG_WRITEBURST_MODE_SINGLE
+    /*  SDRAM_MODEREG_BURST_LENGTH_1            |
+        SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL     |
+        SDRAM_MODEREG_CAS_LATENCY_3             |
+        SDRAM_MODEREG_OPERATING_MODE_STANDARD   |
+        SDRAM_MODEREG_WRITEBURST_MODE_SINGLE 
+    */
 
     tmpmrd = (uint32_t)0x0000 | 0x0000 | 0x0030 | 0x0000 | 0x0200;
     

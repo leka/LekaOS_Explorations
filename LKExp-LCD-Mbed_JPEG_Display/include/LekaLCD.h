@@ -59,6 +59,8 @@ public:
      */
     void fillRect(uint32_t x, uint32_t y, uint32_t width, uint32_t height, uint32_t color);
 
+    void drawImage(uint32_t data, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
+
 private:
 
     DMA2D_HandleTypeDef _handle_dma2d;
