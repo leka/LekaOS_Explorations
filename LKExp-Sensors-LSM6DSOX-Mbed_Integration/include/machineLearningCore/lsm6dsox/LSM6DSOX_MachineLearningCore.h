@@ -18,20 +18,31 @@
 namespace MachineLearningCore {
 	/* Defines -------------------------------------------------------------------*/
 	/* Enums ---------------------------------------------------------------------*/
+
+	/**
+	 * @brief 
+	 * 
+	 */
 	enum class InterruptNumber : uint8_t {
 		_INT1	 = 1,
 		_INT2	 = 2
 	};
 
-	//InterruptAttachedToTree
+	/**
+	 * @brief Possible interrupts to route a tree signal to.
+	 * 
+	 */
 	enum class TreeInterruptNum : uint8_t {
-		_NC = 0,
-		_INT1	 = 1,
-		_INT2	 = 2,
-		_INT1_AND_INT2 = 3
+		_NC = 0, 			/// Not connected
+		_INT1	 = 1,		/// Interrupt INT1
+		_INT2	 = 2,		/// Interrupt INT2
+		_INT1_AND_INT2 = 3	/// Interrupt INT1 and INT2
 	};
 
-	//InterruptAttachedToTree
+	/**
+	 * @brief The different trees present on the MLC
+	 * 
+	 */
 	enum class MachineLearningCoreTree : uint8_t {
 		_TREE_1 = 0,
 		_TREE_2 = 1,
@@ -58,6 +69,7 @@ namespace MachineLearningCore {
 			uint8_t tree8;
 		} mlcTreeVal;
 	};
+
 	/* Class Declaration ---------------------------------------------------------*/
 	class LSM6DSOX_MachineLearningCore : MachineLearningCoreBase {
 	  public:
@@ -70,11 +82,6 @@ namespace MachineLearningCore {
 		//temporary, to simplify developpement
 		// TODO erase this once no more in use
 		virtual stmdev_ctx_t* TMP_getIoFunc();
-
-		//temporary, we have to find a better way to do this
-		// TODO change the method when the functionnality is clarified
-		virtual Status setInterrupt1Pin(PinName intPin1);
-
 		
 		virtual Status enable();
 		virtual Status disable();
@@ -96,11 +103,8 @@ namespace MachineLearningCore {
 		virtual Status getTreeInterrupt(MachineLearningCoreTree tree, TreeInterruptNum &intNum);
 
 
-		virtual Status readInterrupt1(uint8_t &interrupt_status);
-		virtual Status attachInterrupt1(Callback<void()> func);
-
-		virtual Status readInterrupt2(uint8_t &interrupt_status);
-		virtual Status attachInterrupt2(Callback<void()> func);
+		virtual Status readInterrupt(uint8_t &interrupt_status, InterruptNumber intNum);
+		virtual Status attachInterrupt(Callback<void()> func, InterruptNumber intNum);
 
 		// Some component can generate more than one event, component_events list them.
 		virtual Status getEventStatus(std::array<uint8_t, 16> &component_events);
