@@ -8,3 +8,11 @@ flash:
 
 term:
 	mbed sterm
+
+wb55:
+	mbed compile -m NUCLEO_WB55RG --color --profile=debug --profile=./leka_cpp.json -f
+
+vs:
+	mv Makefile tmpMakefile
+	mbed-vscode-generator -m disco_f769ni -m NUCLEO_WB55RG
+	mv tmpMakefile Makefile
