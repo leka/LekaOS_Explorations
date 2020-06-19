@@ -72,6 +72,12 @@ or
 and then using serial term 
     $ mbed sterm 
 
+if it says that it's opening the term but exits immediately, you need to add you user to the group dialout
+    $ sudo adduser [username] dialout
+
+
+
+############################ OLD FIXES #####################################
 if it says that it's opening the term but exits immediately, you need sudo
     $ sudo mbed sterm
 
