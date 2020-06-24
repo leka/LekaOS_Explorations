@@ -174,10 +174,10 @@ void LekaLCD::drawPixel(uint32_t x, uint32_t y, uint32_t color) {
     *(__IO uint32_t*) (_handle_ltdc.LayerCfg[_active_layer].FBStartAdress + (4*(y*_screen_width + x))) = color;
 }
 
-uint32_t LekaLCD::readPixel(uint16_t Xpos, uint16_t Ypos) {
+uint32_t LekaLCD::readPixel(uint16_t x, uint16_t y) {
     uint32_t ret = 0;
     // Read data value from SDRAM memory (in ARGB8888 format)
-    ret = *(__IO uint32_t*) (_handle_ltdc.LayerCfg[_active_layer].FBStartAdress + (4*(Ypos*_screen_width + Xpos)));
+    ret = *(__IO uint32_t*) (_handle_ltdc.LayerCfg[_active_layer].FBStartAdress + (4*(y*_screen_width + x)));
     return ret;
 }
 
