@@ -43,6 +43,8 @@ void parseCommand();
 
 bool isFloat(string s);
 
+void sendIntBinary(int var);
+
 //##################################################################################################
 // Global Variables
 //##################################################################################################
@@ -182,7 +184,6 @@ void printData(Component::AccelerometerData &ac, Component::GyroscopeData &gy,Ls
 	printf("\n");
 }
 
-
 void onSerialReceived(){
 	//printf("Reading serial\n");
 	char chr = '\0';
@@ -191,6 +192,15 @@ void onSerialReceived(){
         pc.read(&chr, 1);
 		if(chr != '\n' && chr != '\0' && chr != '\r') commandString.push_back(chr);
 		else if(chr != '\r') commandStringComplete = true;
+	}
+}
+
+void sendIntBinary(int var)
+{
+	char *bytePtr = (char *)&var;
+	for(int i = 3; i>=0; --i)
+	{
+		pc.write((void*)(bytePtr+i), 1);
 	}
 }
 
