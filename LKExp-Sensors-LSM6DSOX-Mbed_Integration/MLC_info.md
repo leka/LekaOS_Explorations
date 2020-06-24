@@ -32,7 +32,7 @@ Here you can find all the files from the data logs to the final _.ucf_ file, sho
 * the trees do not have a defined size for what we know
 * selecting a particular tree to change does not seem possible, all the MLC has to be written again
 
-## Important info to be able to work
+## Important info to be able to work ( To put on commentary to Ladislas )
 (we maybe could find a better place for this)
 * the INT1 pin on the LSM6DSOX has to be set at 0 at startup for the I2C not to be disabled. If the board hasn't a pull-down on that pin, you have to set it as a DigitalOut LOW (if you want to use INT1, set it as a DigitalInOut, output, low. Then once the sensor has started, disable I3C via its internal functions to force I2C and then set INT1 pin as input)
 
