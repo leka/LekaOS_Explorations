@@ -18,6 +18,24 @@
  *
  */
 
+
+/*
+ ******************************************************************************
+ * This configuration for the MLC allows to detect what is the orientation of the sensor.
+ * MLC's tree1 will output 7 possible values, each corresponding to the position of one axis
+ *
+ * 0 = None
+ * 1 = X-axis pointing up
+ * 2 = X-axis pointing down
+ * 3 = Y-axis pointing up
+ * 4 = Y-axis pointing down
+ * 5 = Z-axis pointing up
+ * 6 = Z-axis pointing down
+ */
+
+
+
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef LIS6DSOX_SIX_D_POSITION_H
 #define LIS6DSOX_SIX_D_POSITION_H
