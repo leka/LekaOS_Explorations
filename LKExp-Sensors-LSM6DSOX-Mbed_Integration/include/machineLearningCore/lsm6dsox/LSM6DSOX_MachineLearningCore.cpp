@@ -77,6 +77,29 @@ namespace MachineLearningCore {
 		return Status::OK;
 	}
 
+	/**
+	 * @brief Restores the default values of all the control registers of the sensor
+	 * 
+	 * @retval 0 in case of success, an error code otherwise
+	 */
+	Status LSM6DSOX_MachineLearningCore::restoreDefaultConfiguration()
+	{
+		uint8_t rst;
+		if (lsm6dsox_reset_set(&_register_io_function, PROPERTY_ENABLE) !=
+			(int32_t)Communication::Status::OK) {
+			return Status::ERROR;
+		}
+		do {
+			if (lsm6dsox_reset_get(&_register_io_function, &rst) !=
+			(int32_t)Communication::Status::OK) {
+			return Status::ERROR;
+			}
+		} while (rst);
+
+		return Status::OK;
+	}
+
+
 	//this is a temporary method to ease up developpement
 	// TODO erase once no more in use
 	/**
@@ -131,7 +154,7 @@ namespace MachineLearningCore {
 	 * @param numLines Number of lines in the configuration file
 	 * @retval 0 in case of success, an error code otherwise
 	 */
-    Status LSM6DSOX_MachineLearningCore::setDecisionTrees(const ucf_line_t ucfConfig[], uint32_t numLines) {
+    Status LSM6DSOX_MachineLearningCore::configureMLC(const ucf_line_t ucfConfig[], uint32_t numLines) {
         uint8_t  rst;
         /* Restore default configuration */
         if (lsm6dsox_reset_set(&_register_io_function , PROPERTY_ENABLE) !=
@@ -235,7 +258,7 @@ namespace MachineLearningCore {
 	 */
 	Status LSM6DSOX_MachineLearningCore::getData(std::array<uint8_t, 8> &data) {
         uint8_t buff[8];
-        MachineLearningCoreData mlc	 = {{0}};
+        Data mlc	 = {{0}};
         if( lsm6dsox_mlc_out_get(&_register_io_function, buff) != 
         	(int32_t)Communication::Status::OK) {
 			return Status::ERROR;
@@ -243,10 +266,10 @@ namespace MachineLearningCore {
 
         for (int i = 0; i< 8; ++i)
         {
-            mlc.data[i] = buff[i];
+            mlc.array[i] = buff[i];
         }
 
-        data = mlc.data;
+        data = mlc.array;
 		return Status::OK;
 	}
 
@@ -282,6 +305,47 @@ namespace MachineLearningCore {
 	}
 
 	/**
+	 * @brief Set the Interrupt Behavior of the MLC trees
+	 * 
+	 * @param behavior pulsed or latched 
+	 * @retval 0 in case of success, an error code otherwise
+	 */
+	Status LSM6DSOX_MachineLearningCore::setInterruptBehavior(InterruptBehavior behavior){
+		lsm6dsox_lir_t val;
+		;
+		if( lsm6dsox_int_notification_get(&_register_io_function, &val)  != 
+				(int32_t)Communication::Status::OK) {
+				return Status::ERROR;
+		}
+
+		switch (val)
+		{
+		case lsm6dsox_lir_t::LSM6DSOX_ALL_INT_PULSED:
+			if(behavior == InterruptBehavior::_LATCHED)
+				val = lsm6dsox_lir_t::LSM6DSOX_BASE_PULSED_EMB_LATCHED;
+			break;
+		case lsm6dsox_lir_t::LSM6DSOX_BASE_LATCHED_EMB_PULSED:
+			if(behavior == InterruptBehavior::_LATCHED)
+				val = lsm6dsox_lir_t::LSM6DSOX_ALL_INT_LATCHED;
+			break;
+		case lsm6dsox_lir_t::LSM6DSOX_BASE_PULSED_EMB_LATCHED:
+			if(behavior == InterruptBehavior::_PULSED)
+				val = lsm6dsox_lir_t::LSM6DSOX_ALL_INT_PULSED;
+			break;
+		case lsm6dsox_lir_t::LSM6DSOX_ALL_INT_LATCHED:
+			if(behavior == InterruptBehavior::_PULSED)
+				val = lsm6dsox_lir_t::LSM6DSOX_BASE_LATCHED_EMB_PULSED;
+			break;
+		}
+
+		if( lsm6dsox_int_notification_set(&_register_io_function, val)  != 
+				(int32_t)Communication::Status::OK) {
+				return Status::ERROR;
+		}
+		return Status::OK;
+	}
+
+	/**
 	 * @brief  Enable interrupt from a given tree on INT1, INT2 or both
 	 * 
 	 * This function could be made simpler by only writing to the registers MLC_INT1(0Dh) and MLC_INT2(11h)
@@ -291,7 +355,7 @@ namespace MachineLearningCore {
 	 * @param intNum the interrupt on which you want the signal to be routed
 	 * @retval 0 in case of success, an error code otherwise
 	 */
-	Status LSM6DSOX_MachineLearningCore::enableTreeInterrupt(MachineLearningCoreTree tree, TreeInterruptNum intNum) {
+	Status LSM6DSOX_MachineLearningCore::enableTreeInterrupt(Tree tree, TreeInterruptNum intNum) {
 
 		lsm6dsox_pin_int1_route_t   pin_int1_route;
 		lsm6dsox_pin_int2_route_t   pin_int2_route;
@@ -314,35 +378,35 @@ namespace MachineLearningCore {
 		
 		switch(tree)
 		{
-			case MachineLearningCoreTree::_TREE_1:
+			case Tree::_TREE_1:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc1 = PROPERTY_ENABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc1 = PROPERTY_ENABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_2:
+			case Tree::_TREE_2:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc2 = PROPERTY_ENABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc2 = PROPERTY_ENABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_3:
+			case Tree::_TREE_3:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc3 = PROPERTY_ENABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc3 = PROPERTY_ENABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_4:
+			case Tree::_TREE_4:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc4 = PROPERTY_ENABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc4 = PROPERTY_ENABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_5:
+			case Tree::_TREE_5:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc5 = PROPERTY_ENABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc5 = PROPERTY_ENABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_6:
+			case Tree::_TREE_6:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc6 = PROPERTY_ENABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc6 = PROPERTY_ENABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_7:
+			case Tree::_TREE_7:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc7 = PROPERTY_ENABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc7 = PROPERTY_ENABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_8:
+			case Tree::_TREE_8:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc8 = PROPERTY_ENABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc8 = PROPERTY_ENABLE;
 			break;
@@ -374,7 +438,7 @@ namespace MachineLearningCore {
 	 * @param intNum the interrupt on which you want the signal to be routed
 	 * @retval 0 in case of success, an error code otherwise 
 	 */
-	Status LSM6DSOX_MachineLearningCore::disableTreeInterrupt(MachineLearningCoreTree tree, TreeInterruptNum intNum) {
+	Status LSM6DSOX_MachineLearningCore::disableTreeInterrupt(Tree tree, TreeInterruptNum intNum) {
 		
 		lsm6dsox_pin_int1_route_t   pin_int1_route;
 		lsm6dsox_pin_int2_route_t   pin_int2_route;
@@ -397,35 +461,35 @@ namespace MachineLearningCore {
 		
 		switch(tree)
 		{
-			case MachineLearningCoreTree::_TREE_1:
+			case Tree::_TREE_1:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc1 = PROPERTY_DISABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc1 = PROPERTY_DISABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_2:
+			case Tree::_TREE_2:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc2 = PROPERTY_DISABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc2 = PROPERTY_DISABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_3:
+			case Tree::_TREE_3:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc3 = PROPERTY_DISABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc3 = PROPERTY_DISABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_4:
+			case Tree::_TREE_4:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc4 = PROPERTY_DISABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc4 = PROPERTY_DISABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_5:
+			case Tree::_TREE_5:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc5 = PROPERTY_DISABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc5 = PROPERTY_DISABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_6:
+			case Tree::_TREE_6:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc6 = PROPERTY_DISABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc6 = PROPERTY_DISABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_7:
+			case Tree::_TREE_7:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc7 = PROPERTY_DISABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc7 = PROPERTY_DISABLE;
 			break;
-			case MachineLearningCoreTree::_TREE_8:
+			case Tree::_TREE_8:
 				if(intNum == TreeInterruptNum::_INT1 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int1_route.mlc8 = PROPERTY_DISABLE;
 				if(intNum == TreeInterruptNum::_INT2 || intNum == TreeInterruptNum::_INT1_AND_INT2) pin_int2_route.mlc8 = PROPERTY_DISABLE;
 			break;
@@ -457,7 +521,7 @@ namespace MachineLearningCore {
 	 * @param intNum is the TreeInterruptNum where to store the interrupt on which the signal is routed 
 	 * @retval 0 in case of success, an error code otherwise
 	 */
-	Status LSM6DSOX_MachineLearningCore::getTreeInterrupt(MachineLearningCoreTree tree, TreeInterruptNum &intNum)
+	Status LSM6DSOX_MachineLearningCore::getTreeInterrupt(Tree tree, TreeInterruptNum &intNum)
 	{
 		lsm6dsox_pin_int1_route_t   pin_int1_route;
 		lsm6dsox_pin_int2_route_t   pin_int2_route;
@@ -476,42 +540,42 @@ namespace MachineLearningCore {
 		
 		switch(tree)
 		{
-			case MachineLearningCoreTree::_TREE_1:
+			case Tree::_TREE_1:
 				if( pin_int1_route.mlc1 == PROPERTY_ENABLE && pin_int2_route.mlc1 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1_AND_INT2;
 				else if(pin_int1_route.mlc1 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1;
 				else if(pin_int2_route.mlc1 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT2;
 			break;
-			case MachineLearningCoreTree::_TREE_2:
+			case Tree::_TREE_2:
 				if( pin_int1_route.mlc2 == PROPERTY_ENABLE && pin_int2_route.mlc2 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1_AND_INT2;
 				else if(pin_int1_route.mlc2 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1;
 				else if(pin_int2_route.mlc2 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT2;
 			break;
-			case MachineLearningCoreTree::_TREE_3:
+			case Tree::_TREE_3:
 				if( pin_int1_route.mlc3 == PROPERTY_ENABLE && pin_int2_route.mlc3 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1_AND_INT2;
 				else if(pin_int1_route.mlc3 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1;
 				else if(pin_int2_route.mlc3 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT2;
 			break;
-			case MachineLearningCoreTree::_TREE_4:
+			case Tree::_TREE_4:
 				if( pin_int1_route.mlc4 == PROPERTY_ENABLE && pin_int2_route.mlc4 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1_AND_INT2;
 				else if(pin_int1_route.mlc4 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1;
 				else if(pin_int2_route.mlc4 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT2;
 			break;
-			case MachineLearningCoreTree::_TREE_5:
+			case Tree::_TREE_5:
 				if( pin_int1_route.mlc5 == PROPERTY_ENABLE && pin_int2_route.mlc5 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1_AND_INT2;
 				else if(pin_int1_route.mlc5 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1;
 				else if(pin_int2_route.mlc5 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT2;
 			break;
-			case MachineLearningCoreTree::_TREE_6:
+			case Tree::_TREE_6:
 				if( pin_int1_route.mlc6 == PROPERTY_ENABLE && pin_int2_route.mlc6 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1_AND_INT2;
 				else if(pin_int1_route.mlc6 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1;
 				else if(pin_int2_route.mlc6 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT2;
 			break;
-			case MachineLearningCoreTree::_TREE_7:
+			case Tree::_TREE_7:
 				if( pin_int1_route.mlc7 == PROPERTY_ENABLE && pin_int2_route.mlc7 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1_AND_INT2;
 				else if(pin_int1_route.mlc7 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1;
 				else if(pin_int2_route.mlc7 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT2;
 			break;
-			case MachineLearningCoreTree::_TREE_8:
+			case Tree::_TREE_8:
 				if( pin_int1_route.mlc8 == PROPERTY_ENABLE && pin_int2_route.mlc8 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1_AND_INT2;
 				else if(pin_int1_route.mlc8 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT1;
 				else if(pin_int2_route.mlc8 == PROPERTY_ENABLE) iNum = TreeInterruptNum::_INT2;
@@ -522,6 +586,54 @@ namespace MachineLearningCore {
 
 		return Status::OK;
 	}
+
+	/**
+	 * @brief Get the status of the interrupt for a given tree
+	 * 
+	 * @param tree The MLC tree on which to set the interrupt
+	 * @param treeStatus 1 in case of interrupt from the tree, 0 otherwise
+	 * @retval 0 in case of success, an error code otherwise
+	 */
+	Status LSM6DSOX_MachineLearningCore::getTreeInterruptStatus(Tree tree, uint8_t &treeStatus)
+	{
+		lsm6dsox_all_sources_t status;
+		if( lsm6dsox_all_sources_get(&_register_io_function, &status) != 
+			(int32_t)Communication::Status::OK) {
+			return Status::ERROR;
+		}
+		switch (tree){
+			
+		case Tree::_TREE_1:
+			treeStatus = status.mlc1;
+			break;
+		case Tree::_TREE_2:
+			treeStatus = status.mlc2;
+			break;
+		case Tree::_TREE_3:
+			treeStatus = status.mlc3;
+			break;
+		case Tree::_TREE_4:
+			treeStatus = status.mlc4;
+			break;
+		case Tree::_TREE_5:
+			treeStatus = status.mlc5;
+			break;
+		case Tree::_TREE_6:
+			treeStatus = status.mlc6;
+			break;
+		case Tree::_TREE_7:
+			treeStatus = status.mlc7;
+			break;
+		case Tree::_TREE_8:
+			treeStatus = status.mlc8;
+			break;
+		}
+
+		return Status::OK;
+	}
+
+
+
 
 	/**
 	 * @brief Read the interrupt state on INT1
@@ -545,6 +657,24 @@ namespace MachineLearningCore {
 		if(intNum == InterruptNumber::_INT1) _lsm6dsox_interrupt1.rise(func);
 		else if(intNum == InterruptNumber::_INT2) _lsm6dsox_interrupt2.rise(func);
 		return Status::OK;
+	}
+
+	/**
+	 * @brief Enables or disables routing INT2 interrupts on INT1 pin
+	 * 
+	 * @param enable true to enable, false otherwise
+	 * @retval 0 in case of success, an error code otherwise
+	 */
+	Status LSM6DSOX_MachineLearningCore::allOnInt1Route( bool enable){
+		uint8_t property = PROPERTY_DISABLE;
+		if(enable) property = PROPERTY_ENABLE;
+		
+		if( lsm6dsox_all_on_int1_set(&_register_io_function, property) != 
+			(int32_t)Communication::Status::OK) {
+			return Status::ERROR;
+		}
+
+		return Status::OK;	
 	}
 
 	/**

@@ -25,6 +25,7 @@ using namespace MachineLearningCore;
 
 void ISR_INT1();
 void printState6D();
+void intSetup();
 
 //##################################################################################################
 // Global Variables
@@ -53,45 +54,48 @@ bool int1Flag = false;
 //##################################################################################################
 
 int main(void) {
-	//-------------------------------------------------------------------------------------
-	// Initial setup
-
-	ThisThread::sleep_for(10ms);	//waiting for sensor startup
-	lsm6dsox_mlc.disableI3C();		//disabling I3C on sensor
-	INT_1_LSM6DSOX.input();			//setting up INT1 pin as input (for interrupts to work)
-
 	//First message to serial
 	printf("\nStarting a new run!\n\n");
 
-	// Inits
-	lsm6dsox_mlc.init();						//mlc
-	lsm6dsox_accelerometer_component.init();	//xl
-	lsm6dsox_gyroscope_component.init();		//gy
+	//-------------------------------------------------------------------------------------
+	//Initialization
+	ThisThread::sleep_for(10ms);	//waiting for sensor boot time
+	
+	//Test sensor connexion / check device ID
+	uint8_t whoAmI;
+	lsm6dsox_mlc.getID(whoAmI);
+	if (whoAmI != LSM6DSOX_ID)
+	{
+		printf("LSM6DSOX sensor is not connected properly");
+		while(1);
+	}
+	
+	// Restore default configuration
+	lsm6dsox_mlc.restoreDefaultConfiguration();
+
+	//-------------------------------------------------------------------------------------
+	// Disabling I3C 
+	lsm6dsox_mlc.disableI3C();		//disabling I3C on sensor
+	INT_1_LSM6DSOX.input();			//setting up INT1 pin as input (for interrupts to work)
+
+	//-------------------------------------------------------------------------------------
+	//Sensors init
+	lsm6dsox_mlc.init();						//mlc init
+	lsm6dsox_accelerometer_component.init();	//xl init
+	lsm6dsox_gyroscope_component.init();		//gy init
 
 	//-------------------------------------------------------------------------------------
 	// Writing a decision tree to the MLC
 
 	// Configuration of decision trees with the ucf from the lsm6dsox_six_d_position.h file
-	lsm6dsox_mlc.setDecisionTrees(
-		(MachineLearningCore::ucf_line_t *)lsm6dsox_six_d_position,
-		(sizeof(lsm6dsox_six_d_position) / sizeof(MachineLearningCore::ucf_line_t)));
+	lsm6dsox_mlc.configureMLC( (MachineLearningCore::ucf_line_t *)lsm6dsox_six_d_position,
+									(sizeof(lsm6dsox_six_d_position) / sizeof(MachineLearningCore::ucf_line_t)));
 
 	//-------------------------------------------------------------------------------------
-	// //state of interrupts before setup
-	// lsm6dsox_pin_int1_route_t   pin_int1_route;
-	// lsm6dsox_pin_int2_route_t   pin_int2_route;
-
-	// //disable int1 and int2
-	// lsm6dsox_pin_int1_route_get(lsm6dsox_mlc.TMP_getIoFunc(), &pin_int1_route);
-	// lsm6dsox_pin_int2_route_get(lsm6dsox_mlc.TMP_getIoFunc(), NULL, &pin_int2_route);
-	// pin_int1_route.mlc1 = PROPERTY_DISABLE;
-	// pin_int2_route.mlc1 = PROPERTY_DISABLE;
-	// lsm6dsox_pin_int1_route_set(lsm6dsox_mlc.TMP_getIoFunc(), pin_int1_route);
-	// lsm6dsox_pin_int2_route_set(lsm6dsox_mlc.TMP_getIoFunc(), NULL, pin_int2_route);
-
-	// //disable rerouting of int2 on int1
-	// lsm6dsox_all_on_int1_set(lsm6dsox_mlc.TMP_getIoFunc(), PROPERTY_DISABLE);
-	
+	//To manually set up the interrupts after the ucf config
+	lsm6dsox_mlc.disableTreeInterrupt(Tree::_TREE_1, 
+									  MachineLearningCore::TreeInterruptNum::_INT1_AND_INT2);
+	lsm6dsox_mlc.allOnInt1Route(false);
 
 	//-------------------------------------------------------------------------------------
 	// Setting up the xl and the gyro to work properly
@@ -123,36 +127,29 @@ int main(void) {
 	// Setting up interrupt for MLC
 
 	// Configure interrupt pin mode notification
-	// TODO
-	// this still has to be clarified
-	lsm6dsox_int_notification_set(lsm6dsox_mlc.TMP_getIoFunc(), LSM6DSOX_ALL_INT_LATCHED); 
-	//   LSM6DSOX_ALL_INT_PULSED            = 0
-	//   LSM6DSOX_BASE_LATCHED_EMB_PULSED   = 1
-	//   LSM6DSOX_BASE_PULSED_EMB_LATCHED   = 2
-	//   LSM6DSOX_ALL_INT_LATCHED           = 3
+	lsm6dsox_mlc.setInterruptBehavior(InterruptBehavior::_LATCHED);
+	//lsm6dsox_int_notification_set(lsm6dsox_mlc.TMP_getIoFunc(), lsm6dsox_lir_t::LSM6DSOX_BASE_PULSED_EMB_LATCHED);
 	
-	//--------------------------------------------------------------
-	//int setup
 	// Route signals on interrupt
-	lsm6dsox_mlc.enableTreeInterrupt(MachineLearningCoreTree::_TREE_1, TreeInterruptNum::_INT1);
+	lsm6dsox_mlc.enableTreeInterrupt(Tree::_TREE_1, TreeInterruptNum::_INT1);
 
 	//-------------------------------------------------------------------------------------
 	// Setting up callbacks
 	lsm6dsox_mlc.attachInterrupt(ISR_INT1, InterruptNumber::_INT1);
 
 	//emptying latched interrupts
-	lsm6dsox_all_sources_t status;
-	lsm6dsox_all_sources_get(lsm6dsox_mlc.TMP_getIoFunc(), &status);
+	uint8_t status;
+	lsm6dsox_mlc.getTreeInterruptStatus(Tree::_TREE_1, status);
 	
 	//-------------------------------------------------------------------------------------
 	// Main loop
 	while (1) {
 		if(int1Flag)
 		{
-			lsm6dsox_all_sources_t status;
-			lsm6dsox_all_sources_get(lsm6dsox_mlc.TMP_getIoFunc(), &status);
-			
-			if (status.mlc1) printState6D();	
+			uint8_t status;
+			//check if the interrupt was on tree 1
+			lsm6dsox_mlc.getTreeInterruptStatus(Tree::_TREE_1, status);
+			if(status) printState6D();
 			int1Flag = false;
 		}
 		ThisThread::sleep_for(200ms);
@@ -178,8 +175,8 @@ void ISR_INT1() {
  */
 void printState6D()
 {
-	MachineLearningCoreData values;
-	lsm6dsox_mlc.getData(values.data);
+	Data data;
+	lsm6dsox_mlc.getData(data.array);
 	// MLC0_SRC register values for 6D position
 	// 0 = None
 	// 1 = X-axis pointing up
@@ -189,7 +186,7 @@ void printState6D()
 	// 5 = Z-axis pointing up
 	// 6 = Z-axis pointing down
 
-	switch (values.mlcTreeVal.tree1) {
+	switch (data.trees.tree1) {
 		case 0:
 			printf("None (Uncertain position)\n");
 			break;
@@ -213,68 +210,3 @@ void printState6D()
 			break;
 	}
 }
-
-//################################################################################################
-// Blink (in case of real problems)
-
-// //Connection test
-// int main(void) {
-
-// 	DigitalOut led(LED1);
-
-// 	while (true) {
-//         led = !led;
-// 		static int i = 0;
-// 		printf("%d\n", i);
-// 		++i;
-// 		ThisThread::sleep_for(1s);
-// 	}
-
-// 	return 0;
-// }
-//################################################################################################
-
-//################################################################################################
-// Main from Yann's example
-
-// #define PIN_I2C1_SDA (D14)
-// #define PIN_I2C1_SCL (D15)
-// //#define PIN_LSM6DSOX_INT1 (A5)
-// #define PIN_LSM6DSOX_INT1 NC
-
-// DigitalOut INT_1_LSM6DSOX(A5, 0);	// This line fix the use of LSM6DSOX on X-NUCLEO_IKS01A2
-
-// I2C i2c1(PIN_I2C1_SDA, PIN_I2C1_SCL);
-// Communication::LSM6DSOX_I2C lsm6dsox_i2c(i2c1);
-
-// Component::LSM6DSOX_Accelerometer lsm6dsox_accelerometer_component(lsm6dsox_i2c,
-// PIN_LSM6DSOX_INT1); Component::LSM6DSOX_Gyroscope lsm6dsox_gyroscope_component(lsm6dsox_i2c,
-// PIN_LSM6DSOX_INT1);
-
-// int main(void) {
-
-// 	lsm6dsox_gyroscope_component.init();
-// 	lsm6dsox_gyroscope_component.setPowerMode(Component::PowerMode::NORMAL);
-// 	lsm6dsox_gyroscope_component.setDataRate(104.0f);
-// 	lsm6dsox_gyroscope_component.setRange(Component::GyroscopeRange::_125DPS);
-
-// 	lsm6dsox_accelerometer_component.init();
-// 	lsm6dsox_accelerometer_component.setPowerMode(Component::PowerMode::NORMAL);
-// 	lsm6dsox_accelerometer_component.setDataRate(104.0f);
-// 	lsm6dsox_accelerometer_component.setRange(Component::AccelerometerRange::_2G);
-
-// 	Component::GyroscopeData gy;
-// 	Component::AccelerometerData ac;
-
-// 	while (1) {
-// 		lsm6dsox_gyroscope_component.getData(gy.data);
-// 		printf("%d %d %d \n", (int)gy.mdps.x, (int)gy.mdps.y, (int)gy.mdps.z);
-// 		lsm6dsox_accelerometer_component.getData(ac.data);
-// 		printf("%d %d %d \n", (int)ac.mg.x, (int)ac.mg.y, (int)ac.mg.z);
-
-// 		printf("\n");
-// 		ThisThread::sleep_for(300ms);
-// 	}
-// 	return 0;
-// }
-//################################################################################################

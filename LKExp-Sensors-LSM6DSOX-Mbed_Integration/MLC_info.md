@@ -15,6 +15,16 @@ The idea is to keep the info extracted from the Datasheet and the Application no
 * **UM2121** [link](https://www.st.com/resource/en/user_manual/dm00333132-getting-started-with-the-xnucleoiks01a2-motion-mems-and-environmental-sensor-expansion-board-for-stm32-nucleo-stmicroelectronics.pdf) : X-NUCLEO-IKS01A2 user manual
 * STEVAL-MKI197V1 : Data brief (no reference)
 
+#### Unanswered questions
+
+* It seems the configuration of the MLC is reset or lost on power loss
+* Decision trees memory slots have to be set up in order during the configuration, we don't seem to be able to add a given decision tree in a specific memory slot, also selecting a particular tree to change does not seem possible, all the MLC has to be configured again
+* The UCF files appear to use the `PAGE_SEL (02h)` register to access other *advanced features* register pages than 0 and 1 which are the only ones documented.
+  We don't know if there is a documentation for pages 2-15 but nothing is said in the LSM6DSOX datasheet/Application Note. UCF file makes references to registers in page 3 of the memory for example.
+* UCF code seems to set up a lot of configuration registers, is it possible to change these configurations after the tree configuration or should they stay the same.
+* Is there any reason for us not to use Unico until the UCF génération? The documentation suggests that the features would be directly calculated by the MLC, yet we can't access directly to the results of thoses operations by ourselves.
+* Need information concerning sensors data rate compared to MLC data rate.
+
 #### Software examples (from ST)
 * Configuring the MLC : [link](https://github.com/STMicroelectronics/STMems_Standard_C_drivers/tree/master/lsm6dsox_STdC/example/lsm6dsox_mlc.c)
 The _lsm6dsox_mlc.c_ file does a basic config of the MLC starting from a pre-made .h which consists on a _ucf_line_t_ variable extracted from a _.ucf_ file.
@@ -36,7 +46,7 @@ Here you can find all the files from the data logs to the final _.ucf_ file, sho
 (we maybe could find a better place for this)
 * the INT1 pin on the LSM6DSOX has to be set at 0 at startup for the I2C not to be disabled. If the board hasn't a pull-down on that pin, you have to set it as a DigitalOut LOW (if you want to use INT1, set it as a DigitalInOut, output, low. Then once the sensor has started, disable I3C via its internal functions to force I2C and then set INT1 pin as input)
 
-* ucf writing apparently activates the interrupts on INT1
+* The UCF configuration set up other things like the interrupts on INT1, and the data block update among other things
 
 * After the device is powered up, it performs a 10 ms (maximum) boot procedure. During the boot time the registers are not accessible.
 
@@ -44,13 +54,20 @@ Here you can find all the files from the data logs to the final _.ucf_ file, sho
 
 * It seems the configuration of the trees is reset or lost on power loss
 
+* Considering that the use of too many features may lead to overfitting, it is recommended to start by selecting the first four features:
+    * Mean
+    * Variance
+    * Energy
+    * Peak-to-peak
+    `AN5259` - section *1.3.13*
 
-## Getting a ucf file from a data set 
+
+## Getting a ucf file from a data set (Not finished)
 1. Collect the data
 To get the ucf ( Unico Configuration File), you will need to use the Unico GUI software as well as a machine learning software like Weka that can generate a decision tree (There are others but weka is recommended). You can follow those video guides (5 videos) : [ST guide for LSM6DSOX MLC setup](https://www.youtube.com/watch?v=xn92M_VSv0o)
 The first step will be to get your movement recognition data set ready, for this you will need to record a correct amount of data corresponding to one movement.
 _At this point it is worth noting that for more complicated movements, you will need to use the Finite State Machine fonction of the LSM6DSOX sensor in addition to the Machine Learning Core to differenciate between complex movements._
-An important thing you need to know is if your board compatible directly with Unico, for example an ST test board connected to a compatible Nucleo board. In this case you can register your data set directly from Unico [video](https://www.youtube.com/watch?v=xhcq0MMdGiY&t=1s). However if you're using a board that is not compatible with Unico, you will ahave to use Unico in "offline" mode, not communicating with the card. You will nevertheless be able to generate a ucf from a data set, but for the creation of your dataset, and furthermore a dataset compatible with Unico (CSV for example), you will have to do it yourself. We will however try to provide something able to register a data set if we can.
+An important thing you need to know is if your board compatible directly with Unico, for example an ST test board connected to a compatible Nucleo board. In this case you can register your data set directly from Unico [video](https://www.youtube.com/watch?v=xhcq0MMdGiY&t=1s). However if you're using a board that is not compatible with Unico, you will have to use Unico in "offline" mode, not communicating with the card. You will nevertheless be able to generate a ucf from a data set, but for the creation of your dataset, and furthermore a dataset compatible with Unico (CSV for example), you will have to do it yourself. We will however try to provide something able to register a data set if we can.
 2. Start the configuration and create the arff file to use in a decision tree generator
 When your different datasets each corresponding to a movement are recorded. You will need to go in the MLC tab of he Unico GUI : There you just have to add your differents data set and label them (for example with the name of the movement corresponding), it's quite intuitive. Once this is done, go in the configuration sub-tab and follow the different steps, selecting wich data features to use, if you want to use a filter, etc [video](https://www.youtube.com/watch?v=NRvoH6jmiys). 
 3. Create a decision tree from Weka
