@@ -14,17 +14,17 @@
         4. Low Power enable/disable
     - Initialiser le DSI Video avec la configuration
     - Configurer et initialiser la clock du LCD (HAL_RCCEx_PeriphCLKConfig)
-    - Configurer le LTDC ( Backcolor, polarité, synchronisation -> utiliser `HAL_LTDC_StructInitFromVideoConfig(&hltdc, &hdsivideo)` )
+    - Configurer le LTDC ( Backcolor, polarité, synchronisation → utiliser `HAL_LTDC_StructInitFromVideoConfig(&hltdc, &hdsivideo)` )
     - Initialiser le LTDC
     - Start le DSI
-    - Initialiser la SRAM
+    - Initialiser la SDRAM
     - Initialiser le driver OTM8009a
 
  - Pour afficher un pixel à l'écran : écrire directement la couleur dans le frame buffer de la layer concernée à la bonne adresse et au bon format (ARGB8888 dans notre cas)
 
- - Pour remplir une surface sur l'écran : utilisation du DMA2D qui se charge du frame buffer (?)
+ - Pour remplir une surface sur l'écran : utilisation du DMA2D en mode R2M (register to memory) qui se charge du frame buffer
 
- - Pour afficher une image depuis un tableau de données (couleur des pixels en ARGB888) : utilisation du DMA2D et des deux layers pour effectuer le mélange des canaux alpha avec `HAL_DMA2D_BlendingStart` au lieu de `HAL_DMA2DStart`
+ - Pour afficher une image depuis un tableau de données (couleur des pixels en ARGB888) : utilisation du DMA2D en mode M2M (memory to memory) et des deux layers pour effectuer le mélange des canaux alpha avec `HAL_DMA2D_BlendingStart` au lieu de `HAL_DMA2D_Start`
 
  - Pour afficher une image jpeg chargée depuis la carte SD : utilisation du JPEG decoder puis copie du buffer avec le DMA2D
 
