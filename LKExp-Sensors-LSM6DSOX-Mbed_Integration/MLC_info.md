@@ -42,7 +42,7 @@ Here you can find all the files from the data logs to the final _.ucf_ file, sho
 * the trees do not have a defined size for what we know
 * selecting a particular tree to change does not seem possible, all the MLC has to be written again
 
-## Important info to be able to work ( To put on commentary to Ladislas )
+## Important info to be able to work
 (we maybe could find a better place for this)
 * the INT1 pin on the LSM6DSOX has to be set at 0 at startup for the I2C not to be disabled. If the board hasn't a pull-down on that pin, you have to set it as a DigitalOut LOW (if you want to use INT1, set it as a DigitalInOut, output, low. Then once the sensor has started, disable I3C via its internal functions to force I2C and then set INT1 pin as input)
 
@@ -61,6 +61,7 @@ Here you can find all the files from the data logs to the final _.ucf_ file, sho
     * Peak-to-peak
     `AN5259` - section *1.3.13*
 
+* interrupts on the MLC are part of *embedded fucntions* interrupts, their behavior (latched/pulsed) is controlled by **PAGE_RW** register.
 
 ## Getting a ucf file from a data set (Not finished)
 1. Collect the data
@@ -126,7 +127,7 @@ The last step to be able to use the ucf file, which define what registers need t
 
 * **TAP_CFG0** (56h) : [datasheet](https://www.st.com/resource/en/datasheet/lsm6dsox.pdf#page=82) page 82
     * INT_CLR_ON_READ : This bit allows immediately clearing the latched interrupts of an event detection upon the read of the corresponding status register. It must be set to 1 together with LIR
-    * LIR : latch basic interrupts
+    * LIR : latch basic interrupts, only usefull for basic interrupts, for MLC interrupts see **PAGE_RW** (17h)
 
 * **TAP_CFG2** (58h) : [datasheet](https://www.st.com/resource/en/datasheet/lsm6dsox.pdf#page=83) page 83
     * INTERRUPTS_ENABLE : Enable basic interrupts (on embedded functions)
