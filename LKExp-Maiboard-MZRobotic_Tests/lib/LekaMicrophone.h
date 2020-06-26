@@ -14,7 +14,7 @@
 
 class LekaMicrophone {
   public:
-	LekaMicrophone(AnalogIn);
+	LekaMicrophone(AnalogIn&);
 	float readValuePercentage();
 	uint16_t readValueNormalized();
 

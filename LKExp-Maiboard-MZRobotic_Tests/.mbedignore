@@ -9,6 +9,9 @@ lib/mbed-os/features/deprecated_warnings/**
 #lib/mbed-os/features/FEATURE_BLE/**
 lib/mbed-os/features/FEATURE_BOOTLOADER/**
 
+lib/mbed-os/features/storage/**
+lib/mbed-os/drivers/source/usb/**
+
 lib/mbed-os/features/lorawan/**
 lib/mbed-os/features/lwipstack/**
 

@@ -14,7 +14,7 @@
 
 class LekaBrightness {
   public:
-	LekaBrightness(AnalogIn);
+	LekaBrightness(AnalogIn&);
 	float readValuePercentage();
 	uint16_t readValueNormalized();
 

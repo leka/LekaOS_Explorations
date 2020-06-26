@@ -11,7 +11,7 @@
 #define __LEKAPINS_H__
 
 /* Defines  ------------------------------------------------------------------*/
-
+/*
 #define PIN_SWCLK (PA_14)
 #define PIN_SWO (PB_3)
 #define PIN_VCP_TX (PA_9)
@@ -87,7 +87,7 @@
 #define PIN_DQM1 (PE_1)
 #define PIN_DQM2 (PI_4)
 #define PIN_DQM3 (PI_5)
-
+*/
 #define PIN_I2C1_SCL (PB_8)
 #define PIN_I2C1_SDA (PB_9)
 #define PIN_INT1_IMU (PG_9)
@@ -97,7 +97,7 @@
 #define PIN_MICRO_MCU (PF_10)
 
 #define PIN_V_LUMINOSITE (PB_1)
-
+/*
 #define PIN_IN1 (PH_0)
 #define PIN_IN2 (PH_1)
 #define PIN_ENA (PA_1)
@@ -128,5 +128,5 @@
 
 #define PIN_SON_OFF (PA_8)
 #define PIN_MCU_SON_OUT (PA_4)
-
+*/
 #endif	 // __LEKAPINS_H__
