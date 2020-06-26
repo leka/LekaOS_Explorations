@@ -44,7 +44,7 @@ namespace MachineLearningCore {
 		virtual Status enable()			  = 0;
 		virtual Status disable()		  = 0;		
 
-        virtual Status setDecisionTrees(const ucf_line_t ucfConfig[], uint32_t numLines)  = 0;
+        virtual Status configureMLC(const ucf_line_t ucfConfig[], uint32_t numLines)  = 0;
 		virtual Status getID(uint8_t &id) = 0;
 
 
@@ -68,8 +68,6 @@ namespace MachineLearningCore {
 			std::array<uint8_t, 16> &component_events_on_interrupt) = 0;
 		virtual Status getEventsOnInterrupt(
 			std::array<uint8_t, 16> &component_events_on_interrupt) = 0;
-
-		// TO DO add offset
 	};
 }	// namespace Component
 

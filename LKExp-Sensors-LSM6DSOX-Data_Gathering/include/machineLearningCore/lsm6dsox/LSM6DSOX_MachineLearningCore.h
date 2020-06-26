@@ -20,7 +20,7 @@ namespace MachineLearningCore {
 	/* Enums ---------------------------------------------------------------------*/
 
 	/**
-	 * @brief 
+	 * @brief Enum of possible interrupt number
 	 * 
 	 */
 	enum class InterruptNumber : uint8_t {
@@ -43,7 +43,7 @@ namespace MachineLearningCore {
 	 * @brief The different trees present on the MLC
 	 * 
 	 */
-	enum class MachineLearningCoreTree : uint8_t {
+	enum class Tree : uint8_t {
 		_TREE_1 = 0,
 		_TREE_2 = 1,
 		_TREE_3 = 2,
@@ -54,10 +54,24 @@ namespace MachineLearningCore {
 		_TREE_8 = 7,
 	};
 
+	/**
+	 * @brief Possible behaviors for the MLC trees interrupts
+	 * 
+	 */
+	enum class InterruptBehavior : uint8_t{
+		_PULSED            = 0,
+		_LATCHED           = 1
+	};
+
 	/* Structs -------------------------------------------------------------------*/
 	/* Unions --------------------------------------------------------------------*/
-	union MachineLearningCoreData {
-		std::array<uint8_t, 8> data;
+
+	/**
+	 * @brief Union of trees and their respective results
+	 * 
+	 */
+	union Data {
+		std::array<uint8_t, 8> array;
 		struct {
 			uint8_t tree1;
 			uint8_t tree2;
@@ -67,10 +81,14 @@ namespace MachineLearningCore {
 			uint8_t tree6;
 			uint8_t tree7;
 			uint8_t tree8;
-		} mlcTreeVal;
+		} trees;
 	};
 
 	/* Class Declaration ---------------------------------------------------------*/
+	/**
+	 * @brief Machine Leraning Core class, inherit from MachineLearningCoreBase
+	 * 
+	 */
 	class LSM6DSOX_MachineLearningCore : MachineLearningCoreBase {
 	  public:
 		LSM6DSOX_MachineLearningCore(Communication::I2CBase &component_i2c, PinName pin_interrupt1, PinName pin_interrupt2);
@@ -79,6 +97,8 @@ namespace MachineLearningCore {
 		virtual Status disableI3C();
 		virtual Status getID(uint8_t &id);
 
+		virtual Status restoreDefaultConfiguration();
+
 		//temporary, to simplify developpement
 		// TODO erase this once no more in use
 		virtual stmdev_ctx_t* TMP_getIoFunc();
@@ -86,7 +106,7 @@ namespace MachineLearningCore {
 		virtual Status enable();
 		virtual Status disable();
 
-        virtual Status setDecisionTrees(const ucf_line_t ucfConfig[], uint32_t numLines);
+        virtual Status configureMLC(const ucf_line_t ucfConfig[], uint32_t numLines);
 
 		virtual Status setDataRate(float data_rate);
 		virtual Status getDataRate(float &data_rate);
@@ -97,14 +117,18 @@ namespace MachineLearningCore {
 		virtual Status enableInterrupt();
 		virtual Status disableInterrupt();
 
-		virtual Status enableTreeInterrupt(MachineLearningCoreTree tree, TreeInterruptNum intNum);
-		virtual Status disableTreeInterrupt(MachineLearningCoreTree tree, TreeInterruptNum intNum);
+		virtual Status setInterruptBehavior(InterruptBehavior behavior);
 
-		virtual Status getTreeInterrupt(MachineLearningCoreTree tree, TreeInterruptNum &intNum);
+		virtual Status enableTreeInterrupt(Tree tree, TreeInterruptNum intNum);
+		virtual Status disableTreeInterrupt(Tree tree, TreeInterruptNum intNum);
 
+		virtual Status getTreeInterrupt(Tree tree, TreeInterruptNum &intNum);
+		virtual Status getTreeInterruptStatus(Tree tree, uint8_t &treeStatus);
 
 		virtual Status readInterrupt(uint8_t &interrupt_status, InterruptNumber intNum);
 		virtual Status attachInterrupt(Callback<void()> func, InterruptNumber intNum);
+
+		virtual Status allOnInt1Route(bool enable);
 
 		// Some component can generate more than one event, component_events list them.
 		virtual Status getEventStatus(std::array<uint8_t, 16> &component_events);
@@ -121,11 +145,40 @@ namespace MachineLearningCore {
 								   uint16_t number_bytes_to_read);
 
 	  private:
+		/**
+		 * @brief I2C interface 
+		 *  
+		 */
 		Communication::I2CBase &_lsm6dsox_component_i2c;
+
+		/**
+		 * @brief In Out function for LSM6DSOX driver functions calls
+		 * 
+		 */
 		stmdev_ctx_t _register_io_function;
+		
+		/**
+		 * @brief Pin corresponding to INT1 on our board
+		 * 
+		 */
 		PinName _mcu_pin_interrupt1;
+
+		/**
+		 * @brief Pin corresponding to INT2 on our board
+		 * 
+		 */
 		PinName _mcu_pin_interrupt2;
+
+		/**
+		 * @brief Interrupt object linked to INT1 pin
+		 * 
+		 */
 		InterruptIn _lsm6dsox_interrupt1;
+
+		/**
+		 * @brief Interrupt object linked to INT2 pin
+		 * 
+		 */
 		InterruptIn _lsm6dsox_interrupt2;
 	};
 }	// namespace Component
