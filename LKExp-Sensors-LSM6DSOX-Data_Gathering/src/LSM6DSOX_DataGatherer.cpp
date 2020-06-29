@@ -4,22 +4,24 @@ namespace Component {
 
 	LSM6DSOX_DataGatherer::LSM6DSOX_DataGatherer(
 		Communication::I2CBase &component_i2c, PinName pin_interrupt1, float dataRate, PinName tx,
-		PinName rx, int baud)
+		PinName rx, int baud, void(*callBack)())
 		: _lsm6dsox_component_i2c(component_i2c),
 		  _mcu_pin_interrupt1(pin_interrupt1),
 		  _lsm6dsox_interrupt1(pin_interrupt1),
 		  _accelerometer(component_i2c, pin_interrupt1),
 		  _gyroscope(component_i2c, pin_interrupt1),
 		  _dataRate(dataRate),
-		  _serial(tx, rx, baud){
+		  _serial(tx, rx, baud),
+		  _tickerCB(callBack){
 
 		_register_io_function.write_reg = (stmdev_write_ptr)ptr_io_write;
 		_register_io_function.read_reg	= (stmdev_read_ptr)ptr_io_read;
 		_register_io_function.handle	= (void *)this;
 		
 		_queue = mbed_event_queue();
+		//_serialHandler = _queue->event(this, &LSM6DSOX_DataGatherer::client_sigio, client);
 
-		_serialInputStr.reserve(50);
+		_serialInputStr.reserve(100);
 	}
 
 	Status LSM6DSOX_DataGatherer::init() {
@@ -51,6 +53,7 @@ namespace Component {
 		// Serial config
 		_serial.attach(callback(this, &LSM6DSOX_DataGatherer::onSerialReceived),
 					   UnbufferedSerial::RxIrq);
+		//_serial.attach(_queue->event(_tickerCB), UnbufferedSerial::RxIrq);
 
 		// Data rate and ticker config
 		setDataRate(_dataRate);
@@ -194,8 +197,10 @@ namespace Component {
 			if (chr != '\n' && chr != '\0' && chr != '\r')
 				_serialInputStr.push_back(chr);
 			else if (chr != '\r')
-				_serialStrComplete = true;
+				//_serialStrComplete = true;
+				_queue->call(callback(this, &LSM6DSOX_DataGatherer::parseCommand));
 		}
+		// _serial.write("Serial!\n", 8);	
 	}
 
 	void LSM6DSOX_DataGatherer::sendIntBinary(int var) {
@@ -205,25 +210,34 @@ namespace Component {
 
 	void LSM6DSOX_DataGatherer::onTick() {
 		DataGathererData d;
+		//d.array = {100000000, 200000000, 300000000, 400000000, 500000000, 600000000};
 		getData(d.array);
-		printData(d);
+		//printData(d);
+
+		for(int i = 0 ; i < 6; i++){
+			sendIntBinary((int)d.array[i]);
+		}
+		
+		// static char c = 'a';
+		// _serial.write(&c, 1);
+		// c++;
+		// if(c > 'z') c = 'a';
 	}
 
 	void LSM6DSOX_DataGatherer::startTicker() {
 		stopTicker();
         std::chrono::microseconds period_us((long)(1000000/_dataRate));
-        //std::chrono::microseconds period_us;
-        //callback(this, &LSM6DSOX_DataGatherer::onSerialReceived)
-        //std::chrono::duration<int64_t, std::micro>
-		//_ticker.attach(_queue->event(callback(this, &LSM6DSOX_DataGatherer::onTick)), period_us);
-        _ticker.attach(_queue->event(&Component::LSM6DSOX_DataGatherer::onTick), period_us);
+        _ticker.attach(_queue->event(_tickerCB), period_us);
 	}
 
 	void LSM6DSOX_DataGatherer::stopTicker() { _ticker.detach(); }
 
-	void LSM6DSOX_DataGatherer::parseCommand(string commandString) {
+	void LSM6DSOX_DataGatherer::parseCommand() {
+		//TODO change commandstring
+		string commandString = _serialInputStr;
+
 		string msg;
-		char chars[50];
+		char chars[100];
 		int nbChars;
 
 		msg = "Your command is: \"" + commandString + "\"\n";

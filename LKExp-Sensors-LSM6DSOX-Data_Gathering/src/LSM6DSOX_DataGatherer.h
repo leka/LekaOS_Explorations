@@ -59,28 +59,33 @@ namespace Component {
 
 		Ticker _ticker;
 		
+		
         bool _serialStrComplete;
 
 		float _dataRate;
-        UnbufferedSerial _serial;
+        
 
 		stmdev_ctx_t _register_io_function;
 		EventQueue *_queue;
 
 		string _serialInputStr;
+		UnbufferedSerial _serial;	
+		void(*_tickerCB)();
 
+		//Event<void()> _serialHandler;
 
 	  public:
 		LSM6DSOX_DataGatherer(Communication::I2CBase &component_i2c, PinName pin_interrupt1,
                               float dataRate,
 							  PinName tx, PinName rx,
-							  int baud);
+							  int baud,
+							  void(*callBack)());
 
 		virtual void printHeader();
 		virtual void printData(DataGathererData data);
 
 		virtual void onSerialReceived();
-		virtual void parseCommand(string commandString);
+		virtual void parseCommand();
 
 		virtual bool isFloat(string s);
 
