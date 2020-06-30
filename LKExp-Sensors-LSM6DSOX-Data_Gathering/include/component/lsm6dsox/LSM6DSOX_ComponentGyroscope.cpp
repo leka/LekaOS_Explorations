@@ -13,7 +13,7 @@ namespace Component {
 	/* Class Implementation ------------------------------------------------------*/
 
 	/** Constructor
-	 * @param i2c object which handles the I2C of the component
+	 * @param Accelerometer component of the LSM6DSOX sensor
 	 */
 	LSM6DSOX_Gyroscope::LSM6DSOX_Gyroscope(Communication::I2CBase &component_i2c,
 										   PinName pin_interrupt)
@@ -320,7 +320,7 @@ namespace Component {
 
 	/**
 	 * @brief  Get data
-	 * @param  raw_data is an array containing x, y and z axes in mdps
+	 * @param  data is an array containing x, y and z axes in mdps
 	 * @retval 0 in case of success, an error code otherwise
 	 */
 	Status LSM6DSOX_Gyroscope::getData(std::array<float, 3> &data) {
@@ -371,7 +371,7 @@ namespace Component {
 	PinName LSM6DSOX_Gyroscope::getPinInterrupt() { return _mcu_pin_interrupt; }
 
 	/**
-	 * @brief  Enable interrupt from component
+	 * @brief  Enable interrupts on the pin set up as _lsm6dsox_interrupt (Usually INT1)
 	 * @retval 0 in case of success, an error code otherwise
 	 */
 	Status LSM6DSOX_Gyroscope::enableInterrupt() {
@@ -380,7 +380,7 @@ namespace Component {
 	}
 
 	/**
-	 * @brief  Disable interrupt from component
+	 * @brief  Disable interrupts on the pin set up as _lsm6dsox_interrupt (Usually INT1)
 	 * @retval 0 in case of success, an error code otherwise
 	 */
 	Status LSM6DSOX_Gyroscope::disableInterrupt() {

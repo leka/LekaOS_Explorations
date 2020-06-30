@@ -2,7 +2,7 @@
 ******************************************************************************
 * @file    LSM6DSOX_MachineLearningCore.h
 * @author  Maxime Blanc and Samuel Hadjes
-* @brief   Implementation of MAchineLearningCoreBase for LSM6DSOX MachineLearningCore
+* @brief   Abstract class for a machine learning core
 ******************************************************************************
 */
 
@@ -12,12 +12,21 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "CommunicationI2CBase.h"
-#include "MachineLearningCoreBase.h"
 #include "lsm6dsox_reg.h"
+#include "mbed.h"
 
 namespace MachineLearningCore {
 	/* Defines -------------------------------------------------------------------*/
 	/* Enums ---------------------------------------------------------------------*/
+	/**
+	 * @brief 
+	 * 
+	 */
+	enum class Status : uint8_t {
+		OK			  = 0,
+		ERROR		  = 1,
+		NOT_AVAILABLE = 2,
+	};
 
 	/**
 	 * @brief Enum of possible interrupt number
@@ -64,6 +73,12 @@ namespace MachineLearningCore {
 	};
 
 	/* Structs -------------------------------------------------------------------*/
+
+	/** Common data block definition **/
+    typedef struct {
+		uint8_t address;
+		uint8_t data;
+    } ucf_line_t;
 	/* Unions --------------------------------------------------------------------*/
 
 	/**
@@ -89,7 +104,7 @@ namespace MachineLearningCore {
 	 * @brief Machine Leraning Core class, inherit from MachineLearningCoreBase
 	 * 
 	 */
-	class LSM6DSOX_MachineLearningCore : MachineLearningCoreBase {
+	class LSM6DSOX_MachineLearningCore {
 	  public:
 		LSM6DSOX_MachineLearningCore(Communication::I2CBase &component_i2c, PinName pin_interrupt1, PinName pin_interrupt2);
 
@@ -129,14 +144,6 @@ namespace MachineLearningCore {
 		virtual Status attachInterrupt(Callback<void()> func, InterruptNumber intNum);
 
 		virtual Status allOnInt1Route(bool enable);
-
-		// Some component can generate more than one event, component_events list them.
-		virtual Status getEventStatus(std::array<uint8_t, 16> &component_events);
-
-		// Some component allows events to trigger the interrupt, component_events_on_interrupt list
-		// them.
-		virtual Status setEventsOnInterrupt(std::array<uint8_t, 16> &component_events_on_interrupt);
-		virtual Status getEventsOnInterrupt(std::array<uint8_t, 16> &component_events_on_interrupt);
 
 	  protected:
 		static int32_t ptr_io_write(void *handle, uint8_t write_address, uint8_t *p_buffer,
