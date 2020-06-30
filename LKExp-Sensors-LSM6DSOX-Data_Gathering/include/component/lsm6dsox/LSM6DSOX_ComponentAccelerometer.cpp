@@ -13,7 +13,7 @@ namespace Component {
 	/* Class Implementation ------------------------------------------------------*/
 
 	/** Constructor
-	 * @param i2c object which handles the I2C of the component
+	 * @param Accelerometer component of the LSM6DSOX sensor
 	 */
 	LSM6DSOX_Accelerometer::LSM6DSOX_Accelerometer(Communication::I2CBase &component_i2c,
 												   PinName pin_interrupt)
@@ -331,7 +331,7 @@ namespace Component {
 
 	/**
 	 * @brief  Get data
-	 * @param  raw_data is an array containing x, y and z axes in mg
+	 * @param  data is an array containing x, y and z axes in mg
 	 * @retval 0 in case of success, an error code otherwise
 	 */
 	Status LSM6DSOX_Accelerometer::getData(std::array<float, 3> &data) {
@@ -379,7 +379,7 @@ namespace Component {
 	PinName LSM6DSOX_Accelerometer::getPinInterrupt() { return _mcu_pin_interrupt; }
 
 	/**
-	 * @brief  Enable interrupt from component
+	 * @brief  Enable interrupts on the pin set up as _lsm6dsox_interrupt (Usually INT1)
 	 * @retval 0 in case of success, an error code otherwise
 	 */
 	Status LSM6DSOX_Accelerometer::enableInterrupt() {
@@ -388,7 +388,7 @@ namespace Component {
 	}
 
 	/**
-	 * @brief  Disable interrupt from component
+	 * @brief  Disable interrupts on the pin set up as _lsm6dsox_interrupt (Usually INT1)
 	 * @retval 0 in case of success, an error code otherwise
 	 */
 	Status LSM6DSOX_Accelerometer::disableInterrupt() {
