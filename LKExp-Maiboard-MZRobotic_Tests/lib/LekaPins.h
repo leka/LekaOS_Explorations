@@ -12,10 +12,10 @@
 
 /* Defines  ------------------------------------------------------------------*/
 /*
-#define PIN_SWCLK (PA_14)
-#define PIN_SWO (PB_3)
-#define PIN_VCP_TX (PA_9)
-#define PIN_VCP_RX (PA_10)
+//#define PIN_SWCLK (PA_14)
+//#define PIN_SWO (PB_3)
+//#define PIN_VCP_TX (PA_9)
+//#define PIN_VCP_RX (PA_10)
 
 #define PIN_Q_SPI_CLK (PB_2)
 #define PIN_Q_SPI_IO0 (PD_11)
@@ -104,14 +104,14 @@
 #define PIN_ENB (PA_2)
 #define PIN_IN3 (PE_4)
 #define PIN_IN4 (PE_5)
-
+*/
 #define PIN_SPI5_NSS (PF_6)
 #define PIN_SPI5_SCK (PF_7)
 #define PIN_SPI5_MOSI (PF_9)
 #define PIN_SPI5_MISO (PF_8)
 #define PIN_RST_BLE (PE_3)
 #define PIN_IRQ_BLE (PI_11)
-
+/*
 #define PIN_USART_ESP_TX (PA_3)
 #define PIN_USART2_ESP_RX (PD_5)
 #define PIN_USART2_ESP_CTS (PD_3)

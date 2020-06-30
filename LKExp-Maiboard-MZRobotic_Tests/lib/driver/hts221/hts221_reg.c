@@ -49,6 +49,9 @@ int32_t hts221_read_reg(stmdev_ctx_t* ctx, uint8_t reg, uint8_t* data,
                         uint16_t len)
 {
   int32_t ret;
+  if (len > 1){
+    reg|= 0x80; //To read or write multiple byte
+  }
   ret = ctx->read_reg(ctx->handle, reg, data, len);
   return ret;
 }
@@ -67,6 +70,9 @@ int32_t hts221_write_reg(stmdev_ctx_t* ctx, uint8_t reg, uint8_t* data,
                          uint16_t len)
 {
   int32_t ret;
+    if (len > 1){
+    reg|= 0x80; //To read or write multiple byte
+  }
   ret = ctx->write_reg(ctx->handle, reg, data, len);
   return ret;
 }

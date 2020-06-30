@@ -65,12 +65,12 @@ Their aim is to test they are operational, **NOT** to test functionalities asked
 * [ ] SRAM
 * [ ] Screen ❌
 * [x] Accelerometer & Gyroscope ✅
-* [ ] Magnetometer
-* [ ] Temperature
+* [x] Magnetometer ✅
+* [x] Temperature ✅
 * [x] Microphone ✅
 * [x] Light sensor ✅
 * [x] Motors ✅
-* [ ] BLE
+* [x] BLE ✅
 * [ ] Wifi
 * [ ] Bluetooth
 * [x] Speakers ✅

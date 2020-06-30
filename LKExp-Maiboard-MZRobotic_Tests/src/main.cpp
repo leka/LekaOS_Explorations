@@ -5,6 +5,7 @@
 #include "LekaMicrophone.h"
 #include "LekaTemperature.h"
 #include "mbed.h"
+#include "LekaBLE.h"
 //#include "LekaMotors.h"
 //#include "LekaSpeaker.h"
 
@@ -13,6 +14,7 @@ LekaMicrophone leka_microphone(microphone);
 LekaIMU leka_imu(i2c1, PIN_INT1_IMU);
 LekaMagnetometer leka_magnetometer(i2c1, PIN_DTRD_MAG);
 LekaTemperature leka_temperature(i2c1, PIN_DRDY_TEMP);
+LekaBLE leka_ble(spi5, ble_reset, NC);
 // LekaSpeaker leka_speaker(sound_out);
 // LekaMotors leka_motors(motor_left, motor_right, PIN_IN1, PIN_IN2, PIN_IN3, PIN_IN4);
 
@@ -25,6 +27,7 @@ int main(void) {
 	leka_imu.runTest();
 	leka_magnetometer.runTest();
 	leka_temperature.runTest();
+	leka_ble.runTest();
 
 	/** In progress **/
 

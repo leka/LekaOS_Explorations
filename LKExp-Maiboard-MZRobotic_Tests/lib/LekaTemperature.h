@@ -20,6 +20,7 @@ class LekaTemperature {
 	uint8_t getId();
 	int16_t getRawData();
 	float getData();
+	void showReferences();
 
 	void runTest(int n_repetition = 1);
 

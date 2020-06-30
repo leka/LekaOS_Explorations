@@ -22,36 +22,31 @@ uint8_t LekaTemperature::getId() {
 }
 
 int16_t LekaTemperature::getRawData() {
-	uint8_t data0, data1;
 	uint8_t data[2];
 
 	hts221_temperature_raw_get(&_register_io_function, data);
 	// hts221_humidity_raw_get(&_register_io_function, &data);
 
-	hts221_read_reg(&_register_io_function, HTS221_TEMP_OUT_L, &data0, 1);
-	hts221_read_reg(&_register_io_function, HTS221_TEMP_OUT_H, &data1, 1);
-	printf("data0 and data1 (twice): 0x%02X 0x%02X \r\n\n", data0, data1);
-	printf("data0 and data1 (once): 0x%02X 0x%02X \r\n\n", data[0], data[1]);
-
-
-	int16_t ret = data1*256 + data0;
-
-
-	//uint16_t ret = (uint16_t)((((uint16_t)data[1]) << 8) | (uint16_t)data[0]);
-	//uint16_t ret = (uint16_t)((((uint16_t)data1) << 8) | (uint16_t)data0);
+	int16_t ret = (int16_t)((((int16_t)data[1]) << 8) | (int16_t)data[0]);
+	// int16_t ret = data[1] * 256 + data[0];
 
 	return ret;
+}
 
+void LekaTemperature::showReferences() {
+	uint8_t value[2];
+	hts221_t1_t0_msb_t reg;
 
-	/*
-	  uint8_t coeff_p[2];
-  int16_t coeff;
-  int32_t ret;
-  ret = hts221_read_reg(ctx, HTS221_H0_T0_OUT_L, coeff_p, 2);
-  coeff = (coeff_p[1] * 256) + coeff_p[0];
-  *val = coeff * 1.0f;
-  return ret;
-	*/
+	hts221_read_reg(&_register_io_function, HTS221_T0_OUT_L, value, 2);
+	printf("TO_ADC : 0x%02X 0x%02X \n", value[1], value[0]);
+	hts221_read_reg(&_register_io_function, HTS221_T1_OUT_L, value, 2);
+	printf("T1_ADC : 0x%02X 0x%02X \n", value[1], value[0]);
+
+	hts221_read_reg(&_register_io_function, HTS221_T1_T0_MSB, (uint8_t *)&reg, 1);
+	hts221_read_reg(&_register_io_function, HTS221_T0_DEGC_X8, value, 1);
+	printf("T0_DEG : 0x%02X 0x%02X \n", reg.t0_msb, value[0]);
+	hts221_read_reg(&_register_io_function, HTS221_T1_DEGC_X8, value, 1);
+	printf("T1_DEG : 0x%02X 0x%02X \n\n", reg.t1_msb, value[0]);
 }
 
 float LekaTemperature::getData() {
@@ -63,8 +58,8 @@ float LekaTemperature::getData() {
 	hts221_temp_deg_point_0_get(&_register_io_function, &t_0_deg);
 	hts221_temp_deg_point_1_get(&_register_io_function, &t_1_deg);
 
-	printf("TO_ADC : %3.3f \r\nT1_ADC : %3.3f \r\nTO_DEG : %3.3f \r\nT1_DEG : %3.3f \r\n", t_0_adc,
-		   t_1_adc, t_0_deg, t_1_deg);
+	printf("TO_ADC : %3.3f \nT1_ADC : %3.3f \nTO_DEG : %3.3f \nT1_DEG : %3.3f \n", t_0_adc, t_1_adc,
+		   t_0_deg, t_1_deg);
 	slope	  = (t_1_deg - t_0_deg) / (t_1_adc - t_0_adc);
 	intercept = t_0_deg;
 
@@ -72,18 +67,16 @@ float LekaTemperature::getData() {
 }
 
 int32_t LekaTemperature::ptr_io_write(void *handle, uint8_t write_address, uint8_t *p_buffer,
-									  uint16_t number_bytes_to_write) {
-	return (int32_t)((LekaTemperature *)handle)
-		->write(write_address, number_bytes_to_write, p_buffer);
+							  uint16_t number_bytes_to_write) {
+	return (int32_t)((LekaTemperature *)handle)->write(write_address, number_bytes_to_write, p_buffer);
 }
 
 int32_t LekaTemperature::ptr_io_read(void *handle, uint8_t read_address, uint8_t *p_buffer,
-									 uint16_t number_bytes_to_read) {
+							 uint16_t number_bytes_to_read) {
 	return (int32_t)((LekaTemperature *)handle)->read(read_address, number_bytes_to_read, p_buffer);
 }
 
-int32_t LekaTemperature::read(uint8_t register_address, uint16_t number_bytes_to_read,
-							  uint8_t *pBuffer) {
+int32_t LekaTemperature::read(uint8_t register_address, uint16_t number_bytes_to_read, uint8_t *pBuffer) {
 	int ret;
 
 	/* Send component address, with no STOP condition */
@@ -97,8 +90,7 @@ int32_t LekaTemperature::read(uint8_t register_address, uint16_t number_bytes_to
 	return 0;
 }
 
-int32_t LekaTemperature::write(uint8_t register_address, uint16_t number_bytes_to_write,
-							   uint8_t *pBuffer) {
+int32_t LekaTemperature::write(uint8_t register_address, uint16_t number_bytes_to_write, uint8_t *pBuffer) {
 	int ret;
 	uint8_t tmp[kBufferSize];
 
@@ -119,9 +111,10 @@ void LekaTemperature::runTest(int n_repetition) {
 	init();
 
 	for (int i = 0; i < n_repetition; i++) {
-		printf("ID is %X\r\n", getId());
+		printf("ID is %X\n\n", getId());
 
-		printf("normalized: 0x%04X \r\n\n", getRawData());
-		printf("Temperature data (in Celsius): %3.1f \r\n", getData());
+		//showReferences();
+		printf("Temperature data (raw): 0x%04X \n\n", getRawData());
+		printf("Temperature data (in Celsius): %3.1f \n\n\n", getData());
 	}
 }
