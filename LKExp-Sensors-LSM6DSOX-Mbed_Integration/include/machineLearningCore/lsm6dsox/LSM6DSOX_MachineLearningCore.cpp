@@ -1,4 +1,10 @@
-
+/**
+******************************************************************************
+* @file    LSM6DSOX_MachineLearningCore.cpp
+* @author  Maxime Blanc and Samuel Hadjes
+* @brief   Abstract class for a machine learning core
+******************************************************************************
+*/
 
 /* Includes ------------------------------------------------------------------*/
 #include "LSM6DSOX_MachineLearningCore.h"
@@ -101,7 +107,7 @@ namespace MachineLearningCore {
 
 
 	//this is a temporary method to ease up developpement
-	// TODO erase once no more in use
+	// TODO erase once no more in use 
 	/**
 	 * @brief Allow to recover the Register IO function from the inner class
 	 * 
@@ -113,7 +119,7 @@ namespace MachineLearningCore {
 	}
 
 	/**
-	 * @brief Enable MLC
+	 * @brief Enable the machine learning core
 	 * 
 	 * @retval 0 in case of success, an error code otherwise
 	 */
@@ -128,7 +134,7 @@ namespace MachineLearningCore {
 	} 
 
 	/**
-	 * @brief Disable MLC
+	 * @brief Disable the machine learning core
 	 * 
 	 * @retval 0 in case of success, an error code otherwise
 	 */
@@ -185,7 +191,7 @@ namespace MachineLearningCore {
 	/**
 	 * @brief  Set the data rate of the machine learning core
      * 
-     * Extract from datasheet
+     * Quote from datasheet
      * The rate of the input data must be equal to or higher than the Machine Learning Core data rate configurable
         through the embedded function register EMB_FUNC_ODR_CFG_C (60h), as described in Table 1.
     * Example: In an activity recognition algorithm running at 26 Hz, the Machine Learning Core ODR must be selected
@@ -290,7 +296,7 @@ namespace MachineLearningCore {
 	 * @retval 0 in case of success, an error code otherwise
 	 */
 	Status LSM6DSOX_MachineLearningCore::enableInterrupt() {
-		_lsm6dsox_interrupt2.enable_irq();
+		_lsm6dsox_interrupt1.enable_irq();
 		return Status::OK;
 	}
 
@@ -305,7 +311,7 @@ namespace MachineLearningCore {
 	}
 
 	/**
-	 * @brief Set the Interrupt Behavior of the MLC trees
+	 * @brief Set the Interrupt behavior of the MLC trees
 	 * 
 	 * @param behavior pulsed or latched 
 	 * @retval 0 in case of success, an error code otherwise
@@ -349,7 +355,7 @@ namespace MachineLearningCore {
 	 * @brief  Enable interrupt from a given tree on INT1, INT2 or both
 	 * 
 	 * This function could be made simpler by only writing to the registers MLC_INT1(0Dh) and MLC_INT2(11h)
-	 * but this feature is not implemented in the driver functions, so we would need to manage writing to registers in a "low level" way
+	 * but this feature is not implemented in the driver functions, so we would need to manage writing to registers in a "lower level" way
 	 * 
 	 * @param tree The MLC tree on which to set the interrupt
 	 * @param intNum the interrupt on which you want the signal to be routed
@@ -660,7 +666,7 @@ namespace MachineLearningCore {
 	}
 
 	/**
-	 * @brief Enables or disables routing INT2 interrupts on INT1 pin
+	 * @brief Use to enable or disable rerouting of INT2 interrupts on INT1 pin
 	 * 
 	 * @param enable true to enable, false otherwise
 	 * @retval 0 in case of success, an error code otherwise
@@ -677,41 +683,6 @@ namespace MachineLearningCore {
 		return Status::OK;	
 	}
 
-	/**
-	 * @brief Get the list of event and if they've been triggered or not
-	 * 
-	 * @param component_events  Where o store the list of events status
-	 * @retval 0 in case of success, an error code otherwise
-	 */
-	Status LSM6DSOX_MachineLearningCore::getEventStatus(std::array<uint8_t, 16> &component_events) {
-		//TODO
-        //Need change
-		return Status::OK;
-	}
-
-	/**
-	 * @brief Route an event on a certain interrupt
-	 * 
-	 * @param component_events_on_interrupt 
-	 * @retval 0 in case of success, an error code otherwise
-	 */
-	Status LSM6DSOX_MachineLearningCore::setEventsOnInterrupt(std::array<uint8_t, 16> &component_events_on_interrupt){
-        //TODO
-        //Need change 
-		return Status::OK;
-	}
-
-	/**
-	 * @brief 
-	 * 
-	 * @param component_events_on_interrupt 
-	 * @retval 0 in case of success, an error code otherwise
-	 */
-	Status LSM6DSOX_MachineLearningCore::getEventsOnInterrupt(std::array<uint8_t, 16> &component_events_on_interrupt){
-		//TODO
-        //Need change 
-		return Status::OK;
-	}
 	
 	/**
 	 * @brief 

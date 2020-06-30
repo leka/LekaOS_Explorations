@@ -1,3 +1,12 @@
+/**
+******************************************************************************
+* @file    main.cpp
+* @author  Maxime Blanc and Samuel Hadjes
+* @brief   Mbed integration of a LSM6DSOX MLC configuration 
+******************************************************************************
+*/
+
+#include "lsm6dsox_six_d_position.h"
 
 #include "LSM6DSOX_CommunicationI2C.h"
 #include "LSM6DSOX_ComponentAccelerometer.h"
@@ -6,7 +15,6 @@
 #include "mbed.h"
 
 //#include "lsm6dsox_mlc.h"
-#include "lsm6dsox_six_d_position.h"
 
 using namespace MachineLearningCore;
 
@@ -99,16 +107,16 @@ int main(void) {
 
 	//-------------------------------------------------------------------------------------
 	// Setting up the xl and the gyro to work properly
-	// TODO
-	// we have to work out where to do these verifications
-	
+	// TODO 
+	// may need to be moved in a wider class
+
 	// Turn off Sensors
 	lsm6dsox_accelerometer_component.setPowerMode(Component::PowerMode::OFF);
 	lsm6dsox_gyroscope_component.setPowerMode(Component::PowerMode::OFF);
 
 	// Enable Block Data Update
 	// TODO
-	// this still has to be clarified
+	// this still has to be clarified and may need to be moved in a wider class
 	lsm6dsox_block_data_update_set(lsm6dsox_mlc.TMP_getIoFunc(), PROPERTY_ENABLE);
 
 	// Set full scale
@@ -116,8 +124,7 @@ int main(void) {
 	lsm6dsox_gyroscope_component.setRange(Component::GyroscopeRange::_2000DPS);
 
 	// Set Output Data Rate.
-	// Selected data rate have to be equal or greater with respect
-	// with MLC data rate.
+	// Selected data rate have to be equal or greater than MLC's data rate.
 	lsm6dsox_gyroscope_component.setPowerMode(Component::PowerMode::OFF);
 
 	lsm6dsox_accelerometer_component.setPowerMode(Component::PowerMode::NORMAL);
@@ -128,7 +135,6 @@ int main(void) {
 
 	// Configure interrupt pin mode notification
 	lsm6dsox_mlc.setInterruptBehavior(InterruptBehavior::_LATCHED);
-	//lsm6dsox_int_notification_set(lsm6dsox_mlc.TMP_getIoFunc(), lsm6dsox_lir_t::LSM6DSOX_BASE_PULSED_EMB_LATCHED);
 	
 	// Route signals on interrupt
 	lsm6dsox_mlc.enableTreeInterrupt(Tree::_TREE_1, TreeInterruptNum::_INT1);
@@ -137,7 +143,7 @@ int main(void) {
 	// Setting up callbacks
 	lsm6dsox_mlc.attachInterrupt(ISR_INT1, InterruptNumber::_INT1);
 
-	//emptying latched interrupts
+	// Emptying latched interrupts
 	uint8_t status;
 	lsm6dsox_mlc.getTreeInterruptStatus(Tree::_TREE_1, status);
 	
