@@ -1,14 +1,14 @@
 /**
   ******************************************************************************
-  * @file    ppp_diskio.c
+  * @file    sd_diskio_template_bspv1.c
   * @author  MCD Application Team
-  * @brief   PPP Disk I/O driver generic driver template
-             this driver is not functional and is intended to show
-	           how to implement a FatFs diskio driver.
+  * @brief   SD Disk I/O template driver based on BSP v1 api. This file needs
+  * to be renamed and copied into the application project alongside
+  * the respective header file
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2017 STMicroelectronics. All rights reserved.
+  * Copyright (c) 2017-2019 STMicroelectronics. All rights reserved.
   *
   * This software component is licensed by ST under BSD 3-Clause license,
   * the "License"; You may not use this file except in compliance with the
@@ -18,54 +18,67 @@
   ******************************************************************************
 **/
 /* Includes ------------------------------------------------------------------*/
-#include <string.h>
-#include "ff_gen_drv.h"
+#include "FatFs/ff_gen_drv.h"
+#include "FatFs/drivers/sd_diskio.h"
+
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-/* Block Size in Bytes */
+/* use the default SD timout as defined in the platform BSP driver*/
+#if defined(SDMMC_DATATIMEOUT)
+#define SD_TIMEOUT SDMMC_DATATIMEOUT
+#elif defined(SD_DATATIMEOUT)
+#define SD_TIMEOUT SD_DATATIMEOUT
+#else
+#define SD_TIMEOUT 30 * 1000
+#endif
+
+#define SD_DEFAULT_BLOCK_SIZE 512
+
+/*
+ * Depending on the usecase, the SD card initialization could be done at the
+ * application level, if it is the case define the flag below to disable
+ * the BSP_SD_Init() call in the SD_Initialize().
+ */
+
+/* #define DISABLE_SD_INIT */
+
 /* Private variables ---------------------------------------------------------*/
 /* Disk status */
 static volatile DSTATUS Stat = STA_NOINIT;
 
 /* Private function prototypes -----------------------------------------------*/
-DSTATUS PPP_initialize (BYTE);
-DSTATUS PPP_status (BYTE);
-DRESULT PPP_read (BYTE, BYTE*, DWORD, UINT);
+static DSTATUS SD_CheckStatus(BYTE lun);
+DSTATUS SD_initialize (BYTE);
+DSTATUS SD_status (BYTE);
+DRESULT SD_read (BYTE, BYTE*, DWORD, UINT);
 #if _USE_WRITE == 1
-  DRESULT PPP_write (BYTE, const BYTE*, DWORD, UINT);
+  DRESULT SD_write (BYTE, const BYTE*, DWORD, UINT);
 #endif /* _USE_WRITE == 1 */
 #if _USE_IOCTL == 1
-  DRESULT PPP_ioctl (BYTE, BYTE, void*);
+  DRESULT SD_ioctl (BYTE, BYTE, void*);
 #endif  /* _USE_IOCTL == 1 */
 
-const Diskio_drvTypeDef  PPP_Driver =
+const Diskio_drvTypeDef  SD_Driver =
 {
-  PPP_initialize,
-  PPP_status,
-  PPP_read,
+  SD_initialize,
+  SD_status,
+  SD_read,
 #if  _USE_WRITE == 1
-  PPP_write,
+  SD_write,
 #endif /* _USE_WRITE == 1 */
 
 #if  _USE_IOCTL == 1
-  PPP_ioctl,
+  SD_ioctl,
 #endif /* _USE_IOCTL == 1 */
 };
 
 /* Private functions ---------------------------------------------------------*/
-
-/**
-  * @brief  Initializes a Drive
-  * @param  lun : not used
-  * @retval DSTATUS: Operation status
-  */
-DSTATUS PPP_initialize(BYTE lun)
+static DSTATUS SD_CheckStatus(BYTE lun)
 {
   Stat = STA_NOINIT;
 
-  /* Configure the uPPP device */
-  if(MEDIA_Init() == PPP_OK)
+  if(BSP_SD_GetCardState() == MSD_OK)
   {
     Stat &= ~STA_NOINIT;
   }
@@ -74,20 +87,34 @@ DSTATUS PPP_initialize(BYTE lun)
 }
 
 /**
+  * @brief  Initializes a Drive
+  * @param  lun : not used
+  * @retval DSTATUS: Operation status
+  */
+DSTATUS SD_initialize(BYTE lun)
+{
+  Stat = STA_NOINIT;
+#if !defined(DISABLE_SD_INIT)
+
+  if(BSP_SD_Init() == MSD_OK)
+  {
+    Stat = SD_CheckStatus(lun);
+  }
+
+#else
+  Stat = SD_CheckStatus(lun);
+#endif
+  return Stat;
+}
+
+/**
   * @brief  Gets Disk Status
   * @param  lun : not used
   * @retval DSTATUS: Operation status
   */
-DSTATUS PPP_status(BYTE lun)
+DSTATUS SD_status(BYTE lun)
 {
-  Stat = STA_NOINIT;
-
-  if(MEDIA_GetStatus() == PPP_OK)
-  {
-    Stat &= ~STA_NOINIT;
-  }
-
-  return Stat;
+  return SD_CheckStatus(lun);
 }
 
 /**
@@ -98,15 +125,19 @@ DSTATUS PPP_status(BYTE lun)
   * @param  count: Number of sectors to read (1..128)
   * @retval DRESULT: Operation result
   */
-DRESULT PPP_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
+DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
 {
-  DRESULT res = RES_OK;
+  DRESULT res = RES_ERROR;
 
-  if(MEDIA_Read((uint32_t*)buff,
-                       sector,
-                       count) != PPP_OK)
+  if(BSP_SD_ReadBlocks((uint32_t*)buff,
+                       (uint32_t) (sector),
+                       count, SD_TIMEOUT) == MSD_OK)
   {
-    res = RES_ERROR;
+    /* wait until the read operation is finished */
+    while(BSP_SD_GetCardState()!= MSD_OK)
+    {
+    }
+    res = RES_OK;
   }
 
   return res;
@@ -121,15 +152,19 @@ DRESULT PPP_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
   * @retval DRESULT: Operation result
   */
 #if _USE_WRITE == 1
-DRESULT PPP_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count)
+DRESULT SD_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count)
 {
-  DRESULT res = RES_OK;
+  DRESULT res = RES_ERROR;
 
-  if(MEDIA_Write((uint32_t*)buff,
-                       sector,
-                       count) != PPP_OK)
+  if(BSP_SD_WriteBlocks((uint32_t*)buff,
+                        (uint32_t)(sector),
+                        count, SD_TIMEOUT) == MSD_OK)
   {
-    res = RES_ERROR;
+	/* wait until the Write operation is finished */
+    while(BSP_SD_GetCardState() != MSD_OK)
+    {
+    }
+    res = RES_OK;
   }
 
   return res;
@@ -144,10 +179,12 @@ DRESULT PPP_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count)
   * @retval DRESULT: Operation result
   */
 #if _USE_IOCTL == 1
-DRESULT PPP_ioctl(BYTE lun, BYTE cmd, void *buff)
+DRESULT SD_ioctl(BYTE lun, BYTE cmd, void *buff)
 {
   DRESULT res = RES_ERROR;
-  MEDIA_Info_t Info;
+  BSP_SD_CardInfo CardInfo;
+
+  if (Stat & STA_NOINIT) return RES_NOTRDY;
 
   switch (cmd)
   {
@@ -158,20 +195,23 @@ DRESULT PPP_ioctl(BYTE lun, BYTE cmd, void *buff)
 
   /* Get number of sectors on the disk (DWORD) */
   case GET_SECTOR_COUNT :
-    MEDIA_GetInfo(&Info);
-    *(DWORD*)buff = Info.SectorNbr;
+    BSP_SD_GetCardInfo(&CardInfo);
+    *(DWORD*)buff = CardInfo.LogBlockNbr;
     res = RES_OK;
     break;
 
   /* Get R/W sector size (WORD) */
   case GET_SECTOR_SIZE :
-    *(WORD*)buff = Info.SectorSize;
+    BSP_SD_GetCardInfo(&CardInfo);
+    *(WORD*)buff = CardInfo.LogBlockSize;
     res = RES_OK;
     break;
 
   /* Get erase block size in unit of sector (DWORD) */
   case GET_BLOCK_SIZE :
-    *(DWORD*)buff = Info.BlockSize;
+    BSP_SD_GetCardInfo(&CardInfo);
+    *(DWORD*)buff = CardInfo.LogBlockSize / SD_DEFAULT_BLOCK_SIZE;
+	res = RES_OK;
     break;
 
   default:

@@ -61,9 +61,9 @@ public:
 
     void drawImage(uint32_t data, uint32_t x, uint32_t y, uint32_t width, uint32_t height);
 
-private:
 
     DMA2D_HandleTypeDef _handle_dma2d;
+private:
     LTDC_HandleTypeDef _handle_ltdc;
     DSI_HandleTypeDef _handle_dsi;
     DSI_VidCfgTypeDef _handle_dsivideo;

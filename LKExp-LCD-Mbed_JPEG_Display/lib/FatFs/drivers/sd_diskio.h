@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * @file    usbh_diskio.h
+  * @file    sd_diskio_tempalte.h
   * @author  MCD Application Team
-  * @brief   Header for usbh_diskio_template.c module. This file needs to be
-             customized and copied under the application project tree.
+  * @brief   Header for sd_diskio_template.c module.This file needs to be
+             customized then copied under the application project
   ******************************************************************************
   * @attention
   *
@@ -17,18 +17,18 @@
   ******************************************************************************
 **/
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USBH_DISKIO_H
-#define __USBH_DISKIO_H
+#ifndef __SD_DISKIO_H
+#define __SD_DISKIO_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "usbh_core.h"
-#include "usbh_msc.h"
+#include "BSP_DISCO_F769NI/Drivers/BSP/STM32F769I-Discovery/stm32f769i_discovery_sd.h"
+#include "FatFs/ff_gen_drv.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-extern const Diskio_drvTypeDef  USBH_Driver;
+extern const Diskio_drvTypeDef  SD_Driver;
 
-#endif /* __USBH_DISKIO_H */
+#endif /* __SD_DISKIO_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

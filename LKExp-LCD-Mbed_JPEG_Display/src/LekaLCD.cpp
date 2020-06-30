@@ -1,5 +1,5 @@
-#include "include/LekaLCD.h"
-#include "include/drivers/otm8009a.h"
+#include "LekaLCD.h"
+#include "drivers/otm8009a.h"
 
 
 

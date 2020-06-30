@@ -16,6 +16,10 @@ lib/mbed-os/features/nanostack/**
 lib/mbed-os/features/netsocket/**
 lib/mbed-os/features/nfc/**
 lib/mbed-os/features/unsupported/**
+lib/mbed-os/features/storage/filesystem/**
+lib/mbed-os/features/storage/kvstore/**
+lib/mbed-os/features/storage/system_storage/**
+lib/mbed-os/features/storage/TESTS/**
 
 ### Needed directories
 
