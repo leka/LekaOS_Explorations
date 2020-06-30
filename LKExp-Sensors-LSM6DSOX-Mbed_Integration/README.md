@@ -26,3 +26,4 @@ The movement recognition currently implemented is a 6D position recognition tree
 * [LSM6DSOX Sensor Application Note AN5272](https://www.st.com/resource/en/application_note/dm00571818-lsm6dsox-alwayson-3d-accelerometer-and-3d-gyroscope-stmicroelectronics.pdf)
 * [LSM6DSOX MLC Application Note AN5259](https://www.st.com/content/ccc/resource/technical/document/application_note/group1/5f/d8/0a/fe/04/f0/4c/b8/DM00563460/files/DM00563460.pdf/jcr:content/translations/en.DM00563460.pdf)
 * [Machine Learning Core info](MLC_info.md)
+

@@ -66,17 +66,31 @@ Here you can find all the files from the data logs to the final _.ucf_ file, sho
 ## Getting a ucf file from a data set (Not finished)
 1. Collect the data
 To get the ucf ( Unico Configuration File), you will need to use the Unico GUI software as well as a machine learning software like Weka that can generate a decision tree (There are others but weka is recommended). You can follow those video guides (5 videos) : [ST guide for LSM6DSOX MLC setup](https://www.youtube.com/watch?v=xn92M_VSv0o)
+
 The first step will be to get your movement recognition data set ready, for this you will need to record a correct amount of data corresponding to one movement.
 _At this point it is worth noting that for more complicated movements, you will need to use the Finite State Machine fonction of the LSM6DSOX sensor in addition to the Machine Learning Core to differenciate between complex movements._
-An important thing you need to know is if your board compatible directly with Unico, for example an ST test board connected to a compatible Nucleo board. In this case you can register your data set directly from Unico [video](https://www.youtube.com/watch?v=xhcq0MMdGiY&t=1s). However if you're using a board that is not compatible with Unico, you will have to use Unico in "offline" mode, not communicating with the card. You will nevertheless be able to generate a ucf from a data set, but for the creation of your dataset, and furthermore a dataset compatible with Unico (CSV for example), you will have to do it yourself. We will however try to provide something able to register a data set if we can.
+An important thing you need to know is if your board compatible directly with Unico, for example an ST test board connected to a compatible Nucleo board. In this case you can register your data set directly from Unico [video](https://www.youtube.com/watch?v=xhcq0MMdGiY&t=1s). However if you're using a board that is not compatible with Unico, you will have to use Unico in "offline" mode, not communicating with the card. You will nevertheless be able to generate a ucf from a data set, but for the creation of your dataset, and furthermore a dataset compatible with Unico (CSV for example), you will have to do it yourself.
+We do provide a C++ app of data gathering via serial in an mbed project called __LKExp-Sensors-LSM6DSOX-Data_Gathering__ , read the README.md file there for further information.
+
 2. Start the configuration and create the arff file to use in a decision tree generator
 When your different datasets each corresponding to a movement are recorded. You will need to go in the MLC tab of he Unico GUI : There you just have to add your differents data set and label them (for example with the name of the movement corresponding), it's quite intuitive. Once this is done, go in the configuration sub-tab and follow the different steps, selecting wich data features to use, if you want to use a filter, etc [video](https://www.youtube.com/watch?v=NRvoH6jmiys). 
+Another possibility would be to generate the ARFF file yourself, by dealing with features calculation and so on, but since further configuration steps in Unico are for now not really possible to skip, you'll have to pass by the ARFF file generation anyway.
+
 3. Create a decision tree from Weka
-Once you created a arff file, you will need to switch to weka to generate the decision tree, following this : [video](https://www.youtube.com/watch?v=fZEKBWfCyg4).
+Once you created an arff file, you will need to switch to weka to generate the decision tree, following this : [video](https://www.youtube.com/watch?v=fZEKBWfCyg4).
+
 4. Finish the configuration with the decision tree
 To finish with the ucf file creation, go back to the MLC configuration on Unico GUI and define your decision tree [video](https://youtu.be/yvoBt9zl5Ws).
+
 5. (Mbed target) Change the the ucf file to a header file
-The last step to be able to use the ucf file, which define what registers need to be written with which data, in an mbed implemented code, it to change a bit his format and make it into a header file that may be included in you code. This is possible using once again Unico GUI, on the main page in the "options" tab, select the button "C code generation" and select your ucf file.
+The last step to be able to use the ucf file, which define what registers need to be written with which data, in an mbed implemented code, it to change a bit his format and make it into a header file that may be included in you code. This is possible either by using once again Unico GUI, on the main page in the "options" tab, select the button "C code generation" and select your ucf file. 
+Or using an app we made in a project called __LKExp-Sensors-LSM6DSOX-UCF_to_H_File_Conversion__, see the README.md file there for further information
+
+
+## Configure MLC
+You'll have to read every line of register writing from the ucf file you generated and write the data mentionned to the adress corresponding. To do this in an mbed integration, we first convert the ucf file in a header file containing basically the same data to write at the same adresses but in a different format. Each line corresponding once again to a register address from the MLC and the value to write on it. 
+See the [README.md](README.md)file for more information of our own implementation.
+
 
 
 ## working with xl and gy
