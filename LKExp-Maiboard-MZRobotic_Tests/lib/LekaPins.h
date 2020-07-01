@@ -111,14 +111,14 @@
 #define PIN_SPI5_MISO (PF_8)
 #define PIN_RST_BLE (PE_3)
 #define PIN_IRQ_BLE (PI_11)
-/*
-#define PIN_USART_ESP_TX (PA_3)
-#define PIN_USART2_ESP_RX (PD_5)
-#define PIN_USART2_ESP_CTS (PD_3)
-#define PIN_USART2_ESP_RTS (PD_4)
-#define PIN_RST_ESP (PF_3)
-#define PIN_ESP_ENABLE (PC_12)
 
+#define PIN_USART2_ESP_TX (PD_5)
+#define PIN_USART2_ESP_RX (PA_3)
+// #define PIN_USART2_ESP_CTS (PD_3)
+// #define PIN_USART2_ESP_RTS (PD_4)
+#define PIN_RST_ESP (PJ_3)
+#define PIN_ESP_ENABLE (PC_12)
+/*
 #define PIN_USART6_BTTX (PA_3)
 #define PIN_USART6_BTRX (PD_5)
 #define PIN_RST_BM64 (PC_8)

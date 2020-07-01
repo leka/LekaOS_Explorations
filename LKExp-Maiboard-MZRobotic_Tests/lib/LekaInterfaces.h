@@ -12,6 +12,7 @@
 
 #include "LekaPins.h"
 #include "SDBlockDevice.h"
+#include "ESP8266Interface.h"
 #include "mbed.h"
 /*
 QSPI qspi1(PIN_Q_SPI_IO0, PIN_Q_SPI_IO1, PIN_Q_SPI_IO2, PIN_Q_SPI_IO3, PIN_Q_SPI_CLK,
@@ -39,11 +40,11 @@ extern SPI spi5;
 extern DigitalOut ble_reset;
 //DigitalIn ble_interrupt(PIN_IRQ_BLE);
 
+extern ESP8266Interface wifi;
+// extern BufferedSerial uart2;
+// extern DigitalOut wifi_reset;
+// extern DigitalOut wifi_enable;
 /*
-Serial uart2(PIN_USART_ESP_TX, PIN_USART2_ESP_RX);
-DigitalOut wifi_reset(PIN_RST_ESP);
-DigitalOut wifi_enable(PIN_ESP_ENABLE);
-
 Serial uart6(PIN_USART6_BTTX, PIN_USART6_BTRX);
 DigitalOut bluetooth_reset(PIN_RST_BM64);
 DigitalOut bluetooth_wakeup(PIN_BT_WAKEUP);
