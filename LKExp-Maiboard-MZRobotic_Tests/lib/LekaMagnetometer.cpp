@@ -77,16 +77,17 @@ int32_t LekaMagnetometer::write(uint8_t register_address, uint16_t number_bytes_
 }
 
 void LekaMagnetometer::runTest(int n_repetition) {
-
+	printf("\nTest of compass sensor!\n");
 	init();
 
 	std::array<float, 3> mag_data;
 
 	for (int i; i < n_repetition; i++) {
-		printf("ID is %X\r\n", getId());
+		printf("ID is %X\n", getId());
 
 		getData(mag_data);
-		printf("Magnetometer data (in mgauss): %d %d %d \r\n", (int)mag_data[0], (int)mag_data[1],
+		printf("Magnetometer data (in mgauss): %d %d %d\n", (int)mag_data[0], (int)mag_data[1],
 			   (int)mag_data[2]);
 	}
+	printf("\n");
 }

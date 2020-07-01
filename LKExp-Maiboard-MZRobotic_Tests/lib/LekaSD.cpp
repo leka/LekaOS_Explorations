@@ -128,7 +128,7 @@ void LekaSD::numbersExample() {
 }
 
 void LekaSD::runTest() {
-	printf("Starting init...");
+	printf("\nTest of SD card!\n");
 	init();
 	displayProperties();
 	mount();

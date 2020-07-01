@@ -30,6 +30,8 @@ void LekaMotors::setSpeed(float ratio, uint8_t direction) {
 }
 
 void LekaMotors::runTest(int duration_sec) {
+	printf("\nTest of motors!\n");
+
 	LekaMotorsNS::_time_counter = 0;
 	_ticker.attach(&LekaMotorsNS::counter, 1.0);
 
@@ -53,4 +55,6 @@ void LekaMotors::runTest(int duration_sec) {
 	}
 
 	_ticker.detach();
+
+	printf("\n");
 }

@@ -92,19 +92,20 @@ int32_t LekaIMU::write(uint8_t register_address, uint16_t number_bytes_to_write,
 }
 
 void LekaIMU::runTest(int n_repetition) {
-
+	printf("\nTest of IMU sensor!\n");
 	init();
 
 	std::array<float, 3> xl_data;
 	std::array<float, 3> gy_data;
 
 	for (int i; i < n_repetition; i++) {
-		printf("ID is %X\r\n", getId());
+		printf("ID is %X\n", getId());
 
 		getData(xl_data, gy_data);
-		printf("Accelrometer data (in mg): %d %d %d \r\n", (int)xl_data[0], (int)xl_data[1],
+		printf("Accelrometer data (in mg): %d %d %d\n", (int)xl_data[0], (int)xl_data[1],
 			   (int)xl_data[2]);
-		printf("Gyroscope data (in mdps): %d %d %d \r\n\n", (int)gy_data[0], (int)gy_data[1],
+		printf("Gyroscope data (in mdps): %d %d %d\n", (int)gy_data[0], (int)gy_data[1],
 			   (int)gy_data[2]);
 	}
+	printf("\n");
 }

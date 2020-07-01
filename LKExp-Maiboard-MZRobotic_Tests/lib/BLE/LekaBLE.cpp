@@ -17,12 +17,14 @@ void schedule_ble_events(BLE::OnEventsToProcessCallbackContext *context) {
 }
 
 void LekaBLE::runTest() {
+    printf("\nTest of BLE!\n");
     BLE &ble = BLE::Instance();
     ble.onEventsToProcess(schedule_ble_events);
 
     BeaconDemo demo(ble, event_queue);
     demo.start();
 
+    printf("\n");
     return;
 }
 

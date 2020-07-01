@@ -38,7 +38,7 @@ void LekaTemperature::showReferences() {
 	hts221_t1_t0_msb_t reg;
 
 	hts221_read_reg(&_register_io_function, HTS221_T0_OUT_L, value, 2);
-	printf("TO_ADC : 0x%02X 0x%02X \n", value[1], value[0]);
+	printf("\nTO_ADC : 0x%02X 0x%02X \n", value[1], value[0]);
 	hts221_read_reg(&_register_io_function, HTS221_T1_OUT_L, value, 2);
 	printf("T1_ADC : 0x%02X 0x%02X \n", value[1], value[0]);
 
@@ -58,7 +58,7 @@ float LekaTemperature::getData() {
 	hts221_temp_deg_point_0_get(&_register_io_function, &t_0_deg);
 	hts221_temp_deg_point_1_get(&_register_io_function, &t_1_deg);
 
-	printf("TO_ADC : %3.3f \nT1_ADC : %3.3f \nTO_DEG : %3.3f \nT1_DEG : %3.3f \n", t_0_adc, t_1_adc,
+	printf("\nTO_ADC : %3.3f \nT1_ADC : %3.3f \nTO_DEG : %3.3f \nT1_DEG : %3.3f \n\n", t_0_adc, t_1_adc,
 		   t_0_deg, t_1_deg);
 	slope	  = (t_1_deg - t_0_deg) / (t_1_adc - t_0_adc);
 	intercept = t_0_deg;
@@ -107,14 +107,15 @@ int32_t LekaTemperature::write(uint8_t register_address, uint16_t number_bytes_t
 }
 
 void LekaTemperature::runTest(int n_repetition) {
-
+	printf("\nTest of temperature sensor!\n");
 	init();
 
 	for (int i = 0; i < n_repetition; i++) {
-		printf("ID is %X\n\n", getId());
+		printf("ID is %X\n", getId());
 
 		//showReferences();
-		printf("Temperature data (raw): 0x%04X \n\n", getRawData());
-		printf("Temperature data (in Celsius): %3.1f \n\n\n", getData());
+		printf("Temperature data (raw): 0x%04X\n", getRawData());
+		printf("Temperature data (in Celsius): %3.1f\n", getData());
 	}
+	printf("\n");
 }

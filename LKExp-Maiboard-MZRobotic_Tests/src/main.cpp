@@ -21,7 +21,7 @@ LekaSD leka_sd;
 // LekaMotors leka_motors(motor_left, motor_right, PIN_IN1, PIN_IN2, PIN_IN3, PIN_IN4);
 
 int main(void) {
-	printf("\nStarting a new run!\r\n\n");
+	printf("\nStarting a new run!\n\n");
 
 	/** Tested (with return) **/
 	leka_brightness.runTest();
