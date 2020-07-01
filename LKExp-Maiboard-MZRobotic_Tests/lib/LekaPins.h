@@ -25,12 +25,12 @@
 #define PIN_Q_SPI_CE_1 (PD_12)
 #define PIN_Q_SPI_CE_2 (PH_6)
 #define PIN_Q_SPI_CE_3 (PJ_4)
-
+*/
 #define PIN_SD_SPI_EN (PC_4)
 #define PIN_SD_SPI_SCK (PA_5)
 #define PIN_SD_SPI_MOSI (PA_7)
 #define PIN_SD_SPI_MISO (PA_6)
-
+/*
 #define PIN_WE (PH_5)
 #define PIN_CAS (PG_15)
 #define PIN_RAS (PF_11)
