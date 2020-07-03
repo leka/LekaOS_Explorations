@@ -1,8 +1,12 @@
 /**
 ******************************************************************************
-* @file    LSM6DSOX_EmbeddedFeatures.h
-* @author  Maxime Blanc and Samuel Hadjes
-* @brief   Class to control LSM6DSOX Embedded Features
+ * @file    LSM6DSOX_EmbeddedFeatures.h
+ * @author  Maxime Blanc and Samuel Hadjes
+ * @brief   Class to control LSM6DSOX Embedded Features
+ * 
+ * This is a squeletton of a class that could be used to control the embedded features of the sensor
+ * For now it is only used for the implemented methods that allow an easy configuration of the sensor
+ * 
 ******************************************************************************
 */
 
@@ -40,19 +44,6 @@ namespace EmbeddedFeatures {
 		//temporary, to simplify developpement
 		// TODO erase this once no more in use
 		virtual stmdev_ctx_t* TMP_getIoFunc();
-
-		// virtual Status getData(std::array<uint8_t, 8> &data);
-
-		// virtual Status enableInterruptRequest();
-		// virtual Status disableInterruptRequest();
-
-		// virtual Status enableActivityInterrupt();
-		// virtual Status disableActivityInterrupt();
-
-		// virtual Status getInterruptStatus();
-
-		// virtual Status readInterrupt(uint8_t &interrupt_status);
-		// virtual Status attachInterrupt(Callback<void()> func);
 
 	  protected:
 		static int32_t ptr_io_write(void *handle, uint8_t write_address, uint8_t *p_buffer,

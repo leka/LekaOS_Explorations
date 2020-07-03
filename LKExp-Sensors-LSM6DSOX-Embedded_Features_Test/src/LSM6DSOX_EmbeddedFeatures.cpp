@@ -29,14 +29,7 @@ namespace EmbeddedFeatures {
 		_register_io_function.handle	= (void *)this;
 	}
 
-	/**
-	 * @brief Init the LSM6DSOX_EmbeddedFeatures object
-	 * 
-	 * This method sends an MLC init request to the sensor.
-	 * It will also set the MLC data rate to its default value.
-	 * 
-	 * @retval 0 in case of success, an error code otherwise
-	 */
+	
 	Status LSM6DSOX_EmbeddedFeatures::init() {
 		return Status::OK;
 	}
@@ -111,6 +104,14 @@ namespace EmbeddedFeatures {
 	}
 
 	
+	/**
+	 * @brief  Function used by driver to write data.
+	 * @param  handle current object
+	 * @param  write_address address of the register to write on
+	 * @param  p_buffer contains data to write
+	 * @param  number_bytes_to_write number of data to write in bytes
+	 * @retval 0 in case of success, an error code otherwise
+	 */
 	int32_t LSM6DSOX_EmbeddedFeatures::ptr_io_write(void *handle, uint8_t write_address,
 												 uint8_t *p_buffer,
 												 uint16_t number_bytes_to_write) {
@@ -118,7 +119,14 @@ namespace EmbeddedFeatures {
 			->_lsm6dsox_component_i2c.write(write_address, number_bytes_to_write, p_buffer);
 	}
 
-	
+	/**
+	 * @brief  Function used by driver to read data.
+	 * @param  handle current object
+	 * @param  read_address address of the register to read on
+	 * @param  p_buffer contains data to read
+	 * @param  number_bytes_to_write number of data to read in bytes
+	 * @retval 0 in case of success, an error code otherwise
+	 */
 	int32_t LSM6DSOX_EmbeddedFeatures::ptr_io_read(void *handle, uint8_t read_address,
 												uint8_t *p_buffer, uint16_t number_bytes_to_read) {
 		return (int32_t)((LSM6DSOX_EmbeddedFeatures *)handle)
