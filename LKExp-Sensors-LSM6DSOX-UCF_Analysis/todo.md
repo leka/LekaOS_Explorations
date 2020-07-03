@@ -1,8 +1,8 @@
 ## UCF Analysis todo list
 
 ### code
-- [ ] - write readme.md to explain how it works
-- [ ] - doxygen doc
+- [x] - write readme.md to explain how it works
+- [ ] - doxygen code
 ### documentation
 - [ ] - make a makefile for the program
 - [ ] - remove exec from git
