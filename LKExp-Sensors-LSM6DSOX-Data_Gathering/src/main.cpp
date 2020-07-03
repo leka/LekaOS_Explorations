@@ -60,14 +60,12 @@ int main(void) {
 	// Enable Block Data Update
 	lsm6dsox_block_data_update_set(dataGatherer.TMP_getIoFunc(), PROPERTY_ENABLE);
 
-	dataGatherer.setDataRate(104);
+	dataGatherer.setDataRate(26);
 
-	dataGatherer.printHeader();
-
-
-	printf("Starting while loop\n\n");
-
-	dataGatherer.startTicker();
+	printf("Start by configuring the data gathering. Then call \"start\" to start receiving data\n");
+	printf("Write \"help\" for info on the functionnalities\n");
+	printf("If you are using mbed sterm don't forget to type \"CTRL + E\" to disable local echo and avoid corrupting the data\n");
+	printf("\n\n");
 
 	while (1) 
 	{
@@ -79,67 +77,4 @@ int main(void) {
 void tickerCB(){
 	dataGatherer.onTick();
 }
-
-
-
-//##################################################################################################
-// Event queue test
-//##################################################################################################
-
-
-
-
-// // // #include "mbed.h"
-// // // #include "mbed_events.h"
-
-
-// // // class Test{
-
-
-// // // 	public:
-// // // 	Test() : led1(LED1)
-// // // 	{
-// // // 		// Request the shared queue
-// // // 		// EventQueue *queue = mbed_event_queue();
-		
-// // // 		//tick.attach(queue->event(&onTick), 500ms);
-
-// // // 	}
-
-// // // 	void onTick(void)
-// // // 	{
-// // // 		//pc.write("Tick\n", sizeof("Tick\n")/sizeof(char));
-// // // 		printf("Tick\n");
-// // // 		led1 = !led1;
-// // // 	}
-
-// // // 	DigitalOut led1;
-// // // 	Ticker _tick;
-// // // };
-
-
-
-
-
-// // // InterruptIn sw(BUTTON1);
-// // // UnbufferedSerial pc(USBTX, USBRX);
-
-// // // Test test;
-
-// // // void callBack()
-// // // {
-// // // 	test.onTick();
-// // // }
-
-// // // int main()
-// // // {
-// // // 	EventQueue *queue = mbed_event_queue();
-		
-// // // 	test._tick.attach(queue->event(&callBack), 500ms);
-
-
-// // // 	while(1){
-
-// // // 	}
-// // // }
 

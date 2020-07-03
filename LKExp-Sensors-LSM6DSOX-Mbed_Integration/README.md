@@ -20,6 +20,7 @@ To configure the MLC, the  `configureMLC()` method from the `MachineLearningCore
 
 The movement recognition currently implemented is a 6D position recognition tree. Everytime the sensor will face a different direction, an interrupt is generated and the current position is printed. If the position is not close enough to one of the 6 main orientations, "None" will be printed.
 
+To change the MLC configuration, pick a new *.h* file and in the main.cpp file call the  `configureMLC()` method from the MLC with the new `ucf_line_t` variable as parameter.
 
 ## Ressources
 * [LSM6DSOX datasheet](https://www.st.com/resource/en/datasheet/lsm6dsox.pdf)
