@@ -2,7 +2,7 @@
 This is a small step by step to configure linux in order to be able to work on Leka projects.
 These steps work on Ubuntu 18.04.
 A lot of info was already given in the [bare_mbed_project](https://github.com/ladislas/Bare-mbed-Project).
-This is just a more detailed version aimed at the total beginners we are.
+This is just a more detailed version aimed beginners.
 It also contains some tweaks and common errors we stumbled upon.
 
 

@@ -1,9 +1,0 @@
-[mbed] Working path "/home/sam/Desktop/Partage_Leka/Codes_and_Gits/LekaOS_Explorations/LKExp-Sensors-LSM6DSOX-Data_Gathering" (library)
-[mbed] Program path "/home/sam/Desktop/Partage_Leka/Codes_and_Gits/LekaOS_Explorations/LKExp-Sensors-LSM6DSOX-Data_Gathering"
-[mbed] Detecting connected targets/boards to your system...
-[mbed] Opening serial terminal to "NUCLEO_WB55RG"
---- Terminal on /dev/ttyACM0 - 9600,8,N,1 ---
-4
-
-
-4Vx--- [QUIT] ---
