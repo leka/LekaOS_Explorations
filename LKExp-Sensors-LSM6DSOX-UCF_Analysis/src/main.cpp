@@ -1,3 +1,10 @@
+/**
+ * @file main.cpp
+ * @author Maxime Blanc & Samuel Hadjes
+ * @brief Small executable to automatically comment .UCF files
+ * @date 2020-07-03
+ * 
+ */
 #include <fstream>
 #include <iostream>
 #include <string>
