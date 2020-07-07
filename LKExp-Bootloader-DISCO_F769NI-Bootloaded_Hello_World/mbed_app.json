@@ -1,0 +1,9 @@
+{
+	"target_overrides": {
+		"*": {
+			"target.bootloader_img": "bootloader/bootloader.bin",
+			"target.features": [],
+			"target.components": []
+		}
+	}
+}
