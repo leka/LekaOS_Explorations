@@ -42,3 +42,65 @@ In the file `mbed_app.json` of this project, add the path of the bootloader imag
 ```
 
 Make sure the DISCO_F769NI board is connected to your PC over USB and detected. Use the command `mbed compile -f` to build the application with the bootloader and flash it to the board. You can then see your main application run after the bootloader.
+
+## Parameters and functions
+
+### 1.In the bootloader project
+
+#### 1.1. In `mbed_app.json`
+
+The following parameter should be written in the `"target_overrides"` section.
+
+`"target.restrict_size"`: sets the maximum size of the bootloader image. It defines the symbols `APPLICATION_ADDR`, `APPLICATION_SIZE`, `POST_APPLICATION_ADDR` and `POST_APPLICATION_SIZE`, making the ROM look like this:
+```
+|-------------------|   POST_APPLICATION_ADDR + POST_APPLICATION_SIZE == End of ROM
+|                   |
+...
+|                   |
+|                   |
+|     Reserved      |
+|                   |
++-------------------+   POST_APPLICATION_ADDR == APPLICATION_ADDR + APPLICATION_SIZE
+|                   |
+|    Application    |
+|  (the bootloader) |
+|                   |
++-------------------+   APPLICATION_ADDR == Start of ROM
+```
+The value we write for this parameter is directly given to `APPLICATION_SIZE`.
+
+#### 1.2. In `src/main.cpp`
+
+`mbed_start_application(POST_APPLICATION_ADDR)`: starts the application at the address `POST_APPLICATION_ADDR`, corresponding to the end of the bootloader memory.
+
+### 2. In the main application project
+
+#### In `mbed_app.json`
+
+The following parameters should be written in the `"target_overrides"` section.
+
+-	`"target.bootloader_img"`: path to the bootloader binary image. It redefines the previous symbols as `BOOTLOADER_ADDR`, `BOOTLOADER_SIZE`, `APPLICATION_ADDR` and `APPLICATION_SIZE`. The ROM now looks like this:
+```
+|-------------------|   APPLICATION_ADDR + APPLICATION_SIZE == End of ROM
+|                   |
+...
+|                   |
+|    Application    |
+|   (main program)  |
+|                   |
++-------------------+   APPLICATION_ADDR == BOOTLOADER_ADDR + BOOTLOADER_SIZE
+|                   |
+|    Bootloader     |
+|    (<path to      |
+|  bootloader bin>) |
+|                   |
++-------------------+   BOOTLOADER_ADDR == Start of ROM
+```
+
+-	`"target.mbed_app_start"` or `"target.app_offset"`: sets the start address of the main application, creating space between the bootloader and the application. Be careful to set a value that does not get in conflict with the memory taken by the bootloader (`"target.restrict_size"`). Note that `"target.app_offset"` is relative to the start of ROM, which is not at the address `0x0`.
+
+-	`"target.mbed_app_size"`: sets the maximum size of the application. In conjunction with the previous parameter, it also sets the end address of the application.
+
+## Tests results
+
+> to be written
