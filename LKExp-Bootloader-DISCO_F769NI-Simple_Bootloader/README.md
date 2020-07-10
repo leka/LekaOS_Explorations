@@ -45,7 +45,7 @@ Make sure the DISCO_F769NI board is connected to your PC over USB and detected. 
 
 ## Parameters and functions
 
-### 1.In the bootloader project
+### 1. In the bootloader project
 
 #### 1.1. In `mbed_app.json`
 
@@ -103,4 +103,49 @@ The following parameters should be written in the `"target_overrides"` section.
 
 ## Tests results
 
-> to be written
+### Basic test
+
+Test conditions:
+
+-	`"target.restrict_size": "0x10000"` in `mbed_app.json` in bootloader project
+-	Main application: prints "Hello World" every second
+
+Results:
+
+-	Application runs right after the bootloader
+-	Bootloader starts at address `0x8000000` and application at address `0x8010000`
+
+### Modifying the parameters
+
+Tests conditions: main application prints "Hello World" every second
+
+#### 1. `"target.restrict_size"`
+
+Results:
+
+-	With `"target.restrict_size"` between `0x8000` and `0xFFFF`
+	-	`APPLICATION_SIZE` is `0x8000`, `POST_APPLICATION_ADDR` is `0x8008000`
+	-	Compile fails, bootloader does not fit in allocated ROM (needs `0x8A64` bytes)
+	
+-	With `"target.restrict_size"` between `0x10000` and `0x1FFFF`
+	-	`APPLICATION_SIZE` is `0x10000`, `POST_APPLICATION_ADDR` is `0x8010000`
+	-	Compiler succeeds, application runs right after the bootloader
+	
+-	With `"target.restrict_size"` between `0x20000` and `0x3FFFF`
+	-	`APPLICATION_SIZE` is `0x20000`, `POST_APPLICATION_ADDR` is `0x8020000`
+	-	Compiler succeeds, bootloader runs but not the application (also with `"target.restrict_size"` above `0x40000`)
+
+#### 2. `"target.restrict_size"` and `"target.app_offset"`
+
+Results:
+
+-	With `"target.restrict_size": "0x10000"` and `"target.app_offset": "0x10000"` (or whatever value with **`"target.restrict_size"`==`"target.app_offset"`**)
+	-	`BOOTLOADER_SIZE` is the value given to `"target.restrict_size"` and `"target.app_offset"`
+	-	Compiler succeeds, application runs right after the bootloader
+
+-	With `"target.restrict_size"` < `"target.app_offset"`
+	-	`BOOTLOADER_SIZE` is `0x10000`, `APPLICATION_ADDR` is the value given to `"target.app_offset"`
+	-	Compiler succeeds, bootloader runs but not the application
+
+-	With `"target.restrict_size"` > `"target.app_offset"`
+	-	Compiler fails, application cannot be placed before the end of bootloader.
