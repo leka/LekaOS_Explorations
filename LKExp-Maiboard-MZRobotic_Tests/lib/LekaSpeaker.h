@@ -14,7 +14,7 @@
 
 class LekaSpeaker {
   public:
-	LekaSpeaker(AnalogOut &interface);
+	LekaSpeaker(AnalogOut &interface, PinName enable);
 	void init();
 
 	void play440(int duration_sec);
@@ -25,6 +25,7 @@ class LekaSpeaker {
   private:
 	AnalogOut &_interface;
 	Ticker _ticker;
+	DigitalOut _enable;
 
 	const int _sample_size = 256;
 	float _analog_out_data[256];

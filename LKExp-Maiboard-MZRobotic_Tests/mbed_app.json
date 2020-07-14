@@ -2,7 +2,25 @@
 	"target_overrides": {
 		"*": {
 			"target.features_add": [],
-            "target.components_add": []
+            "target.components_add": [],
+			"target.clock_source" : "USE_PLL_HSI",
+			"target.printf_lib": "std",
+			"bluenrg_ms.SPI_IRQ" : "PI_11",
+			"bluenrg_ms.SPI_MISO" : "PF_8",
+			"bluenrg_ms.SPI_MOSI" : "PF_9",
+			"bluenrg_ms.SPI_RESET" : "PE_3",
+			"bluenrg_ms.SPI_SCK" : "PF_7",
+			"bluenrg_ms.SPI_nCS" : "PF_6"
+		}
+	},
+	"config": {
+		"wifi-ssid": {
+			"help": "WiFi SSID",
+			"value": "\"HUAWEI P smart 2019\""
+		},
+		"wifi-password": {
+			"help": "WiFi Password",
+			"value": "\"b0f092d7a28b\""
 		}
 	}
 }

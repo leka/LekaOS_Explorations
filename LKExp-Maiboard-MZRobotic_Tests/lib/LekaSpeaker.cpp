@@ -5,13 +5,16 @@ namespace LekaSpeakerNS {
 	void counter() { _time_counter++; }
 }	// namespace LekaSpeakerNS
 
-LekaSpeaker::LekaSpeaker(AnalogOut &interface) : _interface(interface) {}
+LekaSpeaker::LekaSpeaker(AnalogOut &interface, PinName enable) : _interface(interface), _enable(enable) {
+	_enable = 0;
+}
 
 void LekaSpeaker::init() {
 	for (int k = 0; k < _sample_size; k++) {
 		_analog_out_data[k] =
 			((1.0 + sin((float(k) / (float)_sample_size * 6.28318530717959))) / 2.0);
 	}
+	_enable = 1;
 }
 
 void LekaSpeaker::play440(int duration_sec) { playFrequency(440.0, duration_sec); }

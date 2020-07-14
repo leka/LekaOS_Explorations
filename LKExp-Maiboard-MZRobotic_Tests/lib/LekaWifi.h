@@ -13,6 +13,7 @@
 #include "ESP8266Interface.h"
 #include "TCPSocket.h"
 #include "LekaInterfaces.h"
+#include "ATCmdParser.h"
 #include "mbed.h"
 
 class LekaWifi {
