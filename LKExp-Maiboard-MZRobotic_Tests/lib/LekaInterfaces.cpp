@@ -33,7 +33,6 @@ ESP8266Interface wifi(PIN_USART2_ESP_TX, PIN_USART2_ESP_RX);
 Serial uart6(PIN_USART6_BTTX, PIN_USART6_BTRX);
 DigitalOut bluetooth_reset(PIN_RST_BM64);
 DigitalOut bluetooth_wakeup(PIN_BT_WAKEUP);
-
-DigitalOut sound_off(PIN_SON_OFF);
-AnalogOut sound_out(PIN_MCU_SON_OUT);
 */
+DigitalOut sound_on(PIN_SON_ON);
+AnalogOut sound_out(PIN_MCU_SON_OUT);

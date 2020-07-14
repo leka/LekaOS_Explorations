@@ -27,8 +27,9 @@ class LekaSpeaker {
 	Ticker _ticker;
 	DigitalOut _enable;
 
-	const int _sample_size = 256;
-	float _analog_out_data[256];
+	const int _sample_size = 64;
+	float _analog_out_data[64];
+	float _volume_max = 0.02f;
 };
 
 #endif	 // __LEKASPEAKER_H__

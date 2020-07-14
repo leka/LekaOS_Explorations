@@ -48,8 +48,8 @@ extern ESP8266Interface wifi;
 Serial uart6(PIN_USART6_BTTX, PIN_USART6_BTRX);
 DigitalOut bluetooth_reset(PIN_RST_BM64);
 DigitalOut bluetooth_wakeup(PIN_BT_WAKEUP);
-
-DigitalOut sound_off(PIN_SON_OFF);
-AnalogOut sound_out(PIN_MCU_SON_OUT);
 */
+extern DigitalOut sound_on;
+extern AnalogOut sound_out;
+
 #endif	 // __LEKAINTERFACES_H__

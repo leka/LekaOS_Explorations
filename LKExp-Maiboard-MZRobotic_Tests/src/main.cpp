@@ -10,7 +10,7 @@
 #include "LekaWifi.h"
 #include "mbed.h"
 // #include "LekaMotors.h"
-// #include "LekaSpeaker.h"
+#include "LekaSpeaker.h"
 
 LekaBrightness leka_brightness(brightness);
 LekaMicrophone leka_microphone(microphone);
@@ -21,7 +21,7 @@ LekaBLE leka_ble(spi5, ble_reset, NC);
 LekaSD leka_sd;
 LekaWifi leka_wifi(PIN_ESP_ENABLE, PIN_RST_ESP);
 LekaBluetooth leka_bluetooth(PC_6, PC_7);
-// LekaSpeaker leka_speaker(sound_out, PIN_SON_OFF);
+LekaSpeaker leka_speaker(sound_out, PIN_SON_ON);
 // LekaMotors leka_motors(motor_left, motor_right, PIN_IN1, PIN_IN2, PIN_IN3, PIN_IN4);
 
 Thread thread;
@@ -35,6 +35,7 @@ int main(void) {
 	leka_imu.runTest();
 	leka_magnetometer.runTest();
 	leka_temperature.runTest();
+	leka_speaker.runTest();
 	// leka_ble.runTest();
 
 	/** In progress **/
@@ -45,7 +46,6 @@ int main(void) {
 	// leka_bluetooth.runTest();
 
 	/** Un-tested **/
-	// leka_speaker.runTest();
 	// leka_motors.runTest();
 
 	printf("\nEnd of run!\n\n");

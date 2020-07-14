@@ -125,8 +125,8 @@
 #define PIN_BT_WAKEUP (PG_7)
 
 #define PIN_MCU_BT_WAKEUP (PA_0)
-
-#define PIN_SON_OFF (PA_8)
-#define PIN_MCU_SON_OUT (PA_4)
 */
+#define PIN_SON_ON (PA_8)
+#define PIN_MCU_SON_OUT (PA_4)
+
 #endif	 // __LEKAPINS_H__
