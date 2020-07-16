@@ -25,12 +25,13 @@ void LekaMotors::setSpeed(float ratio, uint8_t direction) {
 	_in3 = (direction == 0) ? 1 : 0;
 	_in4 = (direction == 0) ? 0 : 1;
 
-	_l_mot = ratio;
-	_r_mot = ratio;
+	_l_mot = ratio / 2.0;
+	_r_mot = ratio / 2.0;
 }
 
 void LekaMotors::runTest(int duration_sec) {
 	printf("\nTest of motors!\n");
+	init();
 
 	LekaMotorsNS::_time_counter = 0;
 	_ticker.attach(&LekaMotorsNS::counter, 1.0);
@@ -41,19 +42,14 @@ void LekaMotors::runTest(int duration_sec) {
 	}
 
 	LekaMotorsNS::_time_counter = 0;
+	float slope = 1.0f / (float)duration_sec;
 
-	float ratio = 1;
-	float slope = 1.0f / (float)duration_sec / 2;
-
-	while (LekaMotorsNS::_time_counter < duration_sec / 2) {
-		setSpeed(1.0f - slope * (float)duration_sec, 1);
-		wait_us(0.5);
-	}
 	while (LekaMotorsNS::_time_counter < duration_sec) {
-		setSpeed(slope * (float)duration_sec - 1.0f, 0);
+		setSpeed(1.0f - (float)slope * LekaMotorsNS::_time_counter, 1);
 		wait_us(0.5);
 	}
 
+	setSpeed(0, 1);
 	_ticker.detach();
 
 	printf("\n");

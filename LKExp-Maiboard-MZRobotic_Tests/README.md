@@ -28,10 +28,8 @@ Their aim is to test they are operational, **NOT** to test functionalities asked
 	* Write, shutdown/reboot, Read. Written content must be the same on read.
 * SD
 	* Read existing (text) file in SD card.
-* SRAM
-	* *To define*
-* Screen
-	* *To define*
+* Screen & SRAM
+	* Display image
 * Accelerometer & Gyroscope
 	* Get the ID.
 	* Get (raw) data.
@@ -49,21 +47,20 @@ Their aim is to test they are operational, **NOT** to test functionalities asked
 	* Turn both motors
 	* Ramp from one direction to another to maximale speed.
 * BLE
-	* *To define*
+	* Detect module on another device through bluetooth
 * Wifi
-	* *To define*
+	* Connect to a hotspot
 * Bluetooth
-	* *To define*
+	* Detect module on another device through bluetooth
 * Speakers
     * Play one frequency e.g. 440Hz
 	* Play frequencies from 20Hz to 20kHz.
 
 ## Current status of Goal
 
-* [ ] Firmwares
-* [ ] SD
-* [ ] SRAM
-* [ ] Screen ❌
+* [ ] Firmwares ❌
+* [ ] SD ❌
+* [ ] Screen & SRAM ❌
 * [x] Accelerometer & Gyroscope ✅
 * [x] Magnetometer ✅
 * [x] Temperature ✅
@@ -71,6 +68,6 @@ Their aim is to test they are operational, **NOT** to test functionalities asked
 * [x] Light sensor ✅
 * [x] Motors ✅
 * [x] BLE ✅
-* [ ] Wifi
-* [ ] Bluetooth
+* [x] Wifi 🟡
+* [x] Bluetooth 🟡
 * [x] Speakers ✅

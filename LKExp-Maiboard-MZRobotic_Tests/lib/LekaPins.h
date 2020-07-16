@@ -11,7 +11,7 @@
 #define __LEKAPINS_H__
 
 /* Defines  ------------------------------------------------------------------*/
-/*
+
 //#define PIN_SWCLK (PA_14)
 //#define PIN_SWO (PB_3)
 //#define PIN_VCP_TX (PA_9)
@@ -25,7 +25,7 @@
 #define PIN_Q_SPI_CE_1 (PD_12)
 #define PIN_Q_SPI_CE_2 (PH_6)
 #define PIN_Q_SPI_CE_3 (PJ_4)
-*/
+
 #define PIN_SD_SPI_EN (PC_4)
 #define PIN_SD_SPI_SCK (PA_5)
 #define PIN_SD_SPI_MOSI (PA_7)
@@ -97,14 +97,14 @@
 #define PIN_MICRO_MCU (PF_10)
 
 #define PIN_V_LUMINOSITE (PB_1)
-/*
+
 #define PIN_IN1 (PH_0)
 #define PIN_IN2 (PH_1)
 #define PIN_ENA (PA_1)
 #define PIN_ENB (PA_2)
 #define PIN_IN3 (PE_4)
 #define PIN_IN4 (PE_5)
-*/
+
 #define PIN_SPI5_NSS (PF_6)
 #define PIN_SPI5_SCK (PF_7)
 #define PIN_SPI5_MOSI (PF_9)
@@ -118,14 +118,14 @@
 // #define PIN_USART2_ESP_RTS (PD_4)
 #define PIN_RST_ESP (PJ_3)
 #define PIN_ESP_ENABLE (PC_12)
-/*
-#define PIN_USART6_BTTX (PA_3)
-#define PIN_USART6_BTRX (PD_5)
+
+// #define PIN_USART6_BTTX (PC_7)
+// #define PIN_USART6_BTRX (PC_6)
 #define PIN_RST_BM64 (PC_8)
 #define PIN_BT_WAKEUP (PG_7)
 
-#define PIN_MCU_BT_WAKEUP (PA_0)
-*/
+// #define PIN_MCU_BT_WAKEUP (PA_0)
+
 #define PIN_SON_ON (PA_8)
 #define PIN_MCU_SON_OUT (PA_4)
 

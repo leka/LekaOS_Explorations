@@ -15,11 +15,13 @@
 
 class LekaBluetooth {
   public:
-	LekaBluetooth(PinName pin_tx, PinName pin_rx);
+	LekaBluetooth(PinName pin_tx, PinName pin_rx, DigitalOut &reset);
 
 	void runTest();
-private:
-BufferedSerial _bm64;
+
+  private:
+	BufferedSerial _bm64;
+	DigitalOut _reset;
 };
 
 #endif	 // __LEKABLUETOOTH_H__

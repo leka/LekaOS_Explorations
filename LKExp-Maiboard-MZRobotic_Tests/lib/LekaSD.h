@@ -12,6 +12,7 @@
 
 #include <errno.h>
 #include <stdio.h>
+
 #include "FATFileSystem.h"
 #include "LekaInterfaces.h"
 #include "SDBlockDevice.h"
@@ -21,16 +22,19 @@
 
 class LekaSD {
   public:
-	LekaSD();
-  
+	LekaSD(DigitalInOut sd_enable);
+
 	int init();
 
 	void displayProperties();
 	void displayReadmeFile();
 	void mount();
 	void numbersExample();
-  
+
 	void runTest();
+
+  private:
+	DigitalInOut _sd_enable;
 };
 
 #endif	 // __LEKASD_H__
