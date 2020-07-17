@@ -1,0 +1,10 @@
+{
+	"target_overrides": {
+		"*": {
+			"target.bootloader_img": "bootloader/bootloader.bin",
+			"target.app_offset": "0x80000",
+			"target.features": [],
+			"target.components": []
+		}
+	}
+}
