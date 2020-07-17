@@ -1,6 +1,6 @@
 #LKExp - Mbed-OS files modifications to create .hex file instead of .bin
 
-In `tools/targets/__init__.py`, line 796:
+In `tools/targets/__init__.py`, line 796, add:
 
 ``` python
 class DISCO_F769NICode(object):
@@ -15,7 +15,7 @@ class DISCO_F769NICode(object):
 			binh.tofile(f, format='hex')
 ```
 
-In `targets/targets.json`, `"DISCO_F769NI"` section, line 2677:
+In `targets/targets.json`, `"DISCO_F769NI"` section, line 2677, add:
 
 ``` json
         "OUTPUT_EXT": "hex",
