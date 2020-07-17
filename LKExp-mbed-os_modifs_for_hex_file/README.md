@@ -1,4 +1,4 @@
-#LKExp - Mbed-OS files modifications to create .hex file instead of .bin
+# LKExp - Mbed-OS files modifications to create .hex file instead of .bin
 
 In `tools/targets/__init__.py`, line 796, add:
 
