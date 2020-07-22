@@ -50,8 +50,13 @@ _deps
 
 # mbed
 
+BUILD
 lib/mbed-os
 */lib/mbed-os
+
+# BSP
+
+*/lib/BSP_DISCO_F769NI
 
 
 # C
