@@ -39,6 +39,8 @@ extern JPEG_HandleTypeDef    JPEG_Handle;
 extern DSI_HandleTypeDef hdsi_discovery;
 extern DMA2D_HandleTypeDef DMA2D_Handle;
 extern int DSI_IRQ_counter;
+extern int DMA2D_IRQ_counter;
+extern int HAL_error_status;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 /******************************************************************************/
@@ -53,8 +55,13 @@ void DSI_IRQHandler(void)
   HAL_DSI_IRQHandler(&hdsi_discovery);
 }
 
+void HAL_DSI_ErrorCallback(DSI_HandleTypeDef *hdsi) {
+    HAL_error_status = 1;
+}
+
 void DMA2D_IRQHandler(void)
 {
+    DMA2D_IRQ_counter+=1;
   HAL_DMA2D_IRQHandler(&DMA2D_Handle);
 }
 

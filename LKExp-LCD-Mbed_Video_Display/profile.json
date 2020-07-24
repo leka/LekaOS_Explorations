@@ -1,0 +1,41 @@
+{
+    "GCC_ARM": {
+        "common": [
+            "-Wno-unused-parameter",
+            "-Wno-missing-field-initializers"
+        ],
+        "asm": [
+            "-x",
+            "assembler-with-cpp",
+            "-c"
+        ],
+        "c": [
+            "-std=gnu99",
+            "-c",
+            "-Os",
+            "-ffunction-sections",
+            "-Wall",
+            "-DUSE_HAL_DRIVER",
+            "-DSTM32F769xx",
+            "-DUSE_STM32F769I_DISCO"
+        ],
+        "cxx": [
+            "-std=gnu++14", 
+            "-c",
+            "-Os",
+            "-ffunction-sections",
+            "-Wall",
+            "-DUSE_HAL_DRIVER",
+            "-DSTM32F769xx",
+            "-DUSE_STM32F769I_DISCO"
+        ],
+        "ld": [
+            "-Wl,--gc-sections",
+            "-static",
+            "--specs=nano.specs",
+            "-Wl,--gc-sections", "-static", "-Wl,--wrap,main", "-Wl,--wrap,_malloc_r",
+            "-Wl,--wrap,_free_r", "-Wl,--wrap,_realloc_r",
+            "-Wl,--wrap,_calloc_r", "-Wl,--wrap,exit", "-Wl,--wrap,atexit"
+        ]
+    }
+}

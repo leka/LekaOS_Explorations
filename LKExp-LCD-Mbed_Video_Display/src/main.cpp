@@ -64,13 +64,17 @@ static RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
 static char filename[] = "video.avi";
 
 int DSI_IRQ_counter=0;
+int DMA2D_IRQ_counter=0;
+int HAL_error_status=0;
 
 /* Leka face display from embedded images */
 int main(void) {
     DSI_IRQ_counter = 0;
     printf("\n\r--------Programm starting--------\n\r");
     
-    uint32_t isfirstFrame, startTime, endTime, currentFrameRate;
+    uint32_t isfirstFrame, currentFrameRate;
+    auto startTime = HAL_GetTick();
+    auto endTime = HAL_GetTick();
     char message[16];
 
     /*##-1- JPEG Initialization ################################################*/   
@@ -81,17 +85,18 @@ int main(void) {
     HAL_JPEG_Init(&JPEG_Handle); 
 
 
-    LCD_Init();
+    BSP_LCD_Init();
     printf("LCD_Init done \n\r");
     
-    LCD_LayerInit(0, LCD_FB_START_ADDRESS);
+    //LCD_LayerInit(0, LCD_FB_START_ADDRESS);
+    BSP_LCD_LayerDefaultInit(0, LCD_FB_START_ADDRESS);
     BSP_LCD_SelectLayer(0);
     printf("LCD_LayerInit done \n\r");
 
-    HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, OTM8009A_CMD_CASET, pColLeft);
+    /*HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, OTM8009A_CMD_CASET, pColLeft);
     HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 4, OTM8009A_CMD_PASET, pPage);
     // Update pitch : the draw is done on the whole physical X Size
-    HAL_LTDC_SetPitch(&hltdc_discovery, OTM8009A_800X480_WIDTH, 0);
+    HAL_LTDC_SetPitch(&hltdc_discovery, OTM8009A_800X480_WIDTH, 0);*/
 
     pending_buffer = 0;
     active_area = LEFT_AREA;
@@ -99,7 +104,6 @@ int main(void) {
     BSP_LCD_Clear(LCD_COLOR_CYAN);
 
     printf("Screen Clear done \n\r");
-
 
     //HAL_DSI_LongWrite(&hdsi_discovery, 0, DSI_DCS_LONG_PKT_WRITE, 2, OTM8009A_CMD_WRTESCN, pScanCol);
 
@@ -111,9 +115,9 @@ int main(void) {
         OTM8009A_CMD_DISPON,
         0x00
     );
-    HAL_DSI_Refresh(&hdsi_discovery);
+    //HAL_DSI_Refresh(&hdsi_discovery);
 
-    //printf("DSI IRQ calls : %d \n\r ", DSI_IRQ_counter);
+    //printf("DSI IRQ calls : %d \n\r \n\r", DSI_IRQ_counter);
     //##-3- Link the micro SD disk I/O driver ##################################
     if(FATFS_LinkDriver(&SD_Driver, SDPath) == 0) {
         //##-4- Register the file system object to the FatFs module ##############
@@ -121,10 +125,10 @@ int main(void) {
             //##-5- Open the JPG file with read access #############################
             if(f_open(&JPEG_File, filename, FA_READ) == FR_OK) {
                 printf("File %s openened. File size : %lu \n\r", filename, f_size(&JPEG_File));
-                /*isfirstFrame = 1;
+                isfirstFrame = 1;
                 FrameIndex = 0;
                 FrameRate = 0;
-                //printf("video avi opened \n\r");
+
                 do {
                     //##-6- Find next JPEG Frame offset in the video file #############################
                     FrameOffset =  JPEG_FindFrameOffset(FrameOffset + Previous_FrameSize, &JPEG_File);
@@ -135,11 +139,9 @@ int main(void) {
                         startTime = HAL_GetTick();
                         //printf("Start time %lu \n\r", startTime);
                         f_lseek(&JPEG_File, FrameOffset);
-                        printf("File pointer at position : %lu \n\r",JPEG_File.fptr);
-                        printf("Decoding DMA ... \n\r");
+                        //printf("File pointer at position : %lu \n\r",JPEG_File.fptr);
                         //##-7- Start decoding the current JPEG frame with DMA (Not Blocking ) Method ################
                         JPEG_Decode_DMA(&JPEG_Handle, &JPEG_File, JPEG_OUTPUT_DATA_BUFFER);
-                        printf("Decoding DMA ended \n\r");
                         //##-8- Wait till end of JPEG decoding, and perfom Input/Output Processing in BackGround  #
                         do
                         {
@@ -159,22 +161,21 @@ int main(void) {
                             //##-10- Initialize the DMA2D ########################################
                             DMA2D_Init(JPEG_Info.ImageWidth, JPEG_Info.ImageHeight);
                         }
-                        printf("Frame index : %lu", FrameIndex);
                         //##-11- Copy the Decoded frame to the display frame buffer using the DMA2D #
                         DMA2D_CopyBuffer((uint32_t *)JPEG_OUTPUT_DATA_BUFFER, (uint32_t *)LCD_FRAME_BUFFER, JPEG_Info.ImageWidth, JPEG_Info.ImageHeight);
+                        //printf("DMA2D: %d \n\r", DMA2D_IRQ_counter);
 
                         //##-12- Calc the current decode frame rate #
                         endTime = HAL_GetTick();
                         //printf("End time %lu \n\r", endTime);
                         currentFrameRate = 1000 / (endTime - startTime);
                         sprintf(message ," %lu fps", currentFrameRate);
-                        BSP_LCD_DisplayStringAtLine(29, (uint8_t *)message);
+                        BSP_LCD_DisplayStringAt(0, 0, (uint8_t *)message, CENTER_MODE);
                         FrameRate += currentFrameRate;
-                        printf("-------------\n\r");
-
+//                        printf("-------------\n\r");
                     }
 
-                } while (FrameOffset != 0);*/
+                } while (FrameOffset != 0);
 
                 //##-10- Close the avi file ##########################################
                 f_close(&JPEG_File);
@@ -182,8 +183,7 @@ int main(void) {
             } else printf("Failed to open file %s \n\r", filename);
         } else printf("Mount failed \n\r");
     } else printf("FATFS link failed\n\r");
-
-    //printf("DSI IRQ calls : %d \n\r ", DSI_IRQ_counter);
+    printf("Frame offset %lu \n\r", FrameOffset);
     while (true) {
     }
 
@@ -201,6 +201,7 @@ int main(void) {
  * @retval LCD state
  */
 uint8_t LCD_Init(void) {
+    HAL_StatusTypeDef error_code;
     DSI_PHY_TimerTypeDef  PhyTimings;
     GPIO_InitTypeDef GPIO_Init_Structure;
     /* Toggle Hardware Reset of the DSI LCD using
@@ -224,12 +225,13 @@ uint8_t LCD_Init(void) {
     PeriphClkInitStruct.PLLSAI.PLLSAIN = 417;
     PeriphClkInitStruct.PLLSAI.PLLSAIR = 5;
     PeriphClkInitStruct.PLLSAIDivR = RCC_PLLSAIDIVR_2;
-    HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
+    error_code = HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
+    printf("Rcc periph pll config : %lu \n\r", (uint32_t)error_code);
 
     /* Base address of DSI Host/Wrapper registers to be set before calling De-Init */
     hdsi_discovery.Instance = DSI;
 
-    HAL_DSI_DeInit(&(hdsi_discovery));
+    error_code = HAL_DSI_DeInit(&(hdsi_discovery));
 
     dsiPllInit.PLLNDIV  = 100;
     dsiPllInit.PLLIDF   = DSI_PLL_IN_DIV5;
@@ -237,7 +239,8 @@ uint8_t LCD_Init(void) {
 
     hdsi_discovery.Init.NumberOfLanes = DSI_TWO_DATA_LANES;
     hdsi_discovery.Init.TXEscapeCkdiv = 0x4;
-    HAL_DSI_Init(&(hdsi_discovery), &(dsiPllInit));
+    error_code = HAL_DSI_Init(&(hdsi_discovery), &(dsiPllInit));
+    printf("DSI Init : %lu \n\r", (uint32_t)error_code);
 
     /* Configure the DSI for Command mode */
     CmdCfg.VirtualChannelID      = 0;
@@ -249,9 +252,10 @@ uint8_t LCD_Init(void) {
     CmdCfg.TearingEffectSource   = DSI_TE_DSILINK;
     CmdCfg.TearingEffectPolarity = DSI_TE_RISING_EDGE;
     CmdCfg.VSyncPol              = DSI_VSYNC_FALLING;
-    CmdCfg.AutomaticRefresh      = DSI_AR_DISABLE;
+    CmdCfg.AutomaticRefresh      = DSI_AR_ENABLE;
     CmdCfg.TEAcknowledgeRequest  = DSI_TE_ACKNOWLEDGE_ENABLE;
-    HAL_DSI_ConfigAdaptedCommandMode(&hdsi_discovery, &CmdCfg);
+    error_code=  HAL_DSI_ConfigAdaptedCommandMode(&hdsi_discovery, &CmdCfg);
+    printf("DSI Config adapted command : %lu \n\r", (uint32_t)error_code);
 
     LPCmd.LPGenShortWriteNoP    = DSI_LP_GSW0P_ENABLE;
     LPCmd.LPGenShortWriteOneP   = DSI_LP_GSW1P_ENABLE;
@@ -264,14 +268,16 @@ uint8_t LCD_Init(void) {
     LPCmd.LPDcsShortWriteOneP   = DSI_LP_DSW1P_ENABLE;
     LPCmd.LPDcsShortReadNoP     = DSI_LP_DSR0P_ENABLE;
     LPCmd.LPDcsLongWrite        = DSI_LP_DLW_ENABLE;
-    HAL_DSI_ConfigCommand(&hdsi_discovery, &LPCmd);
-
+    error_code = HAL_DSI_ConfigCommand(&hdsi_discovery, &LPCmd);
+    printf("DSI Config command : %lu \n\r", (uint32_t)error_code);
     /* Initialize LTDC */
     LTDC_Init();
 
     /* Start DSI */
-    HAL_DSI_Start(&(hdsi_discovery));
-    BSP_SDRAM_Init();
+    error_code = HAL_DSI_Start(&(hdsi_discovery));
+    printf("DSI Start: %lu \n\r", (uint32_t)error_code);
+
+    //BSP_SDRAM_Init();
       /* Configure DSI PHY HS2LP and LP2HS timings */
     PhyTimings.ClockLaneHS2LPTime = 35;
     PhyTimings.ClockLaneLP2HSTime = 35;
@@ -279,7 +285,8 @@ uint8_t LCD_Init(void) {
     PhyTimings.DataLaneLP2HSTime = 35;
     PhyTimings.DataLaneMaxReadTime = 0;
     PhyTimings.StopWaitTime = 10;
-    HAL_DSI_ConfigPhyTimer(&hdsi_discovery, &PhyTimings);
+    error_code = HAL_DSI_ConfigPhyTimer(&hdsi_discovery, &PhyTimings);
+    printf("DSI Config Phy timer : %lu  \n\r\n\r", (uint32_t)error_code);
 
     /* Initialize the OTM8009A LCD Display IC Driver (KoD LCD IC Driver)
     *  depending on configuration set in 'hdsivideo_handle'.
@@ -297,12 +304,14 @@ uint8_t LCD_Init(void) {
     LPCmd.LPDcsShortWriteOneP   = DSI_LP_DSW1P_DISABLE;
     LPCmd.LPDcsShortReadNoP     = DSI_LP_DSR0P_DISABLE;
     LPCmd.LPDcsLongWrite        = DSI_LP_DLW_DISABLE;
-    HAL_DSI_ConfigCommand(&hdsi_discovery, &LPCmd);
+    error_code = HAL_DSI_ConfigCommand(&hdsi_discovery, &LPCmd);
+    printf("DSI Config command : %lu \n\r", (uint32_t)error_code);
 
-    HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
+    error_code = HAL_DSI_ConfigFlowControl(&hdsi_discovery, DSI_FLOW_CONTROL_BTA);
+    printf("DSI Config flow control : %lu \n\r", (uint32_t)error_code);
 
     // Enable GPIOJ clock 
-    /*__HAL_RCC_GPIOJ_CLK_ENABLE();
+    __HAL_RCC_GPIOJ_CLK_ENABLE();
 
     // Configure DSI_TE pin from MB1166 : Tearing effect on separated GPIO from KoD LCD 
     // that is mapped on GPIOJ2 as alternate DSI function (DSI_TE)                      
@@ -313,9 +322,9 @@ uint8_t LCD_Init(void) {
     GPIO_Init_Structure.Speed     = GPIO_SPEED_HIGH;
     GPIO_Init_Structure.Alternate = GPIO_AF13_DSI;
     HAL_GPIO_Init(GPIOJ, &GPIO_Init_Structure);
-*/
+
     // Send Display Off DCS Command to display 
-    HAL_DSI_ShortWrite(
+    error_code = HAL_DSI_ShortWrite(
         &(hdsi_discovery),
         0,
         DSI_DCS_SHORT_PKT_WRITE_P1,
@@ -324,7 +333,8 @@ uint8_t LCD_Init(void) {
     );
 
     // Refresh the display 
-    HAL_DSI_Refresh(&hdsi_discovery);
+    error_code = HAL_DSI_Refresh(&hdsi_discovery);
+    printf("DSI Refresh : %lu \n\r", (uint32_t)error_code);
 
     return LCD_OK;
 }
@@ -345,7 +355,7 @@ void LTDC_Init(void) {
       hltdc_discovery.Init.TotalWidth = HSYNC+HBP+HACT+HFP;
 
       /* background value */
-      hltdc_discovery.Init.Backcolor.Blue = 100;
+      hltdc_discovery.Init.Backcolor.Blue = 255;
       hltdc_discovery.Init.Backcolor.Green = 0;
       hltdc_discovery.Init.Backcolor.Red = 0;
 
@@ -355,8 +365,9 @@ void LTDC_Init(void) {
       hltdc_discovery.Init.DEPolarity = LTDC_DEPOLARITY_AL;
       hltdc_discovery.Init.PCPolarity = LTDC_PCPOLARITY_IPC;
       hltdc_discovery.Instance = LTDC;
-
-      HAL_LTDC_Init(&hltdc_discovery);
+        HAL_StatusTypeDef error;
+      error = HAL_LTDC_Init(&hltdc_discovery);
+      printf("LTDC init : %d \n\r",error);
 }
 
 /**
@@ -385,7 +396,9 @@ void LCD_LayerInit(uint16_t LayerIndex, uint32_t Address) {
     Layercfg.ImageWidth = OTM8009A_800X480_WIDTH/2;
     Layercfg.ImageHeight = OTM8009A_800X480_HEIGHT;
 
-    HAL_LTDC_ConfigLayer(&hltdc_discovery, &Layercfg, LayerIndex);
+    HAL_StatusTypeDef error;
+    error = HAL_LTDC_ConfigLayer(&hltdc_discovery, &Layercfg, LayerIndex);
+      printf("Layer init : %d \n\r",error);
 }
 
 
@@ -406,6 +419,7 @@ void DMA2D_Init(uint32_t ImageWidth, uint32_t ImageHeight) {
 
     /*##-2- DMA2D Callbacks Configuration ######################################*/
     DMA2D_Handle.XferCpltCallback = DMA2D_TransferCompleteCallback;
+    DMA2D_Handle.XferErrorCallback = DMA2D_TransferErrorCallback;
 
     /*##-3- Foreground Configuration ###########################################*/
     DMA2D_Handle.LayerCfg[1].AlphaMode = DMA2D_REPLACE_ALPHA;
@@ -435,9 +449,10 @@ void DMA2D_CopyBuffer(uint32_t *pSrc, uint32_t *pDst, uint16_t ImageWidth, uint1
     uint32_t y = (OTM8009A_800X480_HEIGHT - JPEG_Info.ImageHeight) / 2;
     uint32_t destination = (uint32_t) pDst + (y * OTM8009A_800X480_WIDTH + x) * 4;
     //printf("DMA copy buffer \n\r");
-    while (pending_buffer != -1) {
-    }
-    HAL_DMA2D_Start_IT(&DMA2D_Handle, (uint32_t) pSrc, destination, ImageWidth, ImageHeight);
+    /*while (pending_buffer != -1) {
+    }*/
+    HAL_DMA2D_Start(&DMA2D_Handle, (uint32_t) pSrc, destination, ImageWidth, ImageHeight);
+    HAL_DMA2D_PollForTransfer(&DMA2D_Handle, 10);
 }
 
 /**
@@ -446,11 +461,15 @@ void DMA2D_CopyBuffer(uint32_t *pSrc, uint32_t *pDst, uint16_t ImageWidth, uint1
  * @retval None
  */
 void DMA2D_TransferCompleteCallback(DMA2D_HandleTypeDef *hdma2d) {
-    /* Frame Buffer updated , unmask the DSI TE pin to ask for a DSI refersh*/
-    pending_buffer = 1;
-    /* UnMask the TE */
+    // Frame Buffer updated , unmask the DSI TE pin to ask for a DSI refersh
+    /*pending_buffer = 1;*/
+    // UnMask the TE 
     //__DSI_UNMASK_TE();
-    HAL_DSI_Refresh(&hdsi_discovery);
+    //HAL_DSI_Refresh(&hdsi_discovery);
+}
+
+void DMA2D_TransferErrorCallback(DMA2D_HandleTypeDef* hdma2d) {
+    OnError_Handler(__FILE__, __LINE__);
 }
 
 /**
@@ -461,7 +480,6 @@ void DMA2D_TransferCompleteCallback(DMA2D_HandleTypeDef *hdma2d) {
  */
 uint32_t JPEG_FindFrameOffset(uint32_t offset, FIL *file) {
     uint32_t index = offset, i, readSize = 0;
-    //printf("JPEG_FindFrameOffset file size %lu \n\r", f_size(file));
     do {
         if (f_size(file) <= (index + 1)) {
             /* end of file reached*/
@@ -469,11 +487,9 @@ uint32_t JPEG_FindFrameOffset(uint32_t offset, FIL *file) {
         }
         f_lseek(file, index);
         f_read(file, PatternSearchBuffer, PATTERN_SEARCH_BUFFERSIZE, (UINT*) (&readSize));
-
         if (readSize != 0) {
             for (i = 0; i < (readSize - 1); i++) {
                 if ((PatternSearchBuffer[i] == JPEG_SOI_MARKER_BYTE1) && (PatternSearchBuffer[i + 1] == JPEG_SOI_MARKER_BYTE0)) {
-                    //printf("Found JPEG_SOI_MARKER at index %lu \n\r", index + i);
                     return index + i;
                 }
             }
@@ -492,12 +508,12 @@ uint32_t JPEG_FindFrameOffset(uint32_t offset, FIL *file) {
  *               the configuration information for the DSI.
  * @retval None
  */
-/*void HAL_DSI_TearingEffectCallback(DSI_HandleTypeDef *hdsi) {
+void HAL_DSI_TearingEffectCallback(DSI_HandleTypeDef *hdsi) {
     // Mask the TE 
-    __DSI_MASK_TE();
+    //__DSI_MASK_TE();
     //Refresh the right part of the display 
-    HAL_DSI_Refresh(hdsi);
-}*/
+    //HAL_DSI_Refresh(hdsi);
+}
 
 /**
  * @brief  End of Refresh DSI callback.
@@ -507,7 +523,7 @@ uint32_t JPEG_FindFrameOffset(uint32_t offset, FIL *file) {
  */
 void HAL_DSI_EndOfRefreshCallback(DSI_HandleTypeDef *hdsi) {
     
-    if (pending_buffer >= 0) {
+    /*if (pending_buffer >= 0) {
         if (active_area == LEFT_AREA) {
             // Disable DSI Wrapper
             __HAL_DSI_WRAPPER_DISABLE(hdsi);
@@ -534,7 +550,7 @@ void HAL_DSI_EndOfRefreshCallback(DSI_HandleTypeDef *hdsi) {
             pending_buffer = -1;
         }
     }
-    active_area = (active_area == LEFT_AREA) ? RIGHT_AREA : LEFT_AREA;
+    active_area = (active_area == LEFT_AREA) ? RIGHT_AREA : LEFT_AREA;*/
 }
 
 ////////// END HAL FUNCTIONS ////////////

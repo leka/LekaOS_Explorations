@@ -19,6 +19,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "decode_dma.h"
+#include <cstdio>
 /** @addtogroup STM32F7xx_HAL_Examples
   * @{
   */
@@ -138,8 +139,10 @@ uint32_t JPEG_Decode_DMA(JPEG_HandleTypeDef *hjpeg, FIL *file, uint32_t DestAddr
       OnError_Handler(__FILE__, __LINE__);
     }        
   } 
+  //printf("Decode DMA start \n\r");
   /* Start JPEG decoding with DMA method */
   HAL_JPEG_Decode_DMA(hjpeg ,Jpeg_IN_BufferTab[0].DataBuffer ,Jpeg_IN_BufferTab[0].DataBufferSize ,Jpeg_OUT_BufferTab[0].DataBuffer ,CHUNK_SIZE_OUT);
+  //printf("Decode DMA end \n\r");
   
   return 0;
 }
@@ -152,12 +155,14 @@ uint32_t JPEG_Decode_DMA(JPEG_HandleTypeDef *hjpeg, FIL *file, uint32_t DestAddr
 uint32_t JPEG_OutputHandler(JPEG_HandleTypeDef *hjpeg)
 {
   uint32_t ConvertedDataCount;
+  //printf("MCU block index : %d \n\r", MCU_BlockIndex);
   if(Jpeg_OUT_BufferTab[JPEG_OUT_Read_BufferIndex].State == JPEG_BUFFER_FULL)
   {  
-    MCU_BlockIndex += pConvert_Function(Jpeg_OUT_BufferTab[JPEG_OUT_Read_BufferIndex].DataBuffer, (uint8_t *)FrameBufferAddress, MCU_BlockIndex, Jpeg_OUT_BufferTab[JPEG_OUT_Read_BufferIndex].DataBufferSize, &ConvertedDataCount);   
     
+    MCU_BlockIndex += pConvert_Function(Jpeg_OUT_BufferTab[JPEG_OUT_Read_BufferIndex].DataBuffer, (uint8_t *)FrameBufferAddress, MCU_BlockIndex, Jpeg_OUT_BufferTab[JPEG_OUT_Read_BufferIndex].DataBufferSize, &ConvertedDataCount);
     Jpeg_OUT_BufferTab[JPEG_OUT_Read_BufferIndex].State = JPEG_BUFFER_EMPTY;
     Jpeg_OUT_BufferTab[JPEG_OUT_Read_BufferIndex].DataBufferSize = 0;
+    
     
     JPEG_OUT_Read_BufferIndex++;
     if(JPEG_OUT_Read_BufferIndex >= NB_OUTPUT_DATA_BUFFERS)
@@ -167,6 +172,8 @@ uint32_t JPEG_OutputHandler(JPEG_HandleTypeDef *hjpeg)
     
     if(MCU_BlockIndex == MCU_TotalNb)
     {
+    printf("Converted data count : %lu\n\r", ConvertedDataCount);
+
       return 1;
     }
   }
@@ -196,6 +203,7 @@ void JPEG_InputHandler(JPEG_HandleTypeDef *hjpeg)
     }
     else
     {
+      printf("MCU Block index %d \n\r", MCU_BlockIndex);
       OnError_Handler(__FILE__, __LINE__);
     }
     
@@ -203,7 +211,6 @@ void JPEG_InputHandler(JPEG_HandleTypeDef *hjpeg)
     {
       Input_Is_Paused = 0;
       HAL_JPEG_ConfigInputBuffer(hjpeg,Jpeg_IN_BufferTab[JPEG_IN_Read_BufferIndex].DataBuffer, Jpeg_IN_BufferTab[JPEG_IN_Read_BufferIndex].DataBufferSize);    
-  
       HAL_JPEG_Resume(hjpeg, JPEG_PAUSE_RESUME_INPUT); 
     }
     
@@ -223,7 +230,7 @@ void JPEG_InputHandler(JPEG_HandleTypeDef *hjpeg)
   */
 void HAL_JPEG_InfoReadyCallback(JPEG_HandleTypeDef *hjpeg, JPEG_ConfTypeDef *pInfo)
 {
-  /*if(pInfo->ChromaSubsampling == JPEG_420_SUBSAMPLING)
+  if(pInfo->ChromaSubsampling == JPEG_420_SUBSAMPLING)
   {
     if((pInfo->ImageWidth % 16) != 0)
     pInfo->ImageWidth += (16 - (pInfo->ImageWidth % 16));
@@ -248,7 +255,7 @@ void HAL_JPEG_InfoReadyCallback(JPEG_HandleTypeDef *hjpeg, JPEG_ConfTypeDef *pIn
 
     if((pInfo->ImageHeight % 8) != 0)
     pInfo->ImageHeight += (8 - (pInfo->ImageHeight % 8));
-  }*/
+  }
 
   if(JPEG_GetDecodeColorConvertFunc(pInfo, &pConvert_Function, &MCU_TotalNb) != HAL_OK)
   {
@@ -289,6 +296,7 @@ void HAL_JPEG_GetDataCallback(JPEG_HandleTypeDef *hjpeg, uint32_t NbDecodedData)
   {
     HAL_JPEG_ConfigInputBuffer(hjpeg,Jpeg_IN_BufferTab[JPEG_IN_Read_BufferIndex].DataBuffer + NbDecodedData, Jpeg_IN_BufferTab[JPEG_IN_Read_BufferIndex].DataBufferSize - NbDecodedData);      
   }
+
   Previous_FrameSize += NbDecodedData;
 }
 

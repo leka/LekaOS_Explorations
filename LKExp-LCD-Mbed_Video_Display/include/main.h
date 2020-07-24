@@ -51,6 +51,7 @@ uint32_t JPEG_FindFrameOffset(uint32_t offset, FIL *file);
 void DMA2D_Init(uint32_t ImageWidth, uint32_t ImageHeight);
 void DMA2D_CopyBuffer(uint32_t *pSrc, uint32_t *pDst, uint16_t ImageWidth, uint16_t ImageHeight);
 void DMA2D_TransferCompleteCallback(DMA2D_HandleTypeDef *hdma2d);
+void DMA2D_TransferErrorCallback(DMA2D_HandleTypeDef* hdma2d);
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 void OnError_Handler(const char*, int);
