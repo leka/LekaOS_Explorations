@@ -1,52 +1,62 @@
-// #include "LekaInterfaces.h"
+#include "LekaInterfaces.h"
+#include "LekaLEDs.h"
+#include "LekaRFID.h"
 #include "mbed.h"
-// #include "LekaRFID.h"
+#include "LekaTouch.h"
 
-// LekaRFID leka_rfid(PIN_RFID_TX, PIN_RFID_RX);
+LekaRFID leka_rfid(PIN_RFID_TX, PIN_RFID_RX);
+LekaLEDs leka_leds(leds_ears, leds_belt);
+LekaTouch leka_touch(i2c3, mux_reset, mux_inta, mux_intb);
 
-int main(void) {
-	// printf("Starting a new run");
-	// printf("");
+int i2cConnected()
+{
+	printf("Test on I2C...\n");
+	// I2C i2c1(PB_9, PB_8); //I2C on mainboard, in comparison
+	I2C i2c3(PC_9, PH_7);
 
-	BufferedSerial pc(PA_9, PA_10, 115200);
+	char cmd[1];
+	int addr8bit	 = 0x00;
+	int count_device = 0;
 
-	// Write array of char
-	char tmp[] = "0123456789\n";
-	pc.write(tmp, sizeof(tmp) - 1);
-
-	// Write array of short
-	uint8_t tab[] = {0x2A, 0x2B, 0x2C, 0x2D};
-	ThisThread::sleep_for(1s);
-	pc.write(tab, 4);
-	pc.write("\n",1);
-
-	// Read array of short
-	uint8_t c;
-	const uint8_t buffer_max_size = 10;
-	uint8_t buffer[buffer_max_size] = {};
-	uint8_t buffer_size = 0;
-	
-	ThisThread::sleep_for(10s);
-	while(pc.readable() && buffer_size < buffer_max_size){
-		pc.read(&c, 1);
-		buffer[buffer_size] = c;
-		buffer_size++;
+	for (int i = 0; i < 256; i++) {
+		cmd[0] = 0X0F;
+		i2c3.write(addr8bit, cmd, 1);
+		thread_sleep_for(1);
+		i2c3.read(addr8bit, cmd, 1);
+		if (cmd[0] != 0xF) {
+			printf("Address 0x%X : 0x%X\r\n", addr8bit, cmd[0]);
+			addr8bit += 1;	 //(Optional) Avoid duplication
+			count_device++;
+		}
+		addr8bit += 1;
 	}
-	pc.write(buffer, buffer_size);
-	pc.write("\n",1);
+	printf("END I2C\r\n");
+	if (count_device == 0) { return -1; }
+	return 0;
+}
 
-	// Write (again) array of char
-	// pc.write(tmp, sizeof(tmp) - 1);
+int main(void)
+{
+	printf("Starting a new run\n");
 
-
+	/*  Test on I2C (see if flex connected)  */
+	if (i2cConnected() != 0) {
+		printf("Flex is not connected.\n");
+		return -1;
+	}
+	ThisThread::sleep_for(3s);
 
 	/** Tested (with return) **/
+	// leka_leds.runTest();
+	// leka_touch.runTest(100);
+
 	/** In progress **/
+	
 	// leka_rfid.runTest();
 
 	/** On hold **/
+	
 
-	ThisThread::sleep_for(1s);
-	// printf("\nEnd of run!\n\n");
+	printf("\nEnd of run!\n\n");
 	return 0;
 }

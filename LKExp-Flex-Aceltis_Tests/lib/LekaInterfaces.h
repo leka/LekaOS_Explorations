@@ -13,6 +13,15 @@
 #include "LekaPins.h"
 #include "mbed.h"
 
-extern BufferedSerial rfid;
+// extern BufferedSerial rfid;
+
+extern I2C i2c3;
+
+extern SPI leds_ears;
+extern SPI leds_belt;
+
+extern DigitalOut mux_reset;
+extern DigitalIn mux_inta;
+extern DigitalIn mux_intb;
 
 #endif	 // __LEKAINTERFACES_H__

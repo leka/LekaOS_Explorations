@@ -1,55 +1,42 @@
 #include "LekaRFID.h"
 
-// static UnbufferedSerial interface(PIN_RFID_TX, PIN_RFID_RX, 57600);
-BufferedSerial pc(PA_9, PA_10, 115200);
+BufferedSerial interface(PIN_RFID_TX, PIN_RFID_RX, 57600);
 
-namespace LekaRFIDNS {
-	volatile int _time_counter = 0;
-	void counter() { _time_counter++; }
-}	// namespace LekaRFIDNS
+// namespace LekaRFIDNS {
+// 	volatile int _time_counter = 0;
+// 	void counter() { _time_counter++; }
+// }	// namespace LekaRFIDNS
 
 LekaRFID::LekaRFID(PinName uart_tx, PinName uart_rx) : _interface(uart_tx, uart_rx, _baud) {}
 
-void LekaRFID::rfidWrite(uint8_t cmd[], uint8_t len) {
-    pc.write(cmd, len);
-    ThisThread::sleep_for(1s);
-}
+void LekaRFID::init()
+{
+	printf("CR95HF_Init\r\n");
 
-void LekaRFID::rfidRead() {
-	uint8_t c;
-    char tmp[] = "Waiting\n";
-	bool all_read = false;
-	int i		  = 0;
-	while (false == all_read) {
-		if (pc.readable()) {
-			pc.read(&c, 1);
-			// printf("printf:%x\n", c);
-            pc.write(&c,1);
-		} else {
-			// printf("printf:Waiting to read... %d\n", i);
-            pc.write(tmp, 3);
-			i++;
-			ThisThread::sleep_for(1s);
+	uint8_t rfid_properties_command[] = {0x00, 0x01};
+	uint8_t *buff					  = new uint8_t[1];
+
+	printf("Expected response : 00 0F 4E 46 43 20 46 53 32 4A 41 53 54 34 00 2A CE\n");
+	ThisThread::sleep_for(1s);
+
+	while (1) {
+		for (int i = 0; i < sizeof(buff); i++) {
+			printf("%X ", buff[i]);
+			buff[i] = 0;
 		}
-		if (i > 30) { all_read = true; }
-        pc.sync();
+		printf("\n");
+		wait_us(1000000);
+		interface.write(rfid_properties_command, sizeof(rfid_properties_command));
+		if (interface.readable()) { interface.read(buff, (size_t)sizeof(buff)); }
 	}
+
+	return;
 }
 
-void LekaRFID::init() {
-	// printf("CR95HF_Init\r\n");
-
-	uint8_t commandInfo[]		  = {0x01, 0x00};
-	// printf("Command created\n");
-	// rfidWrite(commandInfo, 2);
-    pc.write(commandInfo, 2);
-	wait_us(10000);
-    ThisThread::sleep_for(1s);
-	rfidRead();
-}
-
-void LekaRFID::runTest(int duration_sec) {
-	// printf("\nTest of RFID reader!\n");
+void LekaRFID::runTest(int duration_sec)
+{
+	printf("\nTest of RFID reader!\n");
+	ThisThread::sleep_for(1s);
 	init();
 
 	// LekaRFIDNS::_time_counter = 0;

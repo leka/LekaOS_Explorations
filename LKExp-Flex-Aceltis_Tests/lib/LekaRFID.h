@@ -17,9 +17,6 @@ class LekaRFID {
   public:
 	LekaRFID(PinName uart_tx, PinName uart_rx);
 	void init();
-    void rfidWrite(uint8_t cmd[], uint8_t len);
-    void rfidRead();
-	// void on_rx_interrupt();
 	void runTest(int duration_sec = 30);
 
   private:
