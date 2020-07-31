@@ -1,3 +1,9 @@
-# LKExp - Title
+# LKExp - Soft reset
 
-> ⚠️ to be written
+## Goal
+
+Simple test of soft reset using `NVIC_SystemReset()`
+
+## Result
+
+System reboots, bootloader runs again
