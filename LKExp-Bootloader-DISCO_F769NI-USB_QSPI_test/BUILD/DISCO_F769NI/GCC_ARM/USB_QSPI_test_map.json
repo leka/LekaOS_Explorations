@@ -1,0 +1,76 @@
+[
+    {
+        "module": "[fill]",
+        "size": {
+            ".text": 118,
+            ".data": 3,
+            ".bss": 41,
+            ".text-delta": -40,
+            ".data-delta": 0,
+            ".bss-delta": 0
+        }
+    },
+    {
+        "module": "[lib]/c.a",
+        "size": {
+            ".text": 7164,
+            ".data": 2108,
+            ".bss": 89,
+            ".text-delta": 0,
+            ".data-delta": 0,
+            ".bss-delta": 0
+        }
+    },
+    {
+        "module": "[lib]/gcc.a",
+        "size": {
+            ".text": 928,
+            ".data": 0,
+            ".bss": 0,
+            ".text-delta": 0,
+            ".data-delta": 0,
+            ".bss-delta": 0
+        }
+    },
+    {
+        "module": "[lib]/misc",
+        "size": {
+            ".text": 180,
+            ".data": 4,
+            ".bss": 28,
+            ".text-delta": 0,
+            ".data-delta": 0,
+            ".bss-delta": 0
+        }
+    },
+    {
+        "module": "lib/mbed-os",
+        "size": {
+            ".text": 42854,
+            ".data": 445,
+            ".bss": 24026,
+            ".text-delta": 332,
+            ".data-delta": 0,
+            ".bss-delta": 0
+        }
+    },
+    {
+        "module": "src/main.o",
+        "size": {
+            ".text": 984,
+            ".data": 0,
+            ".bss": 1208,
+            ".text-delta": 540,
+            ".data-delta": 0,
+            ".bss-delta": 176
+        }
+    },
+    {
+        "summary": {
+            "static_ram": 27952,
+            "static_ram_delta": 176,
+            "total_flash": 54788,
+            "total_flash_delta": 832
+        }
+    }
+]
