@@ -6,4 +6,4 @@ From **LKExp-Bootloader-DISCO_F769NI-Bootloader_with_IAP** as a base, ask the us
 
 ## Result
 
-⚠️ Reading/writing on the external flash not working: reading returns only 0x00 characters (check if it needs some initializations beforehand)
+⚠️ Reading/writing on the external flash not working: reading returns only `0x00` characters (check if it needs some initializations beforehand)
