@@ -17,3 +17,7 @@ In `main.cpp` (program of the DISCO board), create a class BufferedSerial, of wh
 To overcome this problem, just do the minimal amount of process in the reading loop and use a timer to allow some time for the next character to be received. Print the number of caracters received at the end to check if it corresponds to the size of the file that has been sent by PC.
 
 ⚠️ Note that `stdin`/`stdout` use the USB serial communication just like the class BufferedSerial. When you call standard I/O functions like `printf` or `scanf`, add a little delay before calling BufferedSerial read/write methods and inversely to avoid dysfunction.
+
+## Usage
+
+Open a serial terminal to the board and reset it. When it prints `"Waiting for file from USB"`, run the Python script to send a file. It should then print `"Receiving file..."` until the file has been fully transferred, and after that rewrite its content on the terminal and the number of characters received. Check whether both data and number of characters corresponds to the content and size of the file sent.
