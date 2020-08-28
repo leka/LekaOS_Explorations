@@ -47,7 +47,7 @@ int main(void) {
 	// leka_bluetooth.runTest();
 
 	/** On hold **/
-	// leka_sd.runTest();
+	leka_sd.runTest();
 	// leka_firmware.runTest();
 
 	printf("\nEnd of run!\n\n");

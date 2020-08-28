@@ -22,7 +22,7 @@
 
 class LekaSD {
   public:
-	LekaSD(DigitalInOut sd_enable);
+	LekaSD(DigitalOut sd_enable);
 
 	int init();
 
@@ -34,7 +34,7 @@ class LekaSD {
 	void runTest();
 
   private:
-	DigitalInOut _sd_enable;
+	DigitalOut _sd_enable;
 };
 
 #endif	 // __LEKASD_H__

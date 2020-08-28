@@ -12,7 +12,7 @@ QSPI qspi3(PIN_Q_SPI_IO0, PIN_Q_SPI_IO1, PIN_Q_SPI_IO2, PIN_Q_SPI_IO3, PIN_Q_SPI
 		   PIN_Q_SPI_CE_3);	  //+ Mode polarity at 0
 */
 SDBlockDevice sd(PIN_SD_SPI_MOSI, PIN_SD_SPI_MISO, PIN_SD_SPI_SCK);
-DigitalInOut sd_on(PIN_SD_SPI_EN);
+DigitalOut sd_on(PIN_SD_SPI_EN, 0);
 
 I2C i2c1(PIN_I2C1_SDA, PIN_I2C1_SCL);
 DigitalIn int_imu(PIN_INT1_IMU);

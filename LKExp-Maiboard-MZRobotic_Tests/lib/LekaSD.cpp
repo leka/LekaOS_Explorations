@@ -2,12 +2,12 @@
 
 FATFileSystem leka_fs("leka_fs");
 
-LekaSD::LekaSD(DigitalInOut sd_enable) : _sd_enable(sd_enable) {
-	// _sd_enable = 0;
+LekaSD::LekaSD(DigitalOut sd_enable) : _sd_enable(sd_enable) {
+	_sd_enable = 0;
 }
 
 int LekaSD::init() {
-	// _sd_enable = 1;
+	_sd_enable = 0;
 	printf("Starting init... \n");
 	int err = sd.init();
 	printf("Error value: %d\n", err);
@@ -137,7 +137,7 @@ void LekaSD::runTest() {
 	printf("\nTest of SD card!\n");
 	printf("Enable pin is connected: %d Value: %d\n", _sd_enable.is_connected(), _sd_enable.read());
 	init();
-	_sd_enable = 1;
+	_sd_enable = 0;
 	displayProperties();
 	mount();
 	numbersExample();

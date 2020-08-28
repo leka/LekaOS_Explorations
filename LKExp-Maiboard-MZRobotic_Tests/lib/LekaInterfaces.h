@@ -27,7 +27,7 @@ QSPI qspi3(PIN_Q_SPI_IO0, PIN_Q_SPI_IO1, PIN_Q_SPI_IO2, PIN_Q_SPI_IO3, PIN_Q_SPI
 		   PIN_Q_SPI_CE_3);	  //+ Mode polarity at 0
 */
 extern SDBlockDevice sd;
-extern DigitalInOut sd_on;
+extern DigitalOut sd_on;
 
 extern I2C i2c1;
 extern DigitalIn int_imu;
