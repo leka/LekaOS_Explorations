@@ -1,0 +1,10 @@
+{
+	"target_overrides": {
+		"*": {
+			"target.bootloader_img": "../BOOTLOADER/BUILD/DISCO_F769NI/GCC_ARM/BOOTLOADER.bin",
+			"target.app_offset": "0x10000",
+			"target.features": [],
+			"target.components": []
+		}
+	}
+}
