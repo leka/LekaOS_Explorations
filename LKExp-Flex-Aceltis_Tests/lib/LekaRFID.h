@@ -17,6 +17,7 @@ class LekaRFID {
   public:
 	LekaRFID(PinName uart_tx, PinName uart_rx);
 	void init();
+	void initBis();
 	void runTest(int duration_sec = 30);
 
   private:

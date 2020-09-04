@@ -33,11 +33,32 @@ void LekaRFID::init()
 	return;
 }
 
+void LekaRFID::initBis()
+{
+	uint8_t *buff	= new uint8_t[1];
+	uint8_t start[] = {0x00, 0x01};
+	uint8_t echo[]	= {0x55};
+	_interface.write(buff, 2);
+
+	for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < sizeof(buff); i++) {
+			printf("%x ", buff[i]);
+			buff[i] = 0;
+		}
+		printf("\n");
+		wait_us(1000000);
+		_interface.write(start, sizeof(start));
+		if (_interface.readable()) { _interface.read(buff, (size_t)sizeof(buff)); }
+	}
+	return;
+}
+
 void LekaRFID::runTest(int duration_sec)
 {
 	printf("\nTest of RFID reader!\n");
 	ThisThread::sleep_for(1s);
-	init();
+	// init();
+	initBis();
 
 	// LekaRFIDNS::_time_counter = 0;
 	// _ticker.attach(&LekaRFIDNS::counter, 1.0);
