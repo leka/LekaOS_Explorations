@@ -12,6 +12,7 @@
 #include "LekaMotors.h"
 #include "LekaSpeaker.h"
 #include "LekaFirmware.h"
+#include "LekaScreen.h"
 
 LekaBrightness leka_brightness(brightness);
 LekaMicrophone leka_microphone(microphone);
@@ -25,6 +26,7 @@ LekaBluetooth leka_bluetooth(PC_6, PC_7, ble_reset); // try to inverse PC_6 and 
 LekaSpeaker leka_speaker(sound_out, PIN_SON_ON);
 LekaMotors leka_motors(motor_left, motor_right, PIN_IN1, PIN_IN2, PIN_IN3, PIN_IN4);
 LekaFirmware leka_firmware(ce1_unselect, ce2_unselect, ce3_unselect);
+LekaScreen leka_screen;
 
 
 int main(void) {
@@ -41,13 +43,14 @@ int main(void) {
 	// leka_ble.runTest();
 
 	/** In progress **/
+	leka_screen.runTest();
 	
 	/** On hold (functional) **/
 	// leka_wifi.runTest();
 	// leka_bluetooth.runTest();
 
 	/** On hold **/
-	leka_sd.runTest();
+	// leka_sd.runTest();
 	// leka_firmware.runTest();
 
 	printf("\nEnd of run!\n\n");
