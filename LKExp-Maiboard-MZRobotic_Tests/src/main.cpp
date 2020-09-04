@@ -41,17 +41,17 @@ int main(void) {
 	// leka_speaker.runTest();
 	// leka_motors.runTest();
 	// leka_ble.runTest();
+	// leka_firmware.runTest();
 
 	/** In progress **/
 	leka_screen.runTest();
+	// leka_sd.runTest();
 	
 	/** On hold (functional) **/
 	// leka_wifi.runTest();
 	// leka_bluetooth.runTest();
 
 	/** On hold **/
-	// leka_sd.runTest();
-	// leka_firmware.runTest();
 
 	printf("\nEnd of run!\n\n");
 	return 0;

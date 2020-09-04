@@ -98,8 +98,8 @@
 
 #define PIN_V_LUMINOSITE (PB_1)
 
-#define PIN_IN1 (PH_0)
-#define PIN_IN2 (PH_1)
+#define PIN_IN1 (NC) //PH_0
+#define PIN_IN2 (NC) //PH_1
 #define PIN_ENA (PA_1)
 #define PIN_ENB (PA_2)
 #define PIN_IN3 (PE_4)
