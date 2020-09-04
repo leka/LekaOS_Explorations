@@ -3,6 +3,11 @@
 
 DigitalOut backlight(PB_14, 1);
 
+namespace LekaScreenNS {
+	volatile int _time_counter = 0;
+	void counter() { _time_counter++; }
+}	// namespace LekaScreenNS
+
 LekaScreen::LekaScreen() {}
 
 void LekaScreen::init() {
@@ -19,8 +24,10 @@ void LekaScreen::fadingAnimation(int duration_sec){
 	uint32_t g	 = 0x00;
 	uint32_t b	 = 0x00;
 
-    int i = 0;
-    while(i < duration_sec){
+	LekaScreenNS::_time_counter = 0;
+	_ticker.attach(&LekaScreenNS::counter, 1.0);
+	
+    while(LekaScreenNS::_time_counter < duration_sec){
 		if (r > 0 && b == 0) {
 			r--;
 			g++;
@@ -35,9 +42,6 @@ void LekaScreen::fadingAnimation(int duration_sec){
 		// printf("%x\n\r", col);
 		BSP_LCD_Clear(col);
 		// HAL_Delay(1);
-        
-        i++;
-        ThisThread::sleep_for(1s);
     }
 }
 

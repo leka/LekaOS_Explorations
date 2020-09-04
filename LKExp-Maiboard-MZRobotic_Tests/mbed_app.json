@@ -3,7 +3,7 @@
 		"*": {
 			"target.features_add": [],
 			"target.components_add": [],
-			"target.clock_source": "USE_PLL_HSI",
+			"target.clock_source": "USE_PLL_HSE_EXTC",
 			"target.printf_lib": "std",
 			"bluenrg_ms.SPI_IRQ": "PI_11",
 			"bluenrg_ms.SPI_MISO": "PF_8",

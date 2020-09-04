@@ -20,6 +20,9 @@ class LekaScreen {
 	void init();
     void fadingAnimation(int duration_sec);
 	void runTest(int duration_sec = 30);
+
+  private:
+	Ticker _ticker;
 };
 
 #endif	 // __LEKASCREEN_H__
