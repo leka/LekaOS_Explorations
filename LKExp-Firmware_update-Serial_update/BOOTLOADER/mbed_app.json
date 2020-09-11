@@ -1,7 +1,8 @@
 {
 	"target_overrides": {
 		"*": {
-			"target.restrict_size": "0x10000",
+			"target.restrict_size": "0x20000",
+			"target.printf_lib": "std",
 			"target.features": [],
 			"target.components": []
 		}
