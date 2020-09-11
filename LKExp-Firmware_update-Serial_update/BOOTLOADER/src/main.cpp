@@ -4,19 +4,137 @@
 #error "target.restrict_size must be set for your target in mbed_app.json"
 #endif
 
+#define APPLICATION_ADDR 0x08020000
+
+BufferedSerial serial(USBTX, USBRX, 115200);
+FlashIAP flash;
+bool enable_programming = true;
+
+int hexFileTransfer()
+{
+	serial.set_blocking(false);
+	uint8_t buffer[0x15] = {0};
+	uint8_t buffer_size	 = 0x0;
+	uint8_t checksum	 = 0x00;
+	uint32_t address	 = 0x00000000;
+
+	int wd = 0; // Similar to "Watchdog"
+	printf("0"); // ACK to sender
+	fflush(stdout);
+	wait_us(10);
+	while (wd < 0xFF0000) {
+		if (serial.readable()) {
+			serial.read(buffer, 0x01);
+			buffer_size = buffer[0];
+			serial.read(buffer + 1, 0x04 + buffer_size);
+			// wait_us(1);
+
+			checksum = 0;
+			for (int i = 0; i < 0x05 + buffer_size; i++) { checksum += buffer[i]; }
+			if (checksum != 0x00) { return -1; }
+
+			// https://en.wikipedia.org/wiki/Intel_HEX#Record_types
+			if (buffer[3] == 0x00) {
+				address = (address & 0xFFFF0000) | buffer[1] << 8 | buffer[2];
+				if (enable_programming) { flash.program(buffer + 0x04, address, buffer_size); }
+			} else if (buffer[3] == 0x01) {
+				return 0;	// END OF FILE
+			} else if (buffer[3] == 0x04) {
+				address = (uint32_t)((uint32_t)buffer[4] << 24 | (uint32_t)buffer[5] << 16);
+			} else if (buffer[3] == 0x05) {
+				// printf("Starting address (?) : %X%X%X%X\n", buffer[4], buffer[5], buffer[6], buffer[7]);
+				wait_us(10);
+			} else {
+				printf("1"); // NACK to sender
+				return -2;
+			}
+			// printf("Address is : %X\n", address);
+			wd = 0;
+			printf("0"); // ACK to sender
+			fflush(stdout);
+		} else {
+			wd++;
+		}
+		wait_us(4000);	 // 4000 OK, not below
+	}
+	printf("1"); // NACK to sender
+	return -3;
+}
+
 int main(void)
 {
+	bool app_received		   = false;
+	int i					   = 1;
+	uint8_t check_buffer[0x15] = {0};
+
+	flash.init();
+
 	printf("Hello, I'm the bootloader!\n");
-	// printf("Starting bootloader\nLaunching application at address 0x%x \n",POST_APPLICATION_ADDR);
-	printf("Waiting for 5 seconds...");
+	printf("I'm waiting for an application to be sent to me...");
 	fflush(stdout);
-	for (int i = 1 ; i < 6 ;i++) {
+	app_received = serial.readable();
+
+	while (!app_received && i < 101) {
 		ThisThread::sleep_for(1s);
-		printf(" %d...", i);
+		printf("\n %d...", i++);
 		fflush(stdout);
+		app_received = serial.readable();
 	}
-	printf("\nStarting application now!\n\n\n");
-	wait_us(2000);
-	mbed_start_application(POST_APPLICATION_ADDR);
+	printf("\n\n");
+
+	if (app_received) {
+		printf("An application is available! I'm writing the application to flash!\n\n");
+
+		// printf("Sector size: %X\n", flash.get_sector_size(0x08020000));
+		// printf("Next sector is at 0x%X\n", APPLICATION_ADDR+flash.get_sector_size(APPLICATION_ADDR));
+
+		/* Erase prior program */
+		// printf("Erase section first...\n");
+		flash.erase(APPLICATION_ADDR, flash.get_sector_size(APPLICATION_ADDR));
+		wait_us(10);
+
+		/* Check good erase */
+		// flash.read(check_buffer, APPLICATION_ADDR, 0x15);
+		// printf("Check good erasing of this region\n");
+		// for (uint32_t i = 0; i < 0x11; i++) {
+		// 	if (check_buffer[i] != 0xFF) {
+		// 		printf("Address : %X | Value : %X\n", APPLICATION_ADDR + i, check_buffer[i]);
+		// 		wait_us(1);
+		// 		// fflush(stdout);
+		// 	}
+		// }
+		// printf("\n");
+
+		/* Program all */
+		int err = hexFileTransfer();
+		ThisThread::sleep_for(5s);
+
+		if (err != 0) {
+			printf("An error occurs : %d\n", err);
+		} else {
+			// printf("Everything fine!\n");
+			printf("Application written!\n\n");
+		}
+
+		/* Visual check of good programming */
+		// printf("Check good programming at beginning of this region\n");
+		// for (uint32_t i = 0; i < 0x100; i += 0x10) {
+		// 	flash.read(check_buffer, APPLICATION_ADDR + i, 0x10);
+		// 	printf("Address : %lX | Value :", APPLICATION_ADDR + i);
+		// 	for (uint8_t j = 0; j < 0x10; j++) {
+		// 		printf(" %02X", check_buffer[j]); // https://github.com/ARMmbed/mbed-os/issues/12718
+		// 	}
+		// 	printf("\n");
+		// 	wait_us(100);
+		// }
+
+		printf("Starting application now!\n\n\n");
+		wait_us(2000);
+		mbed_start_application(POST_APPLICATION_ADDR);
+	} else {
+		printf("No application available.\nEnd of the program.\n\n\n");
+		wait_us(2000);
+	}
+
 	return 0;
 }

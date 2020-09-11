@@ -1,5 +1,7 @@
 #include "mbed.h"
 
+DigitalOut led(LED1, 0); // Use LED to visualy confirm the flash of the new application
+
 int main(void)
 {
 	printf("Hello, I'm application!\n");
@@ -8,6 +10,7 @@ int main(void)
     while(true){
         counter++;
         printf("%d\n",counter);
+        led = !led;
         ThisThread::sleep_for(1s);
     }
 	return 0;
