@@ -1,68 +1,73 @@
 #include "LekaBluetooth.h"
 
-LekaBluetooth::LekaBluetooth(PinName pin_tx, PinName pin_rx, DigitalOut &reset)
-	: _bm64(pin_tx, pin_rx), _reset(reset) {}
+LekaBluetooth::LekaBluetooth(PinName pin_tx, PinName pin_rx, DigitalOut &reset,
+                             DigitalOut &wake_up)
+	: _bm64(pin_tx, pin_rx, 115200), _reset(reset), _wake_up(wake_up) {}
+
+BufferedSerial serial(USBTX, USBRX, 115200);
 
 void LekaBluetooth::runTest() {
 	printf("\nTest of bluetooth!\n");
-	// DRV_BM64_Initialize();
 
-	// char BM64_Recu[128];
-	_reset = 0;	  // déclare en sortie et l'initialise au NLB (Niveau Logique Bas)
-	wait_us(100000);
-	_reset = 1;
+  _wake_up = 1;
+  wait_us(25000);
 
-	_bm64.set_baud(115200);
-	char buf[32] = {0x08};
+  _reset = 1;
+  wait_us(450000);
 
-	while (1) {
-		/*
-			 if( PC.readable() > 0){
-			   for (int i=0; i<64; i++){
-				   char c = PC.getc(); //Charger le caractère reçu dans la variable
-				   if (c == 'Z') { break;}
-				   PC_Recu[i] = c;   //placer le caractère dans le tableau
-				   BM64.printf("%c",c);
-			   } //end of for
-			 BM64.printf("\n");
-			 //BM64.printf(PC_Recu); // Envoie vers le BM64
-			 } //end of if (PC.readable() > 0
-	   //*/
-		//_bm64.sprintf("0x08\n");
-		_bm64.write(buf, 1);
-		if (uint32_t num = _bm64.read(buf, sizeof(buf))) {
-			// Echo the input back to the terminal.
-			_bm64.write(buf, num);
-		}
+  bool paired = 0;
 
-		if (_bm64.readable() > 0) {
-			uint32_t num = _bm64.read(buf, sizeof(buf));
-			printf("Charactere recu = ");
+  // uint8_t buf[0x6] = {0xAA, 0x00, 0x02, 0x08, 0x00, 0xF6};
+  // Enter Pairing mode : AA 00 03 02 00 50 AB
+  // Ring specific tone : AA 00 03 13 02 18 D0
+  // Analog/I2S and Aux/BT : AA 00 03 13 01 00/01/02/03 E6->E9 (I2S : 1x and Aux : 0x)
+  uint8_t buf[0x7] = {0xAA, 0x00, 0x03, 0x02, 0x00, 0x50, 0xAB};
+  uint8_t paired_buffer[0x7] = {0xAA, 0x00, 0x03, 0x02, 0x00, 0x50, 0xAB};
+  uint8_t ring_tone[0x7] = {0xAA, 0x00, 0x03, 0x13, 0x02, 0x18, 0xD0};
+  uint8_t tx_buffer[0x20] = {0x00};
+  uint8_t rx_buffer[0x20] = {0x00};
+  uint16_t tx_buffer_len = 0;
+  uint16_t rx_buffer_len = 0;
 
-			for (int i = 0; i < num; i++) {
-				// char c = _bm64.getc();	 // Charger le caractère reçu dans la variable
-				printf("%X", buf[i]);
-				// BM64_Recu[i] = c;	// placer le caractère dans le tableau
-			}	// end of for
+  while (1) {
+    if (_bm64.readable()) {
+      _bm64.read(rx_buffer, 1);
+      if (rx_buffer[0] == 0xAA) {
+        _bm64.read(rx_buffer + 1, 2);
+        rx_buffer_len = ((uint16_t)rx_buffer[1] << 8) + (uint16_t)rx_buffer[2] +
+                        0x01; // Check case of rx_buffer[0] is different of 0x00
+        _bm64.read(rx_buffer + 1 + 2, rx_buffer_len);
 
-			printf("\n");
-			// PC.printf(BM64_Recu); // Envoie vers le BM64
-		}	// end of if (PC.readable() > 0
-			/*
-					ThisThread::sleep_for(1000);
-					_bm64.printf("AT+NAME?\n");
-	
-					if (_bm64.readable() > 0) {
-						printf("Charactere recu = ");
-						for (int i = 0; i < 128; i++) {
-							char c = _bm64.getc();	 // Charger le caractère reçu dans la variable
-							printf("%X", c);
-							BM64_Recu[i] = c;	// placer le caractère dans le tableau
-						}						// end of for
-						printf("\n");
-						// PC.printf(BM64_Recu); // Envoie vers le BM64
-					}	// end of if (PC.readable() > 0
-			*/
-	}
-	printf("\n");
+		if(rx_buffer[3] == 0x01 && rx_buffer[4] == 0x06) {paired = true;}
+
+        printf("Char received = ");
+        for (int i = 0; i < rx_buffer_len + 1 + 2; i++) {
+          printf("%X ", rx_buffer[i]);
+        }
+        printf("\n");
+      }
+    } else {
+      if (serial.readable()) {
+        serial.read(tx_buffer, 3);
+        tx_buffer_len =
+            ((uint16_t)tx_buffer[1] << 8) + (uint16_t)tx_buffer[2] + 0x01;
+        serial.read(tx_buffer + 1 + 2, tx_buffer_len);
+
+        printf("Char send = ");
+        for (int i = 0; i < tx_buffer_len + 1 + 2; i++) {
+          printf("%X ", tx_buffer[i]);
+        }
+        printf("\n");
+
+        _bm64.write(tx_buffer, tx_buffer_len + 1 + 2);
+		wait_us(10000);
+		_bm64.write(ring_tone, 0x7);
+      } else if (!paired){
+		  _bm64.write(paired_buffer, 0x07);
+	  }
+      wait_us(1);
+    }
+    wait_us(10000);
+  }
+  printf("\n");
 }

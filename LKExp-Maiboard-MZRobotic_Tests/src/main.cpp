@@ -22,7 +22,7 @@ LekaTemperature leka_temperature(i2c1, PIN_DRDY_TEMP);
 LekaBLE leka_ble(spi5, ble_reset, NC);
 LekaSD leka_sd(sd_on);
 LekaWifi leka_wifi(PIN_ESP_ENABLE, PIN_RST_ESP);
-LekaBluetooth leka_bluetooth(PC_6, PC_7, ble_reset); // try to inverse PC_6 and PC_7?
+LekaBluetooth leka_bluetooth(PC_6, PC_7, bluetooth_reset, bluetooth_wakeup);
 LekaSpeaker leka_speaker(sound_out, PIN_SON_ON);
 LekaMotors leka_motors(motor_left, motor_right, PIN_IN1, PIN_IN2, PIN_IN3, PIN_IN4);
 LekaFirmware leka_firmware(ce1_unselect, ce2_unselect, ce3_unselect);
