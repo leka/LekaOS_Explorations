@@ -2,7 +2,8 @@
 	"target_overrides": {
 		"*": {
 			"target.features": [],
-			"target.components": []
+			"target.components": [],
+			"target.OUTPUT_EXT": "hex"
 		}
 	}
 }
