@@ -1,6 +1,6 @@
-#include "mbed.h"
 #include "QspiMemory.h"
 #include "drivers/QSPI.h"
+#include "mbed.h"
 
 #ifndef POST_APPLICATION_ADDR
 #error "target.restrict_size must be set for your target in mbed_app.json"
@@ -12,7 +12,7 @@
 
 #define APPLICATION_ADDR 0x08020000
 #define WRITE_QSPI 1
-#define MAX_LINE_HEX_FILE_SIZE 21 //16(0x10) bytes of data and 5 bytes of informations
+#define MAX_LINE_HEX_FILE_SIZE 21	// 16(0x10) bytes of data and 5 bytes of informations
 
 BufferedSerial serial(USBTX, USBRX, 115200);
 FlashIAP flash;
@@ -23,21 +23,22 @@ uint32_t application_size = 0x0;
 int hexFileTransfer()
 {
 	serial.set_blocking(false);
-	uint8_t buffer[0x15] = {0};
-	uint8_t buffer_size	 = 0x0;
-	uint8_t checksum	 = 0x00;
-	uint32_t address	 = 0x00000000;
-	uint16_t address_end = 0x00000000;
-	uint32_t qspi_address = 0x00000000;
-	uint8_t qspi_to_end_sector_size = 0x0; //Could be larger than 0x00 if data transfer is superior to 256 bytes. But keep an eye on sector size for programming.
+	uint8_t buffer[0x15]			= {0};
+	uint8_t buffer_size				= 0x0;
+	uint8_t checksum				= 0x00;
+	uint32_t address				= 0x00000000;
+	uint16_t address_end			= 0x00000000;
+	uint32_t qspi_address			= 0x00000000;
+	uint8_t qspi_to_end_sector_size = 0x0;	 // Could be larger than 0x00 if data transfer is superior to 256 bytes. But
+											 // keep an eye on sector size for programming.
 
-	if (WRITE_QSPI) { 
+	if (WRITE_QSPI) {
 		qspi_memory.sector_erase(qspi_address);
-		wait_us(400000); 
+		wait_us(400000);
 	}
 
-	int wd = 0; // Similar to "Watchdog"
-	printf("0"); // ACK to sender
+	int wd = 0;	   // Similar to "Watchdog"
+	printf("0");   // ACK to sender
 	fflush(stdout);
 	wait_us(10);
 	while (wd < 0xFF0000) {
@@ -54,61 +55,64 @@ int hexFileTransfer()
 			// https://en.wikipedia.org/wiki/Intel_HEX#Record_types
 			if (buffer[3] == 0x00) {
 				address = (address & 0xFFFF0000) | buffer[1] << 8 | buffer[2];
-				if (enable_programming) { 
+				if (enable_programming) {
 					if (WRITE_QSPI) {
 						qspi_address = address - APPLICATION_ADDR;
-						address_end = ((uint16_t)address % 0x1000) + buffer_size;
-						if (address_end < 0x1000){
-							qspi_memory.ext_flash_write(qspi_address, (char*)buffer + 0x04, buffer_size);
+						address_end	 = ((uint16_t)address % 0x1000) + buffer_size;
+						if (address_end < 0x1000) {
+							qspi_memory.ext_flash_write(qspi_address, (char *)buffer + 0x04, buffer_size);
 						} else if (address_end == 0x1000) {
-							qspi_memory.ext_flash_write(qspi_address, (char*)buffer + 0x04, buffer_size);
+							qspi_memory.ext_flash_write(qspi_address, (char *)buffer + 0x04, buffer_size);
 
 							qspi_address += buffer_size;
-							qspi_memory.sector_erase(qspi_address+0x1000);
+							qspi_memory.sector_erase(qspi_address + 0x1000);
 							wait_us(400000);
 						} else {
 							qspi_to_end_sector_size = buffer_size - (address_end - 0x1000);
-							qspi_memory.ext_flash_write(qspi_address, (char*)buffer + 0x04, qspi_to_end_sector_size);
+							qspi_memory.ext_flash_write(qspi_address, (char *)buffer + 0x04, qspi_to_end_sector_size);
 
 							qspi_address += qspi_to_end_sector_size;
 							qspi_memory.sector_erase(qspi_address);
 							wait_us(400000);
 
-							qspi_memory.ext_flash_write(qspi_address, (char*)buffer + 0x04 + qspi_to_end_sector_size, buffer_size - qspi_to_end_sector_size);
+							qspi_memory.ext_flash_write(qspi_address, (char *)buffer + 0x04 + qspi_to_end_sector_size,
+														buffer_size - qspi_to_end_sector_size);
 						}
 					} else {
-						flash.program(buffer + 0x04, address, buffer_size); 
+						flash.program(buffer + 0x04, address, buffer_size);
 					}
 				}
 			} else if (buffer[3] == 0x01) {
-				application_size = address + 0x10 - APPLICATION_ADDR; // 0x10 is the largest size possible of the last line, but it need to be adapted with the real value
-				return 0;	// END OF FILE
+				application_size =
+					address + 0x10 - APPLICATION_ADDR;	 // 0x10 is the largest size possible of the last line, but it
+														 // need to be adapted with the real value
+				return 0;								 // END OF FILE
 			} else if (buffer[3] == 0x04) {
 				address = (uint32_t)((uint32_t)buffer[4] << 24 | (uint32_t)buffer[5] << 16);
 			} else if (buffer[3] == 0x05) {
 				// printf("Starting address (?) : %X%X%X%X\n", buffer[4], buffer[5], buffer[6], buffer[7]);
 				wait_us(10);
 			} else {
-				printf("1"); // NACK to sender
+				printf("1");   // NACK to sender
 				return -2;
 			}
 			// printf("Address is : %X\n", address);
 			wd = 0;
-			printf("0"); // ACK to sender
+			printf("0");   // ACK to sender
 			fflush(stdout);
 		} else {
 			wd++;
 		}
 		wait_us(4000);	 // 4000 OK, not below
 	}
-	printf("1"); // NACK to sender
+	printf("1");   // NACK to sender
 	return -3;
 }
 
 int main(void)
 {
-	bool update_data_available		   = false;
-	int i					   = 1;
+	bool update_data_available					 = false;
+	int i										 = 1;
 	uint8_t check_buffer[MAX_LINE_HEX_FILE_SIZE] = {0};
 
 	flash.init();
@@ -128,11 +132,11 @@ int main(void)
 	printf("\n\n");
 
 	if (update_data_available) {
-		if (WRITE_QSPI){
+		if (WRITE_QSPI) {
 			printf("An application is available! I'm writing the application to QSPI flash!\n\n");
 		} else {
 			printf("An application is available! I'm writing the application to flash!\n\n");
-		}		
+		}
 
 		// printf("Sector size: %X\n", flash.get_sector_size(0x08020000)); //Return : 0x20000
 		// printf("Next sector is at 0x%X\n", APPLICATION_ADDR+flash.get_sector_size(APPLICATION_ADDR));
@@ -162,7 +166,7 @@ int main(void)
 			printf("An error occurs : %d\n", err);
 		} else {
 			// printf("Everything fine!\n");
-			if (WRITE_QSPI){
+			if (WRITE_QSPI) {
 				printf("Application written to QSPI!\n\n");
 			} else {
 				printf("Application written!\n\n");
@@ -174,10 +178,10 @@ int main(void)
 			printf("Now I'm written the application to the MCU...\n\n");
 
 			uint32_t qspi_address = 0x0;
-			uint8_t buffer[0x15] = {0};
+			uint8_t buffer[0x15]  = {0};
 
-			while (qspi_address < application_size){
-				qspi_memory.ext_flash_read_bis(qspi_address, (char*)buffer, (size_t)0x10);
+			while (qspi_address < application_size) {
+				qspi_memory.ext_flash_read_bis(qspi_address, (char *)buffer, (size_t)0x10);
 				wait_us(200);
 
 				flash.program(buffer, APPLICATION_ADDR + qspi_address, 0x10);
