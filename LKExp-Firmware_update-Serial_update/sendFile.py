@@ -18,16 +18,13 @@ s = serial.read(len_data)
 file = open('APPLICATION/BUILD/DISCO_F769NI/GCC_ARM/APPLICATION_application.hex','r')
 code = 0
 
-text = file.readline()[1:-1]
-line = binascii.unhexlify(text)
-serial.write(line)
+serial.write(binascii.unhexlify("FF"))
 
 s = serial.read(1)
 while s != b'0':
     s = serial.read(1)
     # print (s)
     time.sleep(0.01)
-time.sleep(1)
 
 while code != 1 :
 

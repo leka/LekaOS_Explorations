@@ -1,6 +1,6 @@
 #include "mbed.h"
 
-DigitalOut led(LED1, 0); // Use LED to visualy confirm the flash of the new application
+DigitalOut led(LED2, 0); // Use LED to visualy confirm the flash of the new application
 
 int main(void)
 {
