@@ -44,6 +44,10 @@ int hexFileTransfer()
 	while (wd < 0xFF0000) {
 		if (serial.readable()) {
 			serial.read(buffer, 0x01);
+			if (buffer[0] == 0xFF) {
+				wait_us(4000);
+				continue;
+			}
 			buffer_size = buffer[0];
 			serial.read(buffer + 1, 0x04 + buffer_size);
 			// wait_us(1);
