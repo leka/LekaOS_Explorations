@@ -12,6 +12,7 @@
 
 #define APPLICATION_ADDR 0x08020000
 #define WRITE_QSPI 1
+#define MAX_LINE_HEX_FILE_SIZE 21 //16(0x10) bytes of data and 5 bytes of informations
 
 BufferedSerial serial(USBTX, USBRX, 115200);
 FlashIAP flash;
@@ -106,9 +107,9 @@ int hexFileTransfer()
 
 int main(void)
 {
-	bool app_received		   = false;
+	bool update_data_available		   = false;
 	int i					   = 1;
-	uint8_t check_buffer[0x15] = {0};
+	uint8_t check_buffer[MAX_LINE_HEX_FILE_SIZE] = {0};
 
 	flash.init();
 	qspi_memory.init();
@@ -116,17 +117,17 @@ int main(void)
 	printf("Hello, I'm the bootloader!\n");
 	printf("I'm waiting for an application to be sent to me...");
 	fflush(stdout);
-	app_received = serial.readable();
+	update_data_available = serial.readable();
 
-	while (!app_received && i < 101) {
+	while (!update_data_available && i < 101) {
 		ThisThread::sleep_for(1s);
 		printf("\n %d...", i++);
 		fflush(stdout);
-		app_received = serial.readable();
+		update_data_available = serial.readable();
 	}
 	printf("\n\n");
 
-	if (app_received) {
+	if (update_data_available) {
 		if (WRITE_QSPI){
 			printf("An application is available! I'm writing the application to QSPI flash!\n\n");
 		} else {
