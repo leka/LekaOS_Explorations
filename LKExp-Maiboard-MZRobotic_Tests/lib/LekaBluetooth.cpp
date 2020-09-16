@@ -20,7 +20,7 @@ void LekaBluetooth::runTest() {
   // uint8_t buf[0x6] = {0xAA, 0x00, 0x02, 0x08, 0x00, 0xF6};
   // Enter Pairing mode : AA 00 03 02 00 50 AB
   // Ring specific tone : AA 00 03 13 02 18 D0
-  // Analog/I2S and Aux/BT : AA 00 03 13 01 00/01/02/03 E6->E9 (I2S : 1x and Aux : 0x)
+  // Analog/I2S and Aux/BT : AA 00 03 13 01 00/01/02/03 E6->E9 (I2S : xx1x and Aux : xxx0)
   uint8_t buf[0x7] = {0xAA, 0x00, 0x03, 0x02, 0x00, 0x50, 0xAB};
   uint8_t paired_buffer[0x7] = {0xAA, 0x00, 0x03, 0x02, 0x00, 0x50, 0xAB};
   uint8_t ring_tone[0x7] = {0xAA, 0x00, 0x03, 0x13, 0x02, 0x18, 0xD0};
@@ -28,6 +28,7 @@ void LekaBluetooth::runTest() {
   uint8_t rx_buffer[0x20] = {0x00};
   uint16_t tx_buffer_len = 0;
   uint16_t rx_buffer_len = 0;
+  uint8_t checksum = 0x00;
 
   while (1) {
     if (_bm64.readable()) {
@@ -50,18 +51,22 @@ void LekaBluetooth::runTest() {
       if (serial.readable()) {
         serial.read(tx_buffer, 3);
         tx_buffer_len =
-            ((uint16_t)tx_buffer[1] << 8) + (uint16_t)tx_buffer[2] + 0x01;
+            ((uint16_t)tx_buffer[1] << 8) + (uint16_t)tx_buffer[2];
         serial.read(tx_buffer + 1 + 2, tx_buffer_len);
 
+        checksum = tx_buffer[0];
         printf("Char send = ");
         for (int i = 0; i < tx_buffer_len + 1 + 2; i++) {
           printf("%X ", tx_buffer[i]);
+          checksum -= tx_buffer[i];
         }
+        printf("   Checksum complement : %X", checksum);
+        tx_buffer[tx_buffer_len+1+2] = checksum;
         printf("\n");
 
-        _bm64.write(tx_buffer, tx_buffer_len + 1 + 2);
-		wait_us(10000);
-		_bm64.write(ring_tone, 0x7);
+        _bm64.write(tx_buffer, tx_buffer_len + 1 + 2 + 1);
+		// wait_us(10000);
+		// _bm64.write(ring_tone, 0x7);
       } else if (!paired){
 		  _bm64.write(paired_buffer, 0x07);
 	  }

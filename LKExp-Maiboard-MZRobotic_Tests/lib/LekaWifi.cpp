@@ -86,23 +86,23 @@ void LekaWifi::runTest() {
 	ThisThread::sleep_for(1s);
 	reset = 1;
 
-    BufferedSerial LEKA_WIFI_INTERFACE(PD_5, PA_3, 115200);
-    ATCmdParser LEKA_WIFI(&LEKA_WIFI_INTERFACE);
-    LEKA_WIFI.debug_on(1);
-    LEKA_WIFI.set_delimiter( "\r\n" );
-    //Now get the FW version number of ESP8266 by sending an AT command 
-    printf("\nATCmdParser: Retrieving FW version");
-    LEKA_WIFI.send("AT+GMR"); //Previous try: "AT+CWMODE=3"
-    int version;
-    if(LEKA_WIFI.recv("SDK version:%d", &version) && LEKA_WIFI.recv("OK")) {
-        printf("\nATCmdParser: FW version: %d", version);
-        printf("\nATCmdParser: Retrieving FW version success");
-    } else { 
-        printf("\nATCmdParser: Retrieving FW version failed");
-        return;
-    }
-    printf("\nDone\n");
-    ThisThread::sleep_for(1s);
+    // BufferedSerial LEKA_WIFI_INTERFACE(PD_5, PA_3, 115200);
+    // ATCmdParser LEKA_WIFI(&LEKA_WIFI_INTERFACE);
+    // LEKA_WIFI.debug_on(1);
+    // LEKA_WIFI.set_delimiter( "\r\n" );
+    // //Now get the FW version number of ESP8266 by sending an AT command 
+    // printf("\nATCmdParser: Retrieving FW version");
+    // LEKA_WIFI.send("AT+GMR"); //Previous try: "AT+CWMODE=3"
+    // int version;
+    // if(LEKA_WIFI.recv("SDK version:%d", &version) && LEKA_WIFI.recv("OK")) {
+    //     printf("\nATCmdParser: FW version: %d", version);
+    //     printf("\nATCmdParser: Retrieving FW version success");
+    // } else { 
+    //     printf("\nATCmdParser: Retrieving FW version failed");
+    //     return;
+    // }
+    // printf("\nDone\n");
+    // ThisThread::sleep_for(1s);
 
 
     SocketAddress a;
