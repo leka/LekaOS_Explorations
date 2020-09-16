@@ -36,10 +36,10 @@ while code != 1 :
 
     s = serial.read(1) # Wait ACK 
     # print (s)
-    if s == b'1' :
+    if s == b'F' :
         break
 
-if s == b'1' :
+if s == b'F' :
     print("Error occurs, try again")
 else:
     print("Finished send")
