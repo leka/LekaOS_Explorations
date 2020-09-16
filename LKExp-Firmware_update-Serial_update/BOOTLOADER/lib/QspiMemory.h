@@ -12,7 +12,7 @@
 
 #include "QSPI.h"
 #include "mbed.h"
-#include "MX25L51245G_config.h"
+// #include "MX25L51245G_config.h"
 
 #define CMD_READ 0x03
 #define CMD_WRITE 0x02

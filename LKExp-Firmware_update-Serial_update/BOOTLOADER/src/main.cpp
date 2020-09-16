@@ -14,6 +14,7 @@
 #define WRITE_QSPI 1
 #define MAX_LINE_HEX_FILE_SIZE 21	// 16(0x10) bytes of data and 5 bytes of informations
 
+DigitalOut CE1(PD_12, 1);
 BufferedSerial serial(USBTX, USBRX, 115200);
 FlashIAP flash;
 bool enable_programming = true;
@@ -67,10 +68,11 @@ int hexFileTransfer()
 							qspi_memory.ext_flash_write(qspi_address, (char *)buffer + 0x04, buffer_size);
 						} else if (address_end == 0x1000) {
 							qspi_memory.ext_flash_write(qspi_address, (char *)buffer + 0x04, buffer_size);
+							wait_us(400000);
 
 							qspi_address += buffer_size;
 							qspi_memory.sector_erase(qspi_address + 0x1000);
-							wait_us(400000);
+							wait_us(1000000);
 						} else {
 							qspi_to_end_sector_size = buffer_size - (address_end - 0x1000);
 							qspi_memory.ext_flash_write(qspi_address, (char *)buffer + 0x04, qspi_to_end_sector_size);
@@ -90,14 +92,17 @@ int hexFileTransfer()
 				application_size =
 					address + 0x10 - APPLICATION_ADDR;	 // 0x10 is the largest size possible of the last line, but it
 														 // need to be adapted with the real value
-				return 0;								 // END OF FILE
+				printf("0");							 // ACK to sender
+				fflush(stdout);
+				wait_us(4000);
+				return 0;	// END OF FILE
 			} else if (buffer[3] == 0x04) {
 				address = (uint32_t)((uint32_t)buffer[4] << 24 | (uint32_t)buffer[5] << 16);
 			} else if (buffer[3] == 0x05) {
 				// printf("Starting address (?) : %X%X%X%X\n", buffer[4], buffer[5], buffer[6], buffer[7]);
 				wait_us(10);
 			} else {
-				printf("1");   // NACK to sender
+				printf("F");   // NACK to sender
 				return -2;
 			}
 			// printf("Address is : %X\n", address);
@@ -109,7 +114,7 @@ int hexFileTransfer()
 		}
 		wait_us(4000);	 // 4000 OK, not below
 	}
-	printf("1");   // NACK to sender
+	printf("F");   // NACK to sender
 	return -3;
 }
 
@@ -118,6 +123,7 @@ int main(void)
 	bool update_data_available					 = false;
 	int i										 = 1;
 	uint8_t check_buffer[MAX_LINE_HEX_FILE_SIZE] = {0};
+	CE1 										 = 0;
 
 	flash.init();
 	qspi_memory.init();
@@ -195,6 +201,7 @@ int main(void)
 
 			printf("Application written to MCU.\n\n");
 		}
+		CE1 = 1;
 
 		/* Visual check of good programming */
 		// printf("Check good programming at beginning of this region\n");
