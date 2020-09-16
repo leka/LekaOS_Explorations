@@ -10,7 +10,6 @@
 #ifndef __LEKAWIFI_H__
 #define __LEKAWIFI_H__
 
-#include "ATCmdParser.h"
 #include "ESP8266Interface.h"
 #include "LekaInterfaces.h"
 #include "TCPSocket.h"
@@ -18,6 +17,7 @@
 
 class LekaWifi {
   public:
+  	LekaWifi();
 	LekaWifi(PinName pin_enable, PinName pin_reset);
 	const char *sec2str(nsapi_security_t sec);
 
@@ -25,12 +25,12 @@ class LekaWifi {
 	void http_demo(NetworkInterface *net);
 	void init();
 	void runTest();
-	void testATCmdParser();
 	void testWifiAPI();
 
   private:
 	PinName _pin_enable;
 	PinName _pin_reset;
+	bool _need_init;
 };
 
 #endif	 // __LEKAWIFI_H__

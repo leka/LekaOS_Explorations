@@ -114,8 +114,8 @@
 
 #define PIN_USART2_ESP_TX (PD_5)
 #define PIN_USART2_ESP_RX (PA_3)
-// #define PIN_USART2_ESP_CTS (PD_3)
-// #define PIN_USART2_ESP_RTS (PD_4)
+#define PIN_USART2_ESP_CTS (PD_3)
+#define PIN_USART2_ESP_RTS (PD_4)
 #define PIN_RST_ESP (PJ_3)
 #define PIN_ESP_ENABLE (PC_12)
 

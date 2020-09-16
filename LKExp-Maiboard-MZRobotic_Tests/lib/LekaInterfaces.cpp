@@ -30,8 +30,9 @@ SPI spi5(PIN_SPI5_MOSI, PIN_SPI5_MISO, PIN_SPI5_SCK, PIN_SPI5_NSS);
 DigitalOut ble_reset(PIN_RST_BLE);
 // DigitalIn ble_interrupt(PIN_IRQ_BLE);
 
+// ESP8266Interface wifi(PIN_USART2_ESP_TX, PIN_USART2_ESP_RX, true, PIN_USART2_ESP_RTS,
+// 					  PIN_USART2_ESP_CTS, PIN_RST_ESP, PIN_ESP_ENABLE);
 ESP8266Interface wifi(PIN_USART2_ESP_TX, PIN_USART2_ESP_RX);
-// BufferedSerial uart2(PIN_USART_ESP_TX, PIN_USART2_ESP_RX);
 // DigitalOut wifi_reset(PIN_RST_ESP);
 // DigitalOut wifi_enable(PIN_ESP_ENABLE);
 

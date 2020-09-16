@@ -42,7 +42,7 @@ int main(void) {
 	// leka_motors.runTest();
 	// leka_ble.runTest();
 	// leka_firmware.runTest();
-	// leka_wifi.runTest();
+	leka_wifi.runTest();
 
 	/** In progress **/
 	// leka_screen.runTest();

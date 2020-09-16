@@ -1,7 +1,11 @@
 #include "LekaWifi.h"
 
+LekaWifi::LekaWifi() { _need_init = false; }
+
 LekaWifi::LekaWifi(PinName pin_enable, PinName pin_reset)
-	: _pin_enable(pin_enable), _pin_reset(pin_reset) {}
+	: _pin_enable(pin_enable), _pin_reset(pin_reset) {
+	_need_init = true;
+}
 
 const char *LekaWifi::sec2str(nsapi_security_t sec) {
 	switch (sec) {
@@ -69,29 +73,6 @@ void LekaWifi::http_demo(NetworkInterface *net) {
 	socket.close();
 }
 
-void LekaWifi::testATCmdParser() {
-	/* Test based on ATCmdParser example on os.mbed.com */
-
-	BufferedSerial LEKA_WIFI_INTERFACE(PIN_USART2_ESP_TX, PIN_USART2_ESP_RX,
-									   MBED_CONF_ESP8266_SERIAL_BAUDRATE);
-	ATCmdParser LEKA_WIFI(&LEKA_WIFI_INTERFACE);
-	LEKA_WIFI.debug_on(1);
-	LEKA_WIFI.set_delimiter("\r\n");
-	// Now get the FW version number of ESP8266 by sending an AT command
-	printf("\nATCmdParser: Retrieving FW version");
-	LEKA_WIFI.send("AT+GMR");	// Previous try: "AT+CWMODE=3"
-	int version;
-	if (LEKA_WIFI.recv("SDK version:%d", &version) && LEKA_WIFI.recv("OK")) {
-		printf("\nATCmdParser: FW version: %d", version);
-		printf("\nATCmdParser: Retrieving FW version success");
-	} else {
-		printf("\nATCmdParser: Retrieving FW version failed");
-		return;
-	}
-	printf("\nDone\n");
-	ThisThread::sleep_for(1s);
-}
-
 void LekaWifi::testWifiAPI() {
 	/* Test based on Wi-Fi example on os.mbed.com */
 
@@ -136,12 +117,8 @@ void LekaWifi::init() {
 void LekaWifi::runTest() {
 	printf("\nTest of wifi!\n");
 
-	init();
-
-	testATCmdParser();
-	// testWifiAPI();
+	if (_need_init) { init(); }
+	testWifiAPI();
 
 	printf("\r\nDone\r\n");
-
-	printf("\n");
 }
