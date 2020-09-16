@@ -10,10 +10,10 @@
 #ifndef __LEKAWIFI_H__
 #define __LEKAWIFI_H__
 
-#include "ESP8266Interface.h"
-#include "TCPSocket.h"
-#include "LekaInterfaces.h"
 #include "ATCmdParser.h"
+#include "ESP8266Interface.h"
+#include "LekaInterfaces.h"
+#include "TCPSocket.h"
 #include "mbed.h"
 
 class LekaWifi {
@@ -21,9 +21,9 @@ class LekaWifi {
 	LekaWifi(PinName pin_enable, PinName pin_reset);
 	const char *sec2str(nsapi_security_t sec);
 
-void scan_demo(WiFiInterface *wifi);
-void http_demo(NetworkInterface *net);
-void init();
+	void scan_demo(WiFiInterface *wifi);
+	void http_demo(NetworkInterface *net);
+	void init();
 	void runTest();
 	void testATCmdParser();
 	void testWifiAPI();
