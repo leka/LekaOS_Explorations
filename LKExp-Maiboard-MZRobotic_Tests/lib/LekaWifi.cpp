@@ -75,35 +75,30 @@ void LekaWifi::http_demo(NetworkInterface *net)
     socket.close();
 }
 
+void LekaWifi::testATCmdParser(){
+    /* Test based on ATCmdParser example on os.mbed.com */
 
-void LekaWifi::runTest() {
-	printf("\nTest of wifi!\n");
+    BufferedSerial LEKA_WIFI_INTERFACE(PIN_USART2_ESP_TX, PIN_USART2_ESP_RX, MBED_CONF_ESP8266_SERIAL_BAUDRATE);
+    ATCmdParser LEKA_WIFI(&LEKA_WIFI_INTERFACE);
+    LEKA_WIFI.debug_on(1);
+    LEKA_WIFI.set_delimiter( "\r\n" );
+    //Now get the FW version number of ESP8266 by sending an AT command
+    printf("\nATCmdParser: Retrieving FW version");
+    LEKA_WIFI.send("AT+GMR"); //Previous try: "AT+CWMODE=3"
+    int version;
+    if(LEKA_WIFI.recv("SDK version:%d", &version) && LEKA_WIFI.recv("OK")) {
+        printf("\nATCmdParser: FW version: %d", version);
+        printf("\nATCmdParser: Retrieving FW version success");
+    } else {
+        printf("\nATCmdParser: Retrieving FW version failed");
+        return;
+    }
+    printf("\nDone\n");
+    ThisThread::sleep_for(1s);
+}
 
-	DigitalOut enable(_pin_enable, 0);
-	DigitalOut reset(_pin_reset, 0);
-	enable = 1;
-	reset = 0;
-	ThisThread::sleep_for(1s);
-	reset = 1;
-
-    // BufferedSerial LEKA_WIFI_INTERFACE(PD_5, PA_3, 115200);
-    // ATCmdParser LEKA_WIFI(&LEKA_WIFI_INTERFACE);
-    // LEKA_WIFI.debug_on(1);
-    // LEKA_WIFI.set_delimiter( "\r\n" );
-    // //Now get the FW version number of ESP8266 by sending an AT command 
-    // printf("\nATCmdParser: Retrieving FW version");
-    // LEKA_WIFI.send("AT+GMR"); //Previous try: "AT+CWMODE=3"
-    // int version;
-    // if(LEKA_WIFI.recv("SDK version:%d", &version) && LEKA_WIFI.recv("OK")) {
-    //     printf("\nATCmdParser: FW version: %d", version);
-    //     printf("\nATCmdParser: Retrieving FW version success");
-    // } else { 
-    //     printf("\nATCmdParser: Retrieving FW version failed");
-    //     return;
-    // }
-    // printf("\nDone\n");
-    // ThisThread::sleep_for(1s);
-
+void LekaWifi::testWifiAPI(){
+    /* Test based on Wi-Fi example on os.mbed.com */
 
     SocketAddress a;
 
@@ -131,6 +126,26 @@ void LekaWifi::runTest() {
     http_demo(&wifi);
 
     wifi.disconnect();
+
+}
+
+void LekaWifi::init(){
+	DigitalOut enable(_pin_enable, 0);
+	DigitalOut reset(_pin_reset, 0);
+	enable = 1;
+	reset = 0;
+	ThisThread::sleep_for(1s);
+	reset = 1;
+}
+
+
+void LekaWifi::runTest() {
+	printf("\nTest of wifi!\n");
+
+    init();
+
+    testATCmdParser();
+    // testWifiAPI();
 
     printf("\r\nDone\r\n");
 

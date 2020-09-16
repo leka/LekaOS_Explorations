@@ -23,7 +23,10 @@ class LekaWifi {
 
 void scan_demo(WiFiInterface *wifi);
 void http_demo(NetworkInterface *net);
+void init();
 	void runTest();
+	void testATCmdParser();
+	void testWifiAPI();
 
   private:
 	PinName _pin_enable;
