@@ -12,7 +12,7 @@
 
 #define APPLICATION_ADDR 0x08020000
 #define WRITE_QSPI 1
-#define MAX_LINE_HEX_FILE_SIZE 21	// 16(0x10) bytes of data and 5 bytes of informations
+#define HEX_FILE_LINE_MAX_LENGTH 0x15	// 0x15 (21) = 0x10 (16) bytes of data + 0x05 (5) bytes of informations
 
 DigitalOut CE1(PD_12, 1);
 BufferedSerial serial(USBTX, USBRX, 115200);
@@ -122,7 +122,7 @@ int main(void)
 {
 	bool update_data_available					 = false;
 	int i										 = 1;
-	uint8_t check_buffer[MAX_LINE_HEX_FILE_SIZE] = {0};
+	uint8_t check_buffer[HEX_FILE_LINE_MAX_LENGTH] = {0};
 	CE1 										 = 0;
 
 	flash.init();
