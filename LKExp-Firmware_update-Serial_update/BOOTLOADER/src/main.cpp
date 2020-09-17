@@ -122,7 +122,7 @@ int main(void)
 {
 	bool update_data_available					 = false;
 	int i										 = 1;
-	uint8_t check_buffer[HEX_FILE_LINE_MAX_LENGTH] = {0};
+	// uint8_t check_buffer[HEX_FILE_LINE_MAX_LENGTH] = {0};
 	CE1 										 = 0;
 
 	flash.init();

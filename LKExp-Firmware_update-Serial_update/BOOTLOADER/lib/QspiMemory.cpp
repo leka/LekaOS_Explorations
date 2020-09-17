@@ -193,11 +193,11 @@ int QspiMemory::ext_flash_read_bis(uint32_t read_address, char rx_buf[], size_t 
 		return result;
 	}
 
-	printf("   %04X  ", read_address);
-	for (uint8_t j = 0; j < buf_len; j++) {
-		printf("%02X", rx_buf[j]); 
-	}
-	printf("\n");
+	// printf("   %04X  ", read_address);
+	// for (uint8_t j = 0; j < buf_len; j++) {
+	// 	printf("%02X", rx_buf[j]); 
+	// }
+	// printf("\n");
 	wait_us(100);
 
 	return 0;
