@@ -118,12 +118,43 @@ int hexFileTransfer()
 	return -3;
 }
 
+void printCheckErasing()
+{
+	uint8_t check_buffer[HEX_FILE_LINE_MAX_LENGTH] = {0};
+
+	flash.read(check_buffer, APPLICATION_ADDR, 0x15);
+	printf("Check good erasing of this region\n");
+	for (uint32_t i = 0; i < 0x11; i++) {
+		if (check_buffer[i] != 0xFF) {
+			printf("Address : %lX | Value : %X\n", APPLICATION_ADDR + i, check_buffer[i]);
+			wait_us(1);
+			// fflush(stdout);
+		}
+	}
+	printf("\n");
+}
+
+void printCheckProgramming()
+{
+	uint8_t check_buffer[HEX_FILE_LINE_MAX_LENGTH] = {0};
+
+	printf("Check good programming at beginning of this region\n");
+	for (uint32_t i = 0; i < 0x100; i += 0x10) {
+		flash.read(check_buffer, APPLICATION_ADDR + i, 0x10);
+		printf("Address : %lX | Value :", APPLICATION_ADDR + i);
+		for (uint8_t j = 0; j < 0x10; j++) {
+			printf(" %02X", check_buffer[j]);	// https://github.com/ARMmbed/mbed-os/issues/12718
+		}
+		printf("\n");
+		wait_us(100);
+	}
+}
+
 int main(void)
 {
-	bool update_data_available					 = false;
-	int i										 = 1;
-	// uint8_t check_buffer[HEX_FILE_LINE_MAX_LENGTH] = {0};
-	CE1 										 = 0;
+	bool update_data_available = false;
+	int i					   = 1;
+	CE1						   = 0;
 
 	flash.init();
 	qspi_memory.init();
@@ -157,16 +188,7 @@ int main(void)
 		wait_us(1000);
 
 		/* Check good erase */
-		// flash.read(check_buffer, APPLICATION_ADDR, 0x15);
-		// printf("Check good erasing of this region\n");
-		// for (uint32_t i = 0; i < 0x11; i++) {
-		// 	if (check_buffer[i] != 0xFF) {
-		// 		printf("Address : %X | Value : %X\n", APPLICATION_ADDR + i, check_buffer[i]);
-		// 		wait_us(1);
-		// 		// fflush(stdout);
-		// 	}
-		// }
-		// printf("\n");
+		// printCheckErasing()
 
 		/* Program all */
 		int err = hexFileTransfer();
@@ -191,7 +213,7 @@ int main(void)
 			uint8_t buffer[0x15]  = {0};
 
 			while (qspi_address < application_size) {
-				qspi_memory.ext_flash_read_bis(qspi_address, (char *)buffer, (size_t)0x10);
+				qspi_memory.ext_flash_get_data(qspi_address, (char *)buffer, (size_t)0x10);
 				wait_us(200);
 
 				flash.program(buffer, APPLICATION_ADDR + qspi_address, 0x10);
@@ -204,16 +226,7 @@ int main(void)
 		CE1 = 1;
 
 		/* Visual check of good programming */
-		// printf("Check good programming at beginning of this region\n");
-		// for (uint32_t i = 0; i < 0x100; i += 0x10) {
-		// 	flash.read(check_buffer, APPLICATION_ADDR + i, 0x10);
-		// 	printf("Address : %lX | Value :", APPLICATION_ADDR + i);
-		// 	for (uint8_t j = 0; j < 0x10; j++) {
-		// 		printf(" %02X", check_buffer[j]); // https://github.com/ARMmbed/mbed-os/issues/12718
-		// 	}
-		// 	printf("\n");
-		// 	wait_us(100);
-		// }
+		printCheckProgramming();
 
 		printf("Starting application now!\n\n\n");
 		wait_us(2000);
