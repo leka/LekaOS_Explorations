@@ -21,7 +21,7 @@ code = 0
 serial.write(binascii.unhexlify("FF"))
 
 s = serial.read(1)
-while s != b'0':
+while s != b'K':
     s = serial.read(1)
     # print (s)
     time.sleep(0.01)
