@@ -21,7 +21,7 @@ bool QspiMemory::mem_ready()
 		if (QSPI_STATUS_OK != _qspi_device.command_transfer(CMD_RDSR, -1, NULL, 0, status_value, STATUS_REG_SIZE)) {
 			printf("Reading Status Register failed \n");
 		}
-		ThisThread::sleep_for(1);
+		ThisThread::sleep_for(1s);
 	} while ((status_value[0] & BIT_WIP) != 0 && retries);
 
 	if ((status_value[0] & BIT_WIP) != 0) {
@@ -178,7 +178,7 @@ int QspiMemory::ext_flash_read(uint32_t read_address)
 	return 0;
 }
 
-int QspiMemory::ext_flash_read_bis(uint32_t read_address, char rx_buf[], size_t buf_len)
+int QspiMemory::ext_flash_get_data(uint32_t read_address, char rx_buf[], size_t buf_len)
 {
 	qspi_status_t result;
 
@@ -203,7 +203,7 @@ int QspiMemory::ext_flash_read_bis(uint32_t read_address, char rx_buf[], size_t 
 	return 0;
 }
 
-void QspiMemory::runTest()
+void QspiMemory::example()
 {
 	printf("\nTest of firmware!\n");
 
@@ -219,14 +219,14 @@ void QspiMemory::runTest()
 	write_address = 0x3FFA;
 	read_address  = 0x3FFA;
 	tx_buf[0]++;
-	printf("\nWRITE at 0x%X the message %s, READ at 0x%X (end of Sector)\n", write_address, tx_buf, read_address);
+	printf("\nWRITE at 0x%lX the message %s, READ at 0x%lX (end of Sector)\n", write_address, tx_buf, read_address);
 	// sector_erase(0x3000);
 	sector_erase(0x4000);
 	ext_flash_write(write_address, tx_buf, buf_len);
 	ext_flash_read(read_address);
 
 	read_address = 0x4000;
-	printf("\nREAD at 0x%X (next Sector)\n", read_address);
+	printf("\nREAD at 0x%lX (next Sector)\n", read_address);
 	ext_flash_read(read_address);
 
 	printf("\n");

@@ -42,8 +42,8 @@ class QspiMemory
 	int clean_up(uint32_t write_address, uint32_t read_address);
 	int ext_flash_write(uint32_t write_address, char tx_buf[], size_t buf_len);
 	int ext_flash_read(uint32_t read_address);
-	int ext_flash_read_bis(uint32_t read_address, char rx_buf[], size_t buf_len);
-	void runTest();
+	int ext_flash_get_data(uint32_t read_address, char rx_buf[], size_t buf_len);
+	void example();
 
   private:
 	QSPI _qspi_device;
