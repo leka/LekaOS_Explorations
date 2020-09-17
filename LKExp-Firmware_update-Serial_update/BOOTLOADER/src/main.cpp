@@ -12,6 +12,7 @@
 
 #define APPLICATION_ADDR 0x08020000
 #define WRITE_QSPI 1
+#define USE_HEX_FILE 0
 #define HEX_FILE_LINE_MAX_LENGTH 0x15	// 0x15 (21) = 0x10 (16) bytes of data + 0x05 (5) bytes of informations
 
 DigitalOut CE1(PD_12, 1);
@@ -20,6 +21,87 @@ FlashIAP flash;
 bool enable_programming = true;
 QspiMemory qspi_memory;
 uint32_t application_size = 0x0;
+
+int binFileTransfer()
+{
+	serial.set_blocking(false);
+	uint8_t buffer[0x100]	  = {0};
+	uint32_t address		  = APPLICATION_ADDR;
+	// uint32_t application_size = 0x0;
+	uint8_t buffer_size		  = 0x8;
+	uint32_t qspi_address	  = 0x0;
+
+	if (serial.readable()) {
+		wait_us(1000);
+		serial.read(buffer, 0x04);
+		application_size = buffer[0] << 24 | buffer[1] << 16 | buffer[2] << 8 | buffer[3];
+		// printf("%X", application_size);
+	}
+	if (WRITE_QSPI) {
+		qspi_memory.sector_erase(qspi_address);
+		wait_us(4000);
+		// buffer[0] = (uint8_t)(application_size >> 24);
+		// buffer[1] = (uint8_t)(application_size >> 16);
+		// buffer[2] = (uint8_t)(application_size >> 8);
+		// buffer[3] = (uint8_t)(application_size >> 0);
+		qspi_memory.ext_flash_write(0x0, (char *)buffer, 0x4);	 // Write application_size
+		qspi_address += 0x1000;
+		qspi_memory.sector_erase(qspi_address);
+		wait_us(4000);
+	}
+	int wd = 0;	   // Similar to "Watchdog"
+	printf("K");   // ACK to sender
+	fflush(stdout);
+	wait_us(10);
+	while (wd < 0xFF000) {
+		if (serial.readable()) {
+			wait_us(25000);
+			serial.read(buffer, buffer_size);
+			if (enable_programming) {
+				if (WRITE_QSPI) {
+					qspi_memory.ext_flash_write(qspi_address, (char *)buffer, buffer_size);
+					wait_us(4000);
+
+					qspi_address += buffer_size;
+
+					if (qspi_address - 0x1000 > application_size) {
+						printf("E");   // ACK to sender
+						fflush(stdout);
+						wait_us(4000);
+						// ThisThread::sleep_for(0.004);
+						return 0;
+					}
+					if (((uint16_t)qspi_address & 0x0FFF) == 0x0000) {
+						qspi_memory.sector_erase(qspi_address);
+						wait_us(10000);
+					}
+
+				} else {
+					flash.program(buffer, address, buffer_size);
+					address += buffer_size;
+
+					if (address - APPLICATION_ADDR > application_size) {
+						printf("E");   // ACK to sender
+						fflush(stdout);
+						wait_us(4000);
+						// ThisThread::sleep_for(0.004);
+						return 0;
+					}
+				}
+				wd = 0;
+				printf("K");   // ACK to sender
+				fflush(stdout);
+				// serial.sync();
+			}
+		} else {
+			wd++;
+		}
+		wait_us(4000);	 // 4000 OK, not below
+						 // ThisThread::sleep_for(0.004*16);
+	}
+	printf("F");   // NACK to sender
+	return -3;
+}
 
 int hexFileTransfer()
 {
@@ -36,10 +118,12 @@ int hexFileTransfer()
 	if (WRITE_QSPI) {
 		qspi_memory.sector_erase(qspi_address);
 		wait_us(400000);
+		qspi_memory.sector_erase(qspi_address+0x1000);
+		wait_us(400000);
 	}
 
 	int wd = 0;	   // Similar to "Watchdog"
-	printf("0");   // ACK to sender
+	printf("K");   // ACK to sender
 	fflush(stdout);
 	wait_us(10);
 	while (wd < 0xFF0000) {
@@ -62,7 +146,7 @@ int hexFileTransfer()
 				address = (address & 0xFFFF0000) | buffer[1] << 8 | buffer[2];
 				if (enable_programming) {
 					if (WRITE_QSPI) {
-						qspi_address = address - APPLICATION_ADDR;
+						qspi_address = address - APPLICATION_ADDR + 0x1000;
 						address_end	 = ((uint16_t)address % 0x1000) + buffer_size;
 						if (address_end < 0x1000) {
 							qspi_memory.ext_flash_write(qspi_address, (char *)buffer + 0x04, buffer_size);
@@ -92,7 +176,14 @@ int hexFileTransfer()
 				application_size =
 					address + 0x10 - APPLICATION_ADDR;	 // 0x10 is the largest size possible of the last line, but it
 														 // need to be adapted with the real value
-				printf("0");							 // ACK to sender
+				if (WRITE_QSPI){
+					buffer[0] = (uint8_t)(application_size >> 24);
+					buffer[1] = (uint8_t)(application_size >> 16);
+					buffer[2] = (uint8_t)(application_size >> 8);
+					buffer[3] = (uint8_t)(application_size >> 0);
+					qspi_memory.ext_flash_write(0x0, (char *)buffer, 0x4);	 // Write application_size
+				}
+				printf("E");							 // ACK to sender
 				fflush(stdout);
 				wait_us(4000);
 				return 0;	// END OF FILE
@@ -107,7 +198,7 @@ int hexFileTransfer()
 			}
 			// printf("Address is : %X\n", address);
 			wd = 0;
-			printf("0");   // ACK to sender
+			printf("K");   // ACK to sender
 			fflush(stdout);
 		} else {
 			wd++;
@@ -157,7 +248,7 @@ int main(void)
 	CE1						   = 0;
 
 	flash.init();
-	qspi_memory.init();
+	if (WRITE_QSPI) { qspi_memory.init(); }
 
 	printf("Hello, I'm the bootloader!\n");
 	printf("I'm waiting for an application to be sent to me...");
@@ -191,7 +282,14 @@ int main(void)
 		// printCheckErasing()
 
 		/* Program all */
-		int err = hexFileTransfer();
+		int err = 0;
+		if (USE_HEX_FILE) {
+			err = hexFileTransfer();
+		} else {
+			err = binFileTransfer();
+			// err = 0;
+		}
+
 		ThisThread::sleep_for(5s);
 
 		if (err != 0) {
@@ -209,16 +307,21 @@ int main(void)
 		if (WRITE_QSPI) {
 			printf("Now I'm written the application to the MCU...\n\n");
 
-			uint32_t qspi_address = 0x0;
-			uint8_t buffer[0x15]  = {0};
+			uint32_t qspi_address = 0x0000;
+			uint8_t buffer[0x100]  = {0};
 
-			while (qspi_address < application_size) {
-				qspi_memory.ext_flash_get_data(qspi_address, (char *)buffer, (size_t)0x10);
+			printf("Application size (Main): %lX\n", application_size);
+			qspi_memory.ext_flash_get_data(qspi_address, (char *)buffer, (size_t)0x4);
+			printf("Application size (QSPI): %X%X%X%X\n", buffer[0], buffer[1], buffer[2], buffer[3]);
+			qspi_address+=0x1000;
+			while (qspi_address - 0x1000 < application_size) {
+				qspi_memory.ext_flash_get_data(qspi_address, (char *)buffer, (size_t)0x100);
 				wait_us(200);
 
-				flash.program(buffer, APPLICATION_ADDR + qspi_address, 0x10);
+				flash.program(buffer, APPLICATION_ADDR + qspi_address - 0x1000, 0x100);
 
-				qspi_address += 0x10;
+				qspi_address += 0x100;
+				printf("%lX\n", qspi_address);
 			}
 
 			printf("Application written to MCU.\n\n");
@@ -226,7 +329,7 @@ int main(void)
 		CE1 = 1;
 
 		/* Visual check of good programming */
-		printCheckProgramming();
+		// printCheckProgramming();
 
 		printf("Starting application now!\n\n\n");
 		wait_us(2000);

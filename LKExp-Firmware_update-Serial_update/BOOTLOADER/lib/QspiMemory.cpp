@@ -21,7 +21,7 @@ bool QspiMemory::mem_ready()
 		if (QSPI_STATUS_OK != _qspi_device.command_transfer(CMD_RDSR, -1, NULL, 0, status_value, STATUS_REG_SIZE)) {
 			printf("Reading Status Register failed \n");
 		}
-		ThisThread::sleep_for(1s);
+		ThisThread::sleep_for(1);
 	} while ((status_value[0] & BIT_WIP) != 0 && retries);
 
 	if ((status_value[0] & BIT_WIP) != 0) {
