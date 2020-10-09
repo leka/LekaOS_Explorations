@@ -5,7 +5,7 @@ import os
 
 print("Starting script to send bin file\n")
 
-serial = serial.Serial(port='/dev/tty.usbmodem14203', baudrate = 115200)
+serial = serial.Serial(port='/dev/tty.usbmodem14203', baudrate = 9600)
 time.sleep(1)
 
 len_data = serial.in_waiting
