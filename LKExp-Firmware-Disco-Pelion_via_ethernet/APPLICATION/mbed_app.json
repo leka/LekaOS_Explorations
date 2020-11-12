@@ -44,6 +44,11 @@
             "storage.storage_type"                      : "TDB_INTERNAL",
             "storage_tdb_internal.internal_base_address": "(MBED_ROM_START + 32*1024)",
             "storage_tdb_internal.internal_size"        : "(32*2*1024)"
+        },
+        "DISCO_F769NI": {
+            "target.bootloader_img"                     : "../BOOTLOADER/BUILD/DISCO_F769NI/GCC_ARM/BOOTLOADER.bin",
+            "target.header_offset"                      : "0x10000",
+            "target.app_offset"                         : "0x10400"
         }
     },
     "config": {

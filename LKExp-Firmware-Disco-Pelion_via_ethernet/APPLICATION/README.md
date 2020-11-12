@@ -1,4 +1,4 @@
-# LKExp - Update DISCO_F769NI via Pelion
+# LKExp - APPLICATION - Update DISCO_F769NI via Pelion
 
 ## How to run
 
