@@ -1,0 +1,3 @@
+
+lib/mbed-cloud-client/**
+src/testPelionOnline.cpp

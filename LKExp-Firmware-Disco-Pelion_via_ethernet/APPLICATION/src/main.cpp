@@ -5,7 +5,9 @@ DigitalOut led1(LED1, 1);
 DigitalOut led2(LED2, 0);
 
 /* USED FUNCTION */
-int pelionOnlineExample();
+// int pelionOnlineExample();
+int ethernetExample();
+int qspiExample();
 
 /* MAIN PROGRAM */
 void checkAlive()
@@ -21,7 +23,9 @@ int main(void)
 	flipper.attach(&checkAlive, 1.0);
 	ThisThread::sleep_for(2s);
 
-	pelionOnlineExample();
+	// pelionOnlineExample();
+	ethernetExample();
+	qspiExample();
 
 	while (true) { ThisThread::sleep_for(1s); }
 	return 0;
