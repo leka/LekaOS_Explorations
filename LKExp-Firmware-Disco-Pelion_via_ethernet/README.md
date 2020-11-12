@@ -23,7 +23,7 @@ Add in configs/external_kvstore_with_qspif.json:
     "target.extra_labels_remove"       : [ "PSA" ],
     "mbed-bootloader.bootloader-size"  : "(64*1024)",
     "target.restrict_size"             : "0x10000",
-    "update-client.application-details": "(MBED_ROM_START + 256*1024)"
+    "update-client.application-details": "(MBED_ROM_START + 64*1024)"
 }
 ```
 
