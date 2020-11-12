@@ -1,0 +1,13 @@
+{
+    "classId": "b0bcbb35-63fc-59bd-a2f5-bae8a77502f6",
+    "default-certificates": [
+        {
+            "file": ".update-certificates/default.der"
+        }
+    ],
+    "deviceURNs": [],
+    "modelName": "DISCO_ETHERNET",
+    "private-key": ".update-certificates/default.key.pem",
+    "vendorDomain": "leka.io",
+    "vendorId": "a873b7d2-520e-5bbd-865e-a6b0eed5e90a"
+}
