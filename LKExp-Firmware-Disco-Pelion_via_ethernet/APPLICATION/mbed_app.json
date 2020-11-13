@@ -49,13 +49,15 @@
             "target.bootloader_img"                     : "../BOOTLOADER/BUILD/DISCO_F769NI/GCC_ARM/BOOTLOADER.bin",
             "target.header_offset"                      : "0x10000",
             "target.app_offset"                         : "0x10400",
-            "update-client.storage-size"                : "((MBED_ROM_START + MBED_ROM_SIZE - MBED_CONF_UPDATE_CLIENT_APPLICATION_DETAILS + 1024) * MBED_CONF_UPDATE_CLIENT_STORAGE_LOCATIONS)"
+            "update-client.storage-size"                : "((MBED_ROM_START + MBED_ROM_SIZE - APPLICATION_ADDR) * MBED_CONF_UPDATE_CLIENT_STORAGE_LOCATIONS)",
+            "target.features_add"                       : ["BOOTLOADER", "STORAGE"],
+            "mbed-cloud-client.update-storage"          : "ARM_UCP_FLASHIAP_BLOCKDEVICE"
         }
     },
     "config": {
         "bootloader-size": {
             "help"      : "Helper macro to enable calculation of rom regions. target.header_offset and target.app_offset still needs to be calculated manually, though.",
-            "value"     : "(32*1024)",
+            "value"     : "(64*1024)",
             "macro_name": "MBED_BOOTLOADER_SIZE"
         },
         "run-ci": {
