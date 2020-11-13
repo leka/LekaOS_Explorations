@@ -48,7 +48,8 @@
         "DISCO_F769NI": {
             "target.bootloader_img"                     : "../BOOTLOADER/BUILD/DISCO_F769NI/GCC_ARM/BOOTLOADER.bin",
             "target.header_offset"                      : "0x10000",
-            "target.app_offset"                         : "0x10400"
+            "target.app_offset"                         : "0x10400",
+            "update-client.storage-size"                : "((MBED_ROM_START + MBED_ROM_SIZE - MBED_CONF_UPDATE_CLIENT_APPLICATION_DETAILS + 1024) * MBED_CONF_UPDATE_CLIENT_STORAGE_LOCATIONS)"
         }
     },
     "config": {
