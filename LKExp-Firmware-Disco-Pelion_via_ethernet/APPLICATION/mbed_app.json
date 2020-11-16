@@ -4,8 +4,11 @@
         "MBED_CLIENT_USER_CONFIG_FILE=\"mbed_cloud_client_user_config.h\"",
         "MBED_CLOUD_CLIENT_USER_CONFIG_FILE=\"mbed_cloud_client_user_config.h\"",
         "ARM_UC_USE_PAL_BLOCKDEVICE=1",
+        "MBED_CLOUD_CLIENT_UPDATE_STORAGE=ARM_UCP_FLASHIAP_BLOCKDEVICE",
         "PAL_PLATFORM_DEFINED_CONFIGURATION=\"mbedOS_SST.h\"",
-        "PAL_USER_DEFINED_CONFIGURATION=\"mbedOS_SST.h\""
+        "PAL_USER_DEFINED_CONFIGURATION=\"mbedOS_SST.h\"",
+        "APP_KVSTORE_SIZE=(2* 256*1024)",
+        "ACTIVE_HEADER_REGION_SIZE=0x400"
     ],
     "target_overrides": {
         "*": {
@@ -47,17 +50,30 @@
         },
         "DISCO_F769NI": {
             "target.bootloader_img"                     : "../BOOTLOADER/BUILD/DISCO_F769NI/GCC_ARM/BOOTLOADER.bin",
+            "update-client.application-details"         : "(MBED_ROM_START + MBED_BOOTLOADER_SIZE)",
             "target.header_offset"                      : "0x10000",
             "target.app_offset"                         : "0x10400",
-            "update-client.storage-size"                : "((MBED_ROM_START + MBED_ROM_SIZE - APPLICATION_ADDR) * MBED_CONF_UPDATE_CLIENT_STORAGE_LOCATIONS)",
+            "update-client.storage-size"                : "MBED_ROM_SIZE - (MBED_BOOTLOADER_SIZE + APP_KVSTORE_SIZE + ACTIVE_HEADER_REGION_SIZE)",
             "target.features_add"                       : ["BOOTLOADER", "STORAGE"],
-            "mbed-cloud-client.update-storage"          : "ARM_UCP_FLASHIAP_BLOCKDEVICE"
+            "mbed-cloud-client.update-storage"          : "ARM_UCP_FLASHIAP_BLOCKDEVICE",
+
+            "target.network-default-interface-type"     : "ETHERNET",
+            "target.components_add"                     : ["QSPIF"],
+            "target.components_remove"                  : ["SD"],
+            "target.extra_labels_remove"                : [ "PSA" ],
+            "update-client.bootloader-details"          : "0x800a854",
+            "update-client.storage-address"             : "(1024*1024)",
+            "update-client.storage-locations"           : "1",
+            "update-client.storage-page"                : 1,
+            "update-client.firmware-header-version"     : "2",
+
+            "mbed-trace.enable"                         : 0
         }
     },
     "config": {
         "bootloader-size": {
             "help"      : "Helper macro to enable calculation of rom regions. target.header_offset and target.app_offset still needs to be calculated manually, though.",
-            "value"     : "(64*1024)",
+            "value"     : "(2* 32*1024)",
             "macro_name": "MBED_BOOTLOADER_SIZE"
         },
         "run-ci": {

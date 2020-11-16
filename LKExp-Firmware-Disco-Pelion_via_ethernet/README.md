@@ -21,10 +21,30 @@ Add in configs/external_kvstore_with_qspif.json:
 ```cpp
 "DISCO_F769NI": {
     "target.extra_labels_remove"       : [ "PSA" ],
-    "mbed-bootloader.bootloader-size"  : "(64*1024)",
-    "target.restrict_size"             : "0x10000",
-    "update-client.application-details": "(MBED_ROM_START + 64*1024)"
-}
+    "mbed-bootloader.bootloader-size"  : "MBED_BOOTLOADER_SIZE",
+    "update-client.application-details": "(MBED_ROM_START + MBED_BOOTLOADER_SIZE)",
+    "mbed-bootloader.max-application-size"      : "MBED_ROM_SIZE - MBED_BOOTLOADER_SIZE - APP_KVSTORE_SIZE - MBED_BOOTLOADER_ACTIVE_HEADER_REGION_SIZE",
+    "mbed-bootloader.use-kvstore-rot"           : 1,
+    "mbed-bootloader.application-start-address" : "(MBED_ROM_START + MBED_BOOTLOADER_SIZE + MBED_BOOTLOADER_ACTIVE_HEADER_REGION_SIZE)",
+    "target.restrict_size"                      : "0x10000",
+    "update-client.storage-locations"           : 1,
+    "update-client.storage-address"             : "(0x0 + MBED_CONF_STORAGE_FILESYSTEM_EXTERNAL_SIZE)",
+    "update-client.storage-size"                : "((MBED_ROM_START + MBED_ROM_SIZE - MBED_CONF_MBED_BOOTLOADER_APPLICATION_START_ADDRESS - APP_KVSTORE_SIZE) * MBED_CONF_UPDATE_CLIENT_STORAGE_LOCATIONS)",
+
+    "storage.storage_type"                      : "FILESYSTEM",
+    "storage_filesystem.internal_base_address"  : "(MBED_ROM_START + 0x180000)",
+    "storage_filesystem.rbp_internal_size"      : "(APP_KVSTORE_SIZE)",
+
+    "storage_filesystem.filesystem"             : "LITTLE",
+    "storage_filesystem.blockdevice"            : "QSPIF",
+    "storage_filesystem.external_size"          : "(1024 * 1024)",
+    "storage_filesystem.external_base_address"  : "(0)",
+    "target.components_add"                     : ["QSPIF"],
+
+    "update-client.firmware-header-version"     : "2"
+        }
 ```
+
+with MACRO `"MBED_BOOTLOADER_SIZE=(2* 32*1024)"`
 
 then compile with `mbed compile --app-config=configs/external_kvstore_with_qspif.json` after completed target and toolchain
