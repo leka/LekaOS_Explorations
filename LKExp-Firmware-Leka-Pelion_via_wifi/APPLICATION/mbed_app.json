@@ -68,7 +68,45 @@
             "update-client.firmware-header-version"     : "2",
 
             "mbed-trace.enable"                         : 0
-        }
+        },
+        "LEKA_V1_0_DEV": {
+			"sd.SPI_CS": "SD_SPI_CS",
+			"sd.SPI_MISO": "SD_SPI_MISO",
+			"sd.SPI_MOSI": "SD_SPI_MOSI",
+            "sd.SPI_CLK": "SD_SPI_SCK",
+
+            "esp8266.rx": "WIFI_USART_RX",
+            "esp8266.tx": "WIFI_USART_TX",
+            "esp8266.cts": "WIFI_USART_CTS",
+            "esp8266.rts": "WIFI_USART_RTS",
+            "esp8266.rst": "WIFI_RESET",
+			"esp8266.power-on-polarity": 1,
+            "esp8266.provide-default": true,
+
+            "target.bootloader_img"                     : "../BOOTLOADER/BUILD/LEKA_V1_0_DEV/GCC_ARM/BOOTLOADER.bin",
+            "update-client.application-details"         : "(MBED_ROM_START + MBED_BOOTLOADER_SIZE)",
+            "target.header_offset"                      : "0x10000",
+            "target.app_offset"                         : "0x10400",
+            "update-client.storage-size"                : "MBED_ROM_SIZE - (MBED_BOOTLOADER_SIZE + APP_KVSTORE_SIZE + ACTIVE_HEADER_REGION_SIZE)",
+            "target.features_add"                       : ["BOOTLOADER", "STORAGE"],
+            "mbed-cloud-client.update-storage"          : "ARM_UCP_FLASHIAP_BLOCKDEVICE",
+
+            "target.network-default-interface-type"     : "WIFI",
+            "target.components_add"                     : ["SD"],
+            "target.components_remove"                  : ["QSPIF"],
+            "target.extra_labels_remove"                : [ "PSA" ],
+            "update-client.bootloader-details"          : "0x800ac08",
+            "update-client.storage-address"             : "(1024*1024)",
+            "update-client.storage-locations"           : "1",
+            "update-client.storage-page"                : 1,
+            "update-client.firmware-header-version"     : "2",
+
+            "target.macros_add"                         : ["MBEDTLS_USER_CONFIG_FILE=\"mbedTLSConfig_mbedOS.h\""],
+            "target.macros_remove"                      : ["MBEDTLS_CONFIG_HW_SUPPORT"],
+            "mbed-cloud-client.external-sst-support"    : 1,
+
+            "mbed-trace.enable"                         : 0
+		}
     },
     "config": {
         "bootloader-size": {
