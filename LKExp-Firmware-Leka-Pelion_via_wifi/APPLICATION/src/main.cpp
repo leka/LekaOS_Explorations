@@ -1,37 +1,23 @@
 #include "mbed.h"
 
-Ticker flipper;
-DigitalOut led1(LED1, 1);
-DigitalOut led2(LED2, 0);
-DigitalOut led3(LED2, 1);
-
 /* USED FUNCTION */
 int pelionOnlineExample();
-int ethernetExample();
-int qspiExample();
+
+#include "LekaWifi.h"
+Wifi leka_wifi;
 
 /* MAIN PROGRAM */
-void checkAlive()
-{
-	led1 = !led1;
-	led2 = !led2;
-	led3 = !led3;
-}
 
 int main(void)
 {
 	printf("\nNew run!\n\n");
+	printf("This is a success!\n");
 
-	flipper.attach(&checkAlive, 1.0);
 	ThisThread::sleep_for(2s);
 
-	// ethernetExample();
-	// qspiExample();
+	// leka_wifi.start();
 	pelionOnlineExample();
 
-	while (true) {
-		ThisThread::sleep_for(3s);
-		led3 = !led3;
-	}
+	while (true) { ThisThread::sleep_for(1s); }
 	return 0;
 }
