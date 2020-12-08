@@ -58,6 +58,7 @@
 #include "ff.h"    
 #include "ff_gen_drv.h"
 #include "usbh_diskio.h"
+#include "sd_diskio.h"
 
 /* Exported Defines ----------------------------------------------------------*/
 #define AUDIO_OUT_BUFFER_SIZE                      8192

@@ -55,10 +55,12 @@ USBH_HandleTypeDef hUSBHost;
 AUDIO_ApplicationTypeDef appli_state = APPLICATION_IDLE;
 FATFS USBH_FatFs;
 char USBKey_Path[4] = "0:/";
+FATFS SDFatFs; /* File system object for SD card logical drive */
+char SDPath[4]; /* SD card logical drive path */
 
 /* Private function prototypes -----------------------------------------------*/
 static void SystemClock_Config(void);
-static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8_t id);
+//static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8_t id);
 static void AUDIO_InitApplication(void);
 static void CPU_CACHE_Enable(void);
 
@@ -91,20 +93,30 @@ int main(void)
   /* Init TS module */
   BSP_TS_Init(800, 480);
 
+	//##-3- Link the micro SD disk I/O driver ##################################
+	if (FATFS_LinkDriver(&SD_Driver, SDPath) == 0) {
+		//##-4- Register the file system object to the FatFs module ##############
+		if (f_mount(&SDFatFs, (TCHAR const*) SDPath, 0) == FR_OK) {
+			printf("successfully mounted\n");
+		}
+	}
+
   /* Init Host Library */
-  USBH_Init(&hUSBHost, USBH_UserProcess, 0);
+  //USBH_Init(&hUSBHost, USBH_UserProcess, 0);
 
   /* Add Supported Class */
-  USBH_RegisterClass(&hUSBHost, USBH_MSC_CLASS);
+  //USBH_RegisterClass(&hUSBHost, USBH_MSC_CLASS);
   
   /* Start Host Process */
-  USBH_Start(&hUSBHost);
+  //USBH_Start(&hUSBHost);
+  appli_state = APPLICATION_START;
   
   /* Run Application (Blocking mode) */
   while (1)
   {
     /* USB Host Background task */
-	  USBH_Process(&hUSBHost);
+	  //USBH_Process(&hUSBHost);
+	  appli_state = APPLICATION_READY;
     
     /* AUDIO Menu Process */
     AUDIO_MenuProcess();
@@ -142,7 +154,7 @@ static void AUDIO_InitApplication(void)
   LCD_UsrLog("USB Host library started.\n"); 
   
   /* Start Audio interface */
-  USBH_UsrLog("Starting Audio Demo");
+  //USBH_UsrLog("Starting Audio Demo");
   
   /* Init Audio interface */
   AUDIO_PLAYER_Init();

@@ -47,8 +47,9 @@
 #include "main.h"
 
 /* Private typedef -----------------------------------------------------------*/
-extern FATFS USBH_FatFs;
-extern char USBKey_Path[4];
+extern FATFS SDFatFs; /* File system object for SD card logical drive */
+extern char SDPath[4]; /* SD card logical drive path */
+
 FILELIST_FileTypeDef FileList;
 uint16_t NumObs = 0;
 
@@ -65,8 +66,8 @@ uint16_t NumObs = 0;
   */
 uint8_t AUDIO_StorageInit(void)
 {
-  /* Link the USB Key disk I/O driver */
-  if((f_mount(&USBH_FatFs, (TCHAR const*)USBKey_Path, 0) != FR_OK))
+  /* Link the SD disk I/O driver */
+  if((f_mount(&SDFatFs, (TCHAR const*)SDPath, 0) != FR_OK))
   {
     /* FatFs Initialization Error */
     LCD_ErrLog("Cannot Initialize FatFs! \n");
@@ -91,12 +92,12 @@ FRESULT AUDIO_StorageParse(void)
   DIR dir;
   char *fn;
   
-  res = f_opendir(&dir, USBKey_Path);
+  res = f_opendir(&dir, SDPath);
   FileList.ptr = 0;
   
   if(res == FR_OK)
   {
-    while(USBH_MSC_IsReady(&hUSBHost))
+    while(SD_status(0x00) != STA_NOINIT)
     {
       res = f_readdir(&dir, &fno);
       if(res != FR_OK || fno.fname[0] == 0)
