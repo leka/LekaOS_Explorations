@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    Audio/Audio_playback_and_record/Src/explorer.c 
   * @author  MCD Application Team
-  * @brief   This file provides USB Key drive configuration
+  * @brief   This file provides SD drive configuration
   ******************************************************************************
   * @attention
   *
@@ -60,7 +60,7 @@ uint16_t NumObs = 0;
 /* Private functions ---------------------------------------------------------*/
 
 /**
-  * @brief  Initializes the USB KEY Storage.
+  * @brief  Initializes the SD Storage.
   * @param  None
   * @retval Status
   */

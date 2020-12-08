@@ -51,16 +51,12 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-USBH_HandleTypeDef hUSBHost;
 AUDIO_ApplicationTypeDef appli_state = APPLICATION_IDLE;
-FATFS USBH_FatFs;
-char USBKey_Path[4] = "0:/";
 FATFS SDFatFs; /* File system object for SD card logical drive */
 char SDPath[4]; /* SD card logical drive path */
 
 /* Private function prototypes -----------------------------------------------*/
 static void SystemClock_Config(void);
-//static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8_t id);
 static void AUDIO_InitApplication(void);
 static void CPU_CACHE_Enable(void);
 
@@ -101,21 +97,11 @@ int main(void)
 		}
 	}
 
-  /* Init Host Library */
-  //USBH_Init(&hUSBHost, USBH_UserProcess, 0);
-
-  /* Add Supported Class */
-  //USBH_RegisterClass(&hUSBHost, USBH_MSC_CLASS);
-  
-  /* Start Host Process */
-  //USBH_Start(&hUSBHost);
   appli_state = APPLICATION_START;
   
   /* Run Application (Blocking mode) */
   while (1)
   {
-    /* USB Host Background task */
-	  //USBH_Process(&hUSBHost);
 	  appli_state = APPLICATION_READY;
     
     /* AUDIO Menu Process */
@@ -151,62 +137,12 @@ static void AUDIO_InitApplication(void)
   
   LCD_LOG_SetHeader((uint8_t *)"Audio Playback and Record Application");
   
-  LCD_UsrLog("USB Host library started.\n"); 
+  LCD_UsrLog("SD library started.\n");
   
   /* Start Audio interface */
-  //USBH_UsrLog("Starting Audio Demo");
   
   /* Init Audio interface */
   AUDIO_PLAYER_Init();
-}
-
-/**
-  * @brief  User Process
-  * @param  phost: Host Handle
-  * @param  id: Host Library user message ID
-  * @retval None
-  */
-static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8_t id)
-{
-  switch(id)
-  { 
-  case HOST_USER_SELECT_CONFIGURATION:
-    break;
-    
-  case HOST_USER_DISCONNECTION:
-    appli_state = APPLICATION_DISCONNECT;
-    if(FATFS_UnLinkDriver(USBKey_Path) != 0)
-    {
-     LCD_ErrLog("ERROR : Cannot unlink FatFS driver! \n");
-    }
-    if(f_mount(NULL, "", 0) != FR_OK)
-    {
-      LCD_ErrLog("ERROR : Cannot DeInitialize FatFs! \n");
-    }
-    break;
-
-  case HOST_USER_CLASS_ACTIVE:
-    appli_state = APPLICATION_READY;
-    break;
- 
-  case HOST_USER_CONNECTION:
-    appli_state = APPLICATION_START;
-    /* Link the USB Mass Storage disk I/O driver */
-    if(FATFS_LinkDriver(&USBH_Driver, USBKey_Path) != 0)
-    {
-      LCD_ErrLog("ERROR : Cannot link FatFS driver! \n");
-     break;
-    }
-    if(f_mount(&USBH_FatFs, "", 0) != FR_OK)
-    {
-      LCD_ErrLog("ERROR : Cannot Initialize FatFs! \n");
-     break;
-    }
-    break;
-   
-  default:
-    break; 
-  }
 }
 
 /**

@@ -49,7 +49,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stdio.h"
-#include "usbh_core.h"
 #include "stm32f7xx_hal.h"
 #include "stm32f769i_discovery.h"
 #include "stm32f769i_discovery_audio.h"
@@ -57,7 +56,6 @@
 #include "lcd_log.h"
 #include "ff.h"    
 #include "ff_gen_drv.h"
-#include "usbh_diskio.h"
 #include "sd_diskio.h"
 
 /* Exported Defines ----------------------------------------------------------*/
@@ -179,10 +177,8 @@ typedef enum {
   AUDIO_ERROR_INVALID_VALUE,     
 }AUDIO_ErrorTypeDef;
 
-extern USBH_HandleTypeDef hUSBHost;
 extern AUDIO_ApplicationTypeDef appli_state;
 extern AUDIO_PLAYBACK_StateTypeDef AudioState;
-extern FATFS USBH_fatfs;
 extern FIL WavFile;
 
 /* Exported constants --------------------------------------------------------*/

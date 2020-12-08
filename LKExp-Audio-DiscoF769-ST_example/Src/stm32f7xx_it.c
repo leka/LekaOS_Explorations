@@ -145,19 +145,7 @@ void SysTick_Handler(void)
 /*  file (startup_stm32f7xx.s).                                               */
 /******************************************************************************/
 
-/**
-  * @brief  This function handles USB-On-The-Go FS/HS global interrupt request.
-  * @param  None
-  * @retval None
-  */
-#ifdef USE_USB_FS
-void OTG_FS_IRQHandler(void)
-#else
-void OTG_HS_IRQHandler(void)
-#endif
-{
-  HAL_HCD_IRQHandler(&hhcd);
-}
+
 
 /**
   * @brief This function handles DMA2 Stream 4 interrupt request.
