@@ -52,6 +52,8 @@ _deps
 
 lib/mbed-os
 */lib/mbed-os
+/lib/BSP_DISCO_F769NI
+*/lib/BSP_DISCO_F769NI
 
 
 # C
