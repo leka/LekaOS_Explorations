@@ -145,7 +145,7 @@ AUDIO_ErrorTypeDef AUDIO_PLAYER_Start(uint8_t idx)
     if(f_read(&WavFile, 
               &BufferCtl.buff[0], 
               AUDIO_OUT_BUFFER_SIZE, 
-              (void *)&bytesread) == FR_OK)
+              (UINT *)&bytesread) == FR_OK)
     {
       /* Clean Data Cache to update the content of the SRAM */
       SCB_CleanDCache_by_Addr((uint32_t*)&BufferCtl.buff[0], AUDIO_OUT_BUFFER_SIZE);
@@ -191,7 +191,7 @@ AUDIO_ErrorTypeDef AUDIO_PLAYER_Process(void)
       if(f_read(&WavFile, 
                 &BufferCtl.buff[0], 
                 AUDIO_OUT_BUFFER_SIZE/2, 
-                (void *)&bytesread) != FR_OK)
+                (UINT *)&bytesread) != FR_OK)
       {
         /* Clean Data Cache to update the content of the SRAM */
         SCB_CleanDCache_by_Addr((uint32_t*)&BufferCtl.buff[0], AUDIO_OUT_BUFFER_SIZE/2);
@@ -207,7 +207,7 @@ AUDIO_ErrorTypeDef AUDIO_PLAYER_Process(void)
       if(f_read(&WavFile, 
                 &BufferCtl.buff[AUDIO_OUT_BUFFER_SIZE /2], 
                 AUDIO_OUT_BUFFER_SIZE/2, 
-                (void *)&bytesread) != FR_OK)
+                (UINT *)&bytesread) != FR_OK)
       {
         /* Clean Data Cache to update the content of the SRAM */
         SCB_CleanDCache_by_Addr((uint32_t*)&BufferCtl.buff[AUDIO_OUT_BUFFER_SIZE /2], AUDIO_OUT_BUFFER_SIZE/2);
@@ -388,7 +388,7 @@ static AUDIO_ErrorTypeDef GetFileInfo(uint16_t file_idx, WAVE_FormatTypeDef *inf
   if(f_open(&WavFile, (char *)FileList.file[file_idx].name, FA_OPEN_EXISTING | FA_READ) == FR_OK) 
   {
     /* Fill the buffer to Send */
-    if(f_read(&WavFile, info, sizeof(WaveFormat), (void *)&bytesread) == FR_OK)
+    if(f_read(&WavFile, info, sizeof(WaveFormat), (UINT *)&bytesread) == FR_OK)
     {
       BSP_LCD_SetTextColor(LCD_COLOR_WHITE); 
       sprintf((char *)str, "Playing file (%d/%d): %s", 
