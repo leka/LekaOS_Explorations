@@ -1,24 +1,12 @@
-### Ignored directories to speed up compilation time
 
-test/**
-lib/mbed-os/components/**
-lib/mbed-os/features/cellular/**
-lib/mbed-os/features/cryptocell/**
-lib/mbed-os/features/deprecated_warnings/**
+#lib/FatFs/**
+#lib/FatFs/diskio.c
+#lib/FatFs/diskio.h
+#lib/FatFs/ff.c
+#lib/FatFs/ff.h
+#lib/FatFs/option/**
 
-lib/mbed-os/features/FEATURE_BLE/**
-lib/mbed-os/features/FEATURE_BOOTLOADER/**
-
-lib/mbed-os/features/lorawan/**
-lib/mbed-os/features/lwipstack/**
-
-lib/mbed-os/features/nanostack/**
-lib/mbed-os/features/netsocket/**
-lib/mbed-os/features/nfc/**
-lib/mbed-os/features/unsupported/**
-
-### Needed directories
-
-# lib/mbed-os/features/device_key/**
-# lib/mbed-os/features/frameworks/**
-# lib/mbed-os/features/mbedtls/**
+lib/mbed-os/storage/filesystem/**
+lib/mbed-os/storage/kvstore/**
+lib/mbed-os/drivers/device_key/**
+lib/mbed-os/storage/platform/**

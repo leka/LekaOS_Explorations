@@ -136,7 +136,7 @@ AUDIO_ErrorTypeDef AUDIO_REC_Start(void)
     WavProcess_EncInit(DEFAULT_AUDIO_IN_FREQ, pHeaderBuff);
     
     /* Write header file */
-    if(f_write(&WavFile, pHeaderBuff, 44, (void*)&byteswritten) == FR_OK)
+    if(f_write(&WavFile, pHeaderBuff, 44, (UINT*)&byteswritten) == FR_OK)
     {
       AudioState = AUDIO_STATE_PRERECORD;
       
@@ -279,7 +279,7 @@ AUDIO_ErrorTypeDef AUDIO_REC_Process(void)
       /* Write buffer in file */
       if(f_write(&WavFile, (uint8_t*)(BufferCtl.pcm_buff + BufferCtl.offset), 
                  AUDIO_IN_PCM_BUFFER_SIZE, 
-                 (void*)&byteswritten) != FR_OK)
+                 (UINT*)&byteswritten) != FR_OK)
       {
         BSP_LCD_SetTextColor(LCD_COLOR_RED);
         BSP_LCD_DisplayStringAtLine(14, (uint8_t *)"RECORD FAIL");
@@ -321,7 +321,7 @@ AUDIO_ErrorTypeDef AUDIO_REC_Process(void)
       /* Update the wav file header save it into wav file */
       WavProcess_HeaderUpdate(pHeaderBuff, &WaveFormat);
       
-      if(f_write(&WavFile, pHeaderBuff, sizeof(WAVE_FormatTypeDef), (void*)&byteswritten) == FR_OK)
+      if(f_write(&WavFile, pHeaderBuff, sizeof(WAVE_FormatTypeDef), (UINT*)&byteswritten) == FR_OK)
       {   
         audio_error = AUDIO_ERROR_EOF;
       }
