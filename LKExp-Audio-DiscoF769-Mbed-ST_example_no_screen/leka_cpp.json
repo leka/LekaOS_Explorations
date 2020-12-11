@@ -1,0 +1,7 @@
+{
+    "GCC_ARM": {
+		"common": ["-fdiagnostics-color"],
+        "c": ["-std=gnu11"],
+		"cxx": ["-std=gnu++17"]
+	}
+}
