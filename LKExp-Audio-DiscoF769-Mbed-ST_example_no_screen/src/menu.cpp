@@ -62,7 +62,6 @@ AUDIO_PLAYBACK_StateTypeDef AudioState;
 
 /* Private function prototypes -----------------------------------------------*/
 static void AUDIO_ChangeSelectMode(AUDIO_DEMO_SelectMode select_mode);
-static void LCD_ClearTextZone(void);
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -73,10 +72,10 @@ static void LCD_ClearTextZone(void);
   */
 void AUDIO_MenuProcess(void)
 {
-  TS_StateTypeDef  TS_State;
-  Point PlaybackLogoPoints[] = {{TOUCH_PLAYBACK_XMIN, TOUCH_PLAYBACK_YMIN},
-                                {TOUCH_PLAYBACK_XMAX, (TOUCH_PLAYBACK_YMIN+TOUCH_PLAYBACK_YMAX)/2},
-                                {TOUCH_PLAYBACK_XMIN, TOUCH_PLAYBACK_YMAX}};
+  // TS_StateTypeDef  TS_State;
+  // Point PlaybackLogoPoints[] = {{TOUCH_PLAYBACK_XMIN, TOUCH_PLAYBACK_YMIN},
+  //                               {TOUCH_PLAYBACK_XMAX, (TOUCH_PLAYBACK_YMIN+TOUCH_PLAYBACK_YMAX)/2},
+  //                               {TOUCH_PLAYBACK_XMIN, TOUCH_PLAYBACK_YMAX}};
   
   if(appli_state == APPLICATION_READY)
   { 
@@ -85,39 +84,29 @@ void AUDIO_MenuProcess(void)
     case AUDIO_DEMO_IDLE:
       
       AudioDemo.state = AUDIO_DEMO_WAIT;
-      
-      BSP_LCD_SetFont(&Font16);
-      BSP_LCD_ClearStringLine(13);     /* Clear touch screen buttons dedicated zone */
-      BSP_LCD_ClearStringLine(14);
-      BSP_LCD_ClearStringLine(15);
-      BSP_LCD_SetTextColor(LCD_COLOR_CYAN);
-      BSP_LCD_FillPolygon(PlaybackLogoPoints, 3);                 /* Playback sign */
-      BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-      BSP_LCD_SetFont(&Font12);
-      BSP_LCD_DisplayStringAtLine(15, (uint8_t *)"Use touch screen to enter playback or record menu");
       break;    
       
     case AUDIO_DEMO_WAIT:
       
-      BSP_TS_GetState(&TS_State);
-      if(TS_State.touchDetected == 1)
-      {
-        if ((TS_State.touchX[0] > TOUCH_PLAYBACK_XMIN) && (TS_State.touchX[0] < TOUCH_PLAYBACK_XMAX) &&
-                 (TS_State.touchY[0] > TOUCH_PLAYBACK_YMIN) && (TS_State.touchY[0] < TOUCH_PLAYBACK_YMAX))
-        {
+      // BSP_TS_GetState(&TS_State);
+      // if(TS_State.touchDetected == 1)
+      // {
+      //   if ((TS_State.touchX[0] > TOUCH_PLAYBACK_XMIN) && (TS_State.touchX[0] < TOUCH_PLAYBACK_XMAX) &&
+      //            (TS_State.touchY[0] > TOUCH_PLAYBACK_YMIN) && (TS_State.touchY[0] < TOUCH_PLAYBACK_YMAX))
+      //   {
           AudioDemo.state = AUDIO_DEMO_PLAYBACK;
-        }
-        else
-        {
-          AudioDemo.state = AUDIO_DEMO_EXPLORE;
-        }
+      //   }
+      //   else
+      //   {
+      //     AudioDemo.state = AUDIO_DEMO_EXPLORE;
+      //   }
         
-        /* Wait for touch released */
-        do
-        {
-          BSP_TS_GetState(&TS_State);
-        }while(TS_State.touchDetected > 0);
-      }
+      //   /* Wait for touch released */
+      //   do
+      //   {
+      //     BSP_TS_GetState(&TS_State);
+      //   }while(TS_State.touchDetected > 0);
+      // }
       break;
       
     case AUDIO_DEMO_EXPLORE: 
@@ -156,8 +145,6 @@ void AUDIO_MenuProcess(void)
             /* Start Playing */
             AudioState = AUDIO_STATE_INIT;
           }
-          /* Clear the LCD */
-          LCD_ClearTextZone();
           
           if(AUDIO_PLAYER_Start(0) == AUDIO_ERROR_IO)
           {
@@ -169,9 +156,6 @@ void AUDIO_MenuProcess(void)
         {
           if(AUDIO_PLAYER_Process() == AUDIO_ERROR_IO)
           {
-            /* Clear the LCD */
-            LCD_ClearTextZone();
-            
             AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU);  
             AudioDemo.state = AUDIO_DEMO_IDLE;
           }
@@ -210,25 +194,6 @@ static void AUDIO_ChangeSelectMode(AUDIO_DEMO_SelectMode select_mode)
   if(select_mode == AUDIO_SELECT_MENU)
   {
     AudioDemo.state = AUDIO_DEMO_IDLE; 
-  }
-  else if(select_mode == AUDIO_PLAYBACK_CONTROL)
-  {
-    LCD_ClearTextZone();   
-  }
-}
-
-/**
-  * @brief  Clears the text zone.
-  * @param  None
-  * @retval None
-  */
-static void LCD_ClearTextZone(void)
-{
-  uint8_t i = 0;
-  
-  for(i= 0; i < 13; i++)
-  {
-    BSP_LCD_ClearStringLine(i + 3);
   }
 }
 

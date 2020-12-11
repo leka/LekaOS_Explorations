@@ -146,7 +146,6 @@ uint8_t AUDIO_ShowWavFiles(void)
     {
       if(FileList.ptr > 0)
       {
-        BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
         printf("audio file(s) [ROOT]:\n\n");
         
         for(i = 0; i < FileList.ptr; i++)
@@ -156,7 +155,6 @@ uint8_t AUDIO_ShowWavFiles(void)
           debug((char *)FileList.file[i].name);
           debug("\n");
         }
-        BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
         printf("\nEnd of files list.\n");
         return 0;
       }
