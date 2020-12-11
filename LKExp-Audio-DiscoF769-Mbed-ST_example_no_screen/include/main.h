@@ -85,7 +85,6 @@ typedef enum {
   AUDIO_DEMO_WAIT,  
   AUDIO_DEMO_EXPLORE,
   AUDIO_DEMO_PLAYBACK,
-  AUDIO_DEMO_IN,  
 }AUDIO_Demo_State;
 
 /* Audio Demo State Machine Structure */
@@ -99,8 +98,6 @@ typedef enum {
   AUDIO_STATE_WAIT,    
   AUDIO_STATE_INIT,    
   AUDIO_STATE_PLAY,
-  AUDIO_STATE_PRERECORD,
-  AUDIO_STATE_RECORD,  
   AUDIO_STATE_NEXT,  
   AUDIO_STATE_PREVIOUS,
   AUDIO_STATE_FORWARD,   

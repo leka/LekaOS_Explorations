@@ -45,15 +45,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "waveplayer.h"
-#include "waverecorder.h" 
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define TOUCH_RECORD_XMIN       300
-#define TOUCH_RECORD_XMAX       340
-#define TOUCH_RECORD_YMIN       212
-#define TOUCH_RECORD_YMAX       252
-
 #define TOUCH_PLAYBACK_XMIN     125
 #define TOUCH_PLAYBACK_XMAX     165
 #define TOUCH_PLAYBACK_YMIN     212
@@ -79,7 +73,6 @@ static void LCD_ClearTextZone(void);
   */
 void AUDIO_MenuProcess(void)
 {
-  AUDIO_ErrorTypeDef  status;
   TS_StateTypeDef  TS_State;
   Point PlaybackLogoPoints[] = {{TOUCH_PLAYBACK_XMIN, TOUCH_PLAYBACK_YMIN},
                                 {TOUCH_PLAYBACK_XMAX, (TOUCH_PLAYBACK_YMIN+TOUCH_PLAYBACK_YMAX)/2},
@@ -99,9 +92,6 @@ void AUDIO_MenuProcess(void)
       BSP_LCD_ClearStringLine(15);
       BSP_LCD_SetTextColor(LCD_COLOR_CYAN);
       BSP_LCD_FillPolygon(PlaybackLogoPoints, 3);                 /* Playback sign */
-      BSP_LCD_FillCircle((TOUCH_RECORD_XMAX+TOUCH_RECORD_XMIN)/2, /* Record circle */
-                         (TOUCH_RECORD_YMAX+TOUCH_RECORD_YMIN)/2,
-                         (TOUCH_RECORD_XMAX-TOUCH_RECORD_XMIN)/2);
       BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
       BSP_LCD_SetFont(&LCD_LOG_TEXT_FONT);
       BSP_LCD_DisplayStringAtLine(15, (uint8_t *)"Use touch screen to enter playback or record menu");
@@ -112,12 +102,7 @@ void AUDIO_MenuProcess(void)
       BSP_TS_GetState(&TS_State);
       if(TS_State.touchDetected == 1)
       {
-        if ((TS_State.touchX[0] > TOUCH_RECORD_XMIN) && (TS_State.touchX[0] < TOUCH_RECORD_XMAX) &&
-            (TS_State.touchY[0] > TOUCH_RECORD_YMIN) && (TS_State.touchY[0] < TOUCH_RECORD_YMAX))
-        {
-          AudioDemo.state = AUDIO_DEMO_IN;
-        }
-        else if ((TS_State.touchX[0] > TOUCH_PLAYBACK_XMIN) && (TS_State.touchX[0] < TOUCH_PLAYBACK_XMAX) &&
+        if ((TS_State.touchX[0] > TOUCH_PLAYBACK_XMIN) && (TS_State.touchX[0] < TOUCH_PLAYBACK_XMAX) &&
                  (TS_State.touchY[0] > TOUCH_PLAYBACK_YMIN) && (TS_State.touchY[0] < TOUCH_PLAYBACK_YMAX))
         {
           AudioDemo.state = AUDIO_DEMO_PLAYBACK;
@@ -197,46 +182,6 @@ void AUDIO_MenuProcess(void)
         AudioDemo.state = AUDIO_DEMO_WAIT;
       }
       break; 
-      
-    case AUDIO_DEMO_IN:
-      if(appli_state == APPLICATION_READY)
-      {
-        if(AudioState == AUDIO_STATE_IDLE)
-        {
-          /* Start Playing */
-          AudioState = AUDIO_STATE_INIT;
-          
-          /* Clear the LCD */
-          LCD_ClearTextZone();
-          
-          /* Init storage */
-          AUDIO_StorageInit();
-          
-          /* Configure the audio recorder: sampling frequency, bits-depth, number of channels */
-          if(AUDIO_REC_Start() == AUDIO_ERROR_IO)
-          {
-            AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU); 
-            AudioDemo.state = AUDIO_DEMO_IDLE;
-          }
-        }
-        else /* Not idle */
-        {
-          status = AUDIO_REC_Process();
-          if((status == AUDIO_ERROR_IO) || (status == AUDIO_ERROR_EOF))
-          {
-            /* Clear the LCD */
-            LCD_ClearTextZone();
-            
-            AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU);  
-            AudioDemo.state = AUDIO_DEMO_IDLE;
-          }
-        }
-      }
-      else
-      {
-        AudioDemo.state = AUDIO_DEMO_WAIT;
-      }
-      break;
       
     default:
       break;

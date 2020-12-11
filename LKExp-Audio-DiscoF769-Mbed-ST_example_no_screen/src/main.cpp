@@ -1,6 +1,5 @@
 #include "mbed.h"
 #include "waveplayer.h"
-#include "waverecorder.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
