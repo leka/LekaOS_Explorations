@@ -86,14 +86,14 @@ void AUDIO_MenuProcess(void)
       
       AudioDemo.state = AUDIO_DEMO_WAIT;
       
-      BSP_LCD_SetFont(&LCD_LOG_HEADER_FONT);
+      BSP_LCD_SetFont(&Font16);
       BSP_LCD_ClearStringLine(13);     /* Clear touch screen buttons dedicated zone */
       BSP_LCD_ClearStringLine(14);
       BSP_LCD_ClearStringLine(15);
       BSP_LCD_SetTextColor(LCD_COLOR_CYAN);
       BSP_LCD_FillPolygon(PlaybackLogoPoints, 3);                 /* Playback sign */
       BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-      BSP_LCD_SetFont(&LCD_LOG_TEXT_FONT);
+      BSP_LCD_SetFont(&Font12);
       BSP_LCD_DisplayStringAtLine(15, (uint8_t *)"Use touch screen to enter playback or record menu");
       break;    
       
@@ -125,7 +125,7 @@ void AUDIO_MenuProcess(void)
       {
         if(AUDIO_ShowWavFiles() > 0)
         {
-          LCD_ErrLog("There is no WAV file on the USB Key.\n");         
+          debug("[ERROR] There is no WAV file on the SD card.\n");
           AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU); 
           AudioDemo.state = AUDIO_DEMO_IDLE;
         }
@@ -147,7 +147,7 @@ void AUDIO_MenuProcess(void)
         {
           if(AUDIO_ShowWavFiles() > 0)
           {
-            LCD_ErrLog("There is no WAV file on the USB Key.\n");         
+            debug("[ERROR] There is no WAV file on the SD card.\n");
             AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU); 
             AudioDemo.state = AUDIO_DEMO_IDLE;
           }
@@ -209,7 +209,6 @@ static void AUDIO_ChangeSelectMode(AUDIO_DEMO_SelectMode select_mode)
 {
   if(select_mode == AUDIO_SELECT_MENU)
   {
-    LCD_LOG_UpdateDisplay(); 
     AudioDemo.state = AUDIO_DEMO_IDLE; 
   }
   else if(select_mode == AUDIO_PLAYBACK_CONTROL)

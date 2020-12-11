@@ -449,7 +449,7 @@ static uint8_t PlayerInit(uint32_t AudioFreq)
   */
 static void AUDIO_PlaybackDisplayButtons(void)
 {
-  BSP_LCD_SetFont(&LCD_LOG_HEADER_FONT);
+  BSP_LCD_SetFont(&Font16);
   BSP_LCD_ClearStringLine(13);            /* Clear dedicated zone */
   BSP_LCD_ClearStringLine(14);
   BSP_LCD_ClearStringLine(15);
@@ -474,7 +474,7 @@ static void AUDIO_PlaybackDisplayButtons(void)
   BSP_LCD_DisplayStringAt(404, LINE(14), (uint8_t *)"VOl+", LEFT_MODE);
   
   BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-  BSP_LCD_SetFont(&LCD_LOG_TEXT_FONT);
+  BSP_LCD_SetFont(&Font12);
   BSP_LCD_ClearStringLine(15);
   BSP_LCD_DisplayStringAtLine(15, (uint8_t *)"Use stop button to exit");
   BSP_LCD_SetTextColor(LCD_COLOR_CYAN);
