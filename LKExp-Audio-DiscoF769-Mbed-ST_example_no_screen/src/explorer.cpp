@@ -43,21 +43,13 @@
   ******************************************************************************
   */
 
-/* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-/* Private typedef -----------------------------------------------------------*/
 extern FATFS SDFatFs; /* File system object for SD card logical drive */
 extern char SDPath[4]; /* SD card logical drive path */
 
 FILELIST_FileTypeDef FileList;
 uint16_t NumObs = 0;
-
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
 
 /**
   * @brief  Initializes the SD Storage.
@@ -70,12 +62,12 @@ uint8_t AUDIO_StorageInit(void)
   if((f_mount(&SDFatFs, (TCHAR const*)SDPath, 0) != FR_OK))
   {
     /* FatFs Initialization Error */
-    LCD_ErrLog("Cannot Initialize FatFs! \n");
+    debug("[ERROR] Cannot Initialize FatFs! \n");
     return 1;
   }
   else
   {
-    LCD_DbgLog ("INFO : FatFs Initialized! \n");
+    debug("INFO : FatFs Initialized! \n");
     return 0;
   }
 }
@@ -146,18 +138,16 @@ uint8_t AUDIO_ShowWavFiles(void)
     {
       if(FileList.ptr > 0)
       {
-        BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-        LCD_UsrLog("audio file(s) [ROOT]:\n\n");
+        printf("audio file(s) [ROOT]:\n\n");
         
         for(i = 0; i < FileList.ptr; i++)
         {
           line_idx++;
-          LCD_DbgLog("   |__");
-          LCD_DbgLog((char *)FileList.file[i].name);
-          LCD_DbgLog("\n");
+          debug("   |__");
+          debug((char *)FileList.file[i].name);
+          debug("\n");
         }
-        BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-        LCD_UsrLog("\nEnd of files list.\n");
+        printf("\nEnd of files list.\n");
         return 0;
       }
       return 1;

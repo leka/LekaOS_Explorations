@@ -52,8 +52,6 @@
 #include "stm32f7xx_hal.h"
 #include "stm32f769i_discovery.h"
 #include "stm32f769i_discovery_audio.h"
-#include "stm32f769i_discovery_ts.h"
-#include "lcd_log.h"
 #include "ff.h"    
 #include "ff_gen_drv.h"
 #include "sd_diskio.h"
@@ -85,7 +83,6 @@ typedef enum {
   AUDIO_DEMO_WAIT,  
   AUDIO_DEMO_EXPLORE,
   AUDIO_DEMO_PLAYBACK,
-  AUDIO_DEMO_IN,  
 }AUDIO_Demo_State;
 
 /* Audio Demo State Machine Structure */
@@ -99,8 +96,6 @@ typedef enum {
   AUDIO_STATE_WAIT,    
   AUDIO_STATE_INIT,    
   AUDIO_STATE_PLAY,
-  AUDIO_STATE_PRERECORD,
-  AUDIO_STATE_RECORD,  
   AUDIO_STATE_NEXT,  
   AUDIO_STATE_PREVIOUS,
   AUDIO_STATE_FORWARD,   
