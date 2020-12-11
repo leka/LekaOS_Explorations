@@ -48,11 +48,6 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define TOUCH_PLAYBACK_XMIN     125
-#define TOUCH_PLAYBACK_XMAX     165
-#define TOUCH_PLAYBACK_YMIN     212
-#define TOUCH_PLAYBACK_YMAX     252
-
 /* Private macro -------------------------------------------------------------*/
 /* Global extern variables ---------------------------------------------------*/
 
@@ -71,12 +66,7 @@ static void AUDIO_ChangeSelectMode(AUDIO_DEMO_SelectMode select_mode);
   * @retval None
   */
 void AUDIO_MenuProcess(void)
-{
-  // TS_StateTypeDef  TS_State;
-  // Point PlaybackLogoPoints[] = {{TOUCH_PLAYBACK_XMIN, TOUCH_PLAYBACK_YMIN},
-  //                               {TOUCH_PLAYBACK_XMAX, (TOUCH_PLAYBACK_YMIN+TOUCH_PLAYBACK_YMAX)/2},
-  //                               {TOUCH_PLAYBACK_XMIN, TOUCH_PLAYBACK_YMAX}};
-  
+{  
   if(appli_state == APPLICATION_READY)
   { 
     switch(AudioDemo.state)
@@ -87,26 +77,7 @@ void AUDIO_MenuProcess(void)
       break;    
       
     case AUDIO_DEMO_WAIT:
-      
-      // BSP_TS_GetState(&TS_State);
-      // if(TS_State.touchDetected == 1)
-      // {
-      //   if ((TS_State.touchX[0] > TOUCH_PLAYBACK_XMIN) && (TS_State.touchX[0] < TOUCH_PLAYBACK_XMAX) &&
-      //            (TS_State.touchY[0] > TOUCH_PLAYBACK_YMIN) && (TS_State.touchY[0] < TOUCH_PLAYBACK_YMAX))
-      //   {
           AudioDemo.state = AUDIO_DEMO_PLAYBACK;
-      //   }
-      //   else
-      //   {
-      //     AudioDemo.state = AUDIO_DEMO_EXPLORE;
-      //   }
-        
-      //   /* Wait for touch released */
-      //   do
-      //   {
-      //     BSP_TS_GetState(&TS_State);
-      //   }while(TS_State.touchDetected > 0);
-      // }
       break;
       
     case AUDIO_DEMO_EXPLORE: 

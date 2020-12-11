@@ -17,9 +17,6 @@ int main(void)
 	/* Init Audio Application */
 	AUDIO_InitApplication();
 
-	/* Init TS module */
-	BSP_TS_Init(800, 480);
-
 	//##-3- Link the micro SD disk I/O driver ##################################
 	if (FATFS_LinkDriver(&SD_Driver, SDPath) == 0) {
 		//##-4- Register the file system object to the FatFs module ##############
