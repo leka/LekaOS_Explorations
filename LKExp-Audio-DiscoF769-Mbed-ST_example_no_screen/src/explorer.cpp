@@ -43,21 +43,13 @@
   ******************************************************************************
   */
 
-/* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-/* Private typedef -----------------------------------------------------------*/
 extern FATFS SDFatFs; /* File system object for SD card logical drive */
 extern char SDPath[4]; /* SD card logical drive path */
 
 FILELIST_FileTypeDef FileList;
 uint16_t NumObs = 0;
-
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
 
 /**
   * @brief  Initializes the SD Storage.

@@ -43,13 +43,8 @@
   ******************************************************************************
   */
 
-/* Includes ------------------------------------------------------------------*/
 #include "waveplayer.h"
 
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private typedef -----------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
 ALIGN_32BYTES (static AUDIO_OUT_BufferTypeDef  BufferCtl);
 static int16_t FilePos = 0;
 static __IO uint32_t uwVolume = 100;
@@ -58,11 +53,9 @@ WAVE_FormatTypeDef WaveFormat;
 FIL WavFile;
 extern FILELIST_FileTypeDef FileList;
 
-/* Private function prototypes -----------------------------------------------*/
+
 static AUDIO_ErrorTypeDef GetFileInfo(uint16_t file_idx, WAVE_FormatTypeDef *info);
 static uint8_t PlayerInit(uint32_t AudioFreq);
-
-/* Private functions ---------------------------------------------------------*/
 
 /**
   * @brief  Initializes Audio Interface.

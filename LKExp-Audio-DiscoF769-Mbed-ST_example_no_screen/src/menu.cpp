@@ -43,22 +43,10 @@
   ******************************************************************************
   */
 
-/* Includes ------------------------------------------------------------------*/
 #include "waveplayer.h"
 
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Global extern variables ---------------------------------------------------*/
-
-/* Private variables ---------------------------------------------------------*/
 AUDIO_DEMO_StateMachine     AudioDemo;
 AUDIO_PLAYBACK_StateTypeDef AudioState;
-
-/* Private function prototypes -----------------------------------------------*/
-static void AUDIO_ChangeSelectMode(AUDIO_DEMO_SelectMode select_mode);
-
-/* Private functions ---------------------------------------------------------*/
 
 /**
   * @brief  Manages AUDIO Menu Process.
@@ -66,9 +54,7 @@ static void AUDIO_ChangeSelectMode(AUDIO_DEMO_SelectMode select_mode);
   * @retval None
   */
 void AUDIO_MenuProcess(void)
-{  
-  if(appli_state == APPLICATION_READY)
-  { 
+{
     switch(AudioDemo.state)
     {
     case AUDIO_DEMO_IDLE:
@@ -80,35 +66,12 @@ void AUDIO_MenuProcess(void)
           AudioDemo.state = AUDIO_DEMO_PLAYBACK;
       break;
       
-    case AUDIO_DEMO_EXPLORE: 
-      if(appli_state == APPLICATION_READY)
-      {
-        if(AUDIO_ShowWavFiles() > 0)
-        {
-          debug("[ERROR] There is no WAV file on the SD card.\n");
-          AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU); 
-          AudioDemo.state = AUDIO_DEMO_IDLE;
-        }
-        else
-        {
-          AudioDemo.state = AUDIO_DEMO_WAIT;
-        }
-      }
-      else
-      {
-        AudioDemo.state = AUDIO_DEMO_WAIT;
-      }
-      break;
-      
     case AUDIO_DEMO_PLAYBACK:
-      if(appli_state == APPLICATION_READY)
-      {
         if(AudioState == AUDIO_STATE_IDLE)
         {
           if(AUDIO_ShowWavFiles() > 0)
           {
             debug("[ERROR] There is no WAV file on the SD card.\n");
-            AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU); 
             AudioDemo.state = AUDIO_DEMO_IDLE;
           }
           else
@@ -119,7 +82,6 @@ void AUDIO_MenuProcess(void)
           
           if(AUDIO_PLAYER_Start(0) == AUDIO_ERROR_IO)
           {
-            AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU); 
             AudioDemo.state = AUDIO_DEMO_IDLE;
           }
         }
@@ -127,45 +89,15 @@ void AUDIO_MenuProcess(void)
         {
           if(AUDIO_PLAYER_Process() == AUDIO_ERROR_IO)
           {
-            AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU);  
             AudioDemo.state = AUDIO_DEMO_IDLE;
           }
         }
-      }
-      else
-      {
-        AudioDemo.state = AUDIO_DEMO_WAIT;
-      }
       break; 
       
     default:
       break;
     }
-  }
-  
-  if(appli_state == APPLICATION_DISCONNECT)
-  {
-    appli_state = APPLICATION_IDLE;     
-    AUDIO_ChangeSelectMode(AUDIO_SELECT_MENU); 
-    BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW);    
-  }
-}
 
-/*******************************************************************************
-                            Static Functions
-*******************************************************************************/
-
-/**
-  * @brief  Changes the selection mode.
-  * @param  select_mode: Selection mode
-  * @retval None
-  */
-static void AUDIO_ChangeSelectMode(AUDIO_DEMO_SelectMode select_mode)
-{
-  if(select_mode == AUDIO_SELECT_MENU)
-  {
-    AudioDemo.state = AUDIO_DEMO_IDLE; 
-  }
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
