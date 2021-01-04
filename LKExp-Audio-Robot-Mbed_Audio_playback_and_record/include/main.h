@@ -53,8 +53,8 @@
 #include "stm32f769i_discovery.h"
 #include "stm32f769i_discovery_audio.h"
 #include "ff.h"    
-#include "ff_gen_drv.h"
-#include "sd_diskio.h"
+// #include "ff_gen_drv.h"
+// #include "sd_diskio.h"
 #include "mbed.h"
 
 /* Exported Defines ----------------------------------------------------------*/

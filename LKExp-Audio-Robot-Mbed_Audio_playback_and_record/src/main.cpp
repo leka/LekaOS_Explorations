@@ -1,19 +1,23 @@
+#include "FATFileSystem.h"
+#include "SDBlockDevice.h"
 #include "mbed.h"
 #include "waveplayer.h"
 
-FATFS SDFatFs;	/* File system object for SD card logical drive */
+FATFileSystem SDFatFs("fs"); /* File system object for SD card logical drive */
+SDBlockDevice SDBD(SD_SPI_MOSI, SD_SPI_MISO, SD_SPI_SCK);
 char SDPath[4]; /* SD card logical drive path */
 
 int main(void)
 {
-	/* Init Audio Application */
+	ThisThread::sleep_for(5s);
+
+	SDBD.init();
+	SDBD.frequency(25000000);
+
 	AUDIO_PLAYER_Init();
 
-	//##-3- Link the micro SD disk I/O driver ##################################
-	if (FATFS_LinkDriver(&SD_Driver, SDPath) == 0) {
-		//##-4- Register the file system object to the FatFs module ##############
-		if (f_mount(&SDFatFs, (TCHAR const *)SDPath, 0) == FR_OK) { printf("successfully mounted\n"); }
-	}
+	SDFatFs.mount(&SDBD);
+	printf("SD card mounted!\n");
 
 	/* Run Application (Blocking mode) */
 	while (1) { AUDIO_MenuProcess(); }

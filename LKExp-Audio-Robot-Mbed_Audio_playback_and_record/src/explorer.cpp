@@ -81,7 +81,7 @@ FRESULT AUDIO_StorageParse(void)
 {
   FRESULT res = FR_OK;
   FILINFO fno;
-  ST_DIR dir;
+  FATFS_DIR dir;
   char *fn;
   
   res = f_opendir(&dir, SDPath);
@@ -89,7 +89,7 @@ FRESULT AUDIO_StorageParse(void)
   
   if(res == FR_OK)
   {
-    while(BSP_SD_GetCardState() == MSD_OK)
+    while(true)
     {
       res = f_readdir(&dir, &fno);
       if(res != FR_OK || fno.fname[0] == 0)
