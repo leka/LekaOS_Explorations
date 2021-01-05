@@ -1,0 +1,14 @@
+{
+    "target_overrides": {
+        "*": {
+            "target.features": [],
+            "target.components": []
+        },
+        "LEKA_V1_0_DEV": {
+            "sd.SPI_CS": "SD_SPI_CS",
+            "sd.SPI_MISO": "SD_SPI_MISO",
+            "sd.SPI_MOSI": "SD_SPI_MOSI",
+            "sd.SPI_CLK": "SD_SPI_SCK"
+        }
+    }
+}
